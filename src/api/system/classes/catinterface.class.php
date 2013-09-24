@@ -116,14 +116,14 @@
 		 * Datenbank als "active" markiert.
 		 */
 		private function userLogin(){
-			$requestedUser = $this->database->query("SELECT `id` FROM `cat_user` WHERE `name` = '".$this->requestToken."' AND `password` = '".$this->requestThird."'");
+			$requestedUser = $this->database->query("SELECT `id` FROM `".DATENBANK_PREFIX."user` WHERE `name` = '".$this->requestToken."' AND `password` = '".$this->requestThird."'");
 			
 			if($requestedUser->num_rows === 1){
 				$requestedUserData  = $requestedUser->fetch_assoc();
 				$requestedUserId    = $requestedUserData['id'];
 				$requestedUserToken = $this->generateToken();
 				
-				$this->database->query("UPDATE `cat_user` SET `token` = '".$requestedUserToken."', `active` = '1' WHERE `id` = '".$requestedUserId."'");
+				$this->database->query("UPDATE `".DATENBANK_PREFIX."user` SET `token` = '".$requestedUserToken."', `active` = '1' WHERE `id` = '".$requestedUserId."'");
 				$this->status = 4;
 				$this->handleOutput(array("userid" => $requestedUserId, "token" => $requestedUserToken));
 			} else {
@@ -146,7 +146,7 @@
 				$requestedUserToken = $requestedToken[0];
 				$requestedUserUUID  = $requestedToken[1];
 				
-				$requestedUser = $this->database->query("SELECT `level` FROM `cat_user` WHERE `id` = '".$requestedUserUUID."' AND `token` = '".$requestedUserToken."'");
+				$requestedUser = $this->database->query("SELECT `level` FROM `".DATENBANK_PREFIX."user` WHERE `id` = '".$requestedUserUUID."' AND `token` = '".$requestedUserToken."'");
 				
 				if($requestedUser->num_rows === 1){
 				
