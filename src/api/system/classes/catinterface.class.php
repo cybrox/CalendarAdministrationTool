@@ -20,7 +20,7 @@
 	 *
 	 * Die CatInterface Klasse ist die Hauptklasse der
 	 * API, sie wird bei jedem Aufruf verwendet um den
-	 * Benutzer zu authntifizieren und eventuelle
+	 * Benutzer zu authentifizieren und eventuelle
 	 * Unterklassen zur weiteren Datenverarbeitung zu
 	 * laden und zu verwalten.
 	 */
@@ -131,7 +131,7 @@
 				$this->handleOutput(array("userid" => $requestedUserId, "token" => $requestedUserToken));
 			} else {
 				$this->handleError("Ungueltige Zugangsdaten");
-				}
+			}
 		}
 		
 		
@@ -214,7 +214,7 @@
 		 * Danach wird die Anfrage beendet.
 		 */
 		protected function handleOutput($data){
-			die('{"status": "'.$this->status.'", "error": "", "data": '.json_encode($data).'}');
+			die('{"status": "4", "error": "", "data": '.json_encode($data).'}');
 		}
 	}
 

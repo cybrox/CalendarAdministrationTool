@@ -25,7 +25,6 @@
 	class logout extends CatInterface implements apiElement {
 		
 		protected $database; 	// Datenbankelement
-		protected $status = 3;	// Abfragestatus
 		
 		
 		
@@ -59,7 +58,6 @@
 			if($requestedUser->num_rows === 1){
 				
 				$this->database->query("UPDATE `".DATENBANK_PREFIX."user` SET `token` = 'x', `active` = '0' WHERE `id` = '".$requestedUserUUID."'");
-				$this->status = 4;
 				
 				parent::handleOutput("Logout erfolgreich");
 				

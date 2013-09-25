@@ -27,7 +27,6 @@
 		protected $database; 	// Datenbankelement
 		protected $userlvl;		// Benutzerlevel
 		protected $userid;		// Benutzer ID
-		protected $status = 3;	// Abfragestatus
 		
 		private $requestedAction;
 		private $requestedTables;
@@ -38,7 +37,7 @@
 		
 		
 		/**
-		 * Klassenkonstruktor, Datenbankverbindung einbinden
+		 * Klassenkonstruktor, Datenbankverbindung herstellen
 		 *
 		 * Baut eine Datenbankverbindung auf und erkennt
 		 * die vom Benutzer gewünschte Aktion
@@ -85,7 +84,6 @@
 					$requestedDataOutput[] = $row;
 				}
 				
-				$this->status = 4;
 				parent::handleOutput($requestedDataOutput);
 			} else {
 				parent::handleError("Keine Daten empfangen");
@@ -116,7 +114,6 @@
 				$requestedData  = $this->database->query($requestedQuery);
 				
 				if(empty($this->database->error)){
-					$this->status = 4;
 					parent::handleOutput("Aktion erfolgreich");
 				} else {
 					parent::handleError($this->database->error);
