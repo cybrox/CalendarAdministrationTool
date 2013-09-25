@@ -27,6 +27,7 @@
 		protected $database; 	// Datenbankelement
 		protected $userlvl;		// Benutzerlevel
 		protected $userid;		// Benutzer ID
+		protected $status = 3;	// Abfragestatus
 		
 		private $requestedAction;
 		private $requestedTables;
@@ -83,7 +84,8 @@
 				while($row = $requestedData->fetch_assoc()){
 					$requestedDataOutput[] = $row;
 				}
-			
+				
+				$this->status = 4;
 				parent::handleOutput($requestedDataOutput);
 			} else {
 				parent::handleError("Keine Daten empfangen");
@@ -114,6 +116,7 @@
 				$requestedData  = $this->database->query($requestedQuery);
 				
 				if(empty($this->database->error)){
+					$this->status = 4;
 					parent::handleOutput("Aktion erfolgreich");
 				} else {
 					parent::handleError($this->database->error);

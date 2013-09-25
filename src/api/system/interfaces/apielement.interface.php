@@ -25,7 +25,7 @@
 	 * Einbindung zur Verfügung.
 	 */
 	interface apiElement {
-	
+		
 		/**
 		 * Klassenkonstruktor
 		 *

@@ -25,6 +25,7 @@
 	class logout extends CatInterface implements apiElement {
 		
 		protected $database; 	// Datenbankelement
+		protected $status = 3;	// Abfragestatus
 		
 		
 		
@@ -35,6 +36,7 @@
 		 * den mitgesendeten Sicherheitsschlüssel-String
 		 */
 		public function __construct($requestParameters){
+		
 			$this->database = parent::databaseConnect();
 		
 			$requestedUserString = explode('-', $requestParameters[1]);
@@ -52,11 +54,12 @@
 		 * ein und meldet den Benutzer ab ('active' = 0)
 		 */
 		private function userLogout($requestedUserToken, $requestedUserUUID){
-			$requestedUser = $this->database->query("SELECT `name` FROM `cat_user` WHERE `id` = '".$requestedUserUUID."' AND `token` = '".$requestedUserToken."'");
+			$requestedUser = $this->database->query("SELECT `name` FROM `".DATENBANK_PREFIX."user` WHERE `id` = '".$requestedUserUUID."' AND `token` = '".$requestedUserToken."'");
 			
 			if($requestedUser->num_rows === 1){
 				
-				$this->database->query("UPDATE `cat_user` SET `token` = 'x', `active` = '0' WHERE `id` = '".$requestedUserUUID."'");
+				$this->database->query("UPDATE `".DATENBANK_PREFIX."user` SET `token` = 'x', `active` = '0' WHERE `id` = '".$requestedUserUUID."'");
+				$this->status = 4;
 				
 				parent::handleOutput("Logout erfolgreich");
 				

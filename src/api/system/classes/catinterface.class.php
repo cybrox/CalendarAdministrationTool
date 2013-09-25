@@ -33,7 +33,7 @@
 		
 		public $requestParms;	// Anfrageparameter
 		public $requestClass;	// Angeforderte Klasse
-		public $requestToken;	// Übergeber Session-Token (Benutzername bei Login)
+		public $requestToken;	// Übergebener Session-Token (Benutzername bei Login)
 		public $requestThird;	// Übergebener Drittwert (Passwort bei Login)
 		
 		
@@ -63,6 +63,9 @@
 		}
 		
 		
+		/**
+		 * Datenbankverbindung herstellen
+		 */
 		protected function databaseConnect(){
 			$this->database = new mysqli(DATENBANK_HOSTADDR, DATENBANK_BENUTZER, DATENBANK_PASSWORT, DATENBANK_NAME);
 			
