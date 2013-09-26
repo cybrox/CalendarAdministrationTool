@@ -45,6 +45,19 @@ $('a').click(function(e){
 		case "page":
 			$('.userelement').removeClass('active');
 			$(this).parent().addClass('active');
+			
+			$.ajax({
+				type: 'GET',
+				url: './src/page/'+outpt+'.html',
+				success: function(data){
+					$('#content').html(data);
+					
+					$.loader('hide');
+				},
+				error: function(xhr, status, error) {
+					alert(error);
+				}
+			});
 			break;
 	}
 	
