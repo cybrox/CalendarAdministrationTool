@@ -7,6 +7,149 @@
 ** finden sie in der beiliegenden LICENSE.md
 */
 
+::-webkit-scrollbar {width: 10px; background-color: #fff;}
+::-webkit-scrollbar-track {border-radius: 0px;}
+::-webkit-scrollbar-thumb {border-radius: 0px; background-color: #ddd;}
+::-webkit-scrollbar-thumb:hover {border-radius: 0px; background-color: #1C86EE;}
+@font-face {font-family: 'Ubuntu-Regular'; src: url('../font/ubuntu-regular-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
+@font-face {font-family: 'Ubuntu-Medium'; src: url('../font/ubuntu-medium-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
+@font-face {font-family: 'Ubuntu-Bold'; src: url('../font/ubuntu-bold-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
+
+* {font-family: Ubuntu-Regular, Arial;}
+
+a {
+	text-decoration: none;
+	color: #1C86EE;
+}
+
+a:hover {color: #104E8B;}
+
+a, a:hover {
+	transition: color 0.3s ease-in-out;
+	-moz-transition: color 0.3s ease-in-out;
+	-webkit-transition: color 0.3s ease-in-out;
+}
+
+
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+
+/*
+** Navigation und Benutzerpanel
+*/
+nav {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 20%;
+	height: 100%;
+	background: #fafafa;
+	box-shadow: -1px 0 0 #ddd inset;
+	-moz-box-shadow: -1px 0 0 #ddd inset;
+	-webkit-box-shadow: -1px 0 0 #ddd inset;
+}
+
+#userpanel {
+	height: 150px;
+	padding: 20px;
+}
+
+#userfield {
+	background: #efefef;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	box-shadow: 1px 1px 2px #ddd;
+	-moz-box-shadow: 1px 1px 2px #ddd;
+	-webkit-box-shadow: 1px 1px 2px #ddd;
+}
+
+#userfield span {
+	display: block;
+	width: 100%;
+}
+
+#userfieldIcon {
+	display: inline-block;
+	padding: 0 5px;
+	float: right;
+	text-align:center;
+}
+
+.userfieldIconRotate {
+	transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+}
+
+#userfieldVisible {
+	padding: 13px 10px;
+}
+
+#userfieldVisible:hover {
+	cursor:pointer;
+}
+
+#userfieldHidden {
+	margin: 0;
+	padding: 0 10px;
+	display: none;
+}
+
+#userfieldHidden li {
+	list-style-type: none;
+	padding: 4px 0;
+}
+
+#userfieldHidden li i, #userfieldVisible i{
+	display: inline-block;
+	width: 20px;
+	color: #999;
+}
+
+
+/*
+** Menu
+*/
+#usersites ul {margin: 0;}
+
+#usersites li {
+	list-style-type: none;
+	margin: 0 0 10px 0;
+}
+
+#usersites li:hover {
+	box-shadow: -3px 0 0 #ddd inset;
+	-moz-box-shadow: -3px 0 0 #ddd inset;
+	-webkit-box-shadow: -3px 0 0 #ddd inset;
+}
+
+#usersites a {
+	display: block;
+	padding: 8px 20px;
+}
+
+#usersites a i {
+	display: inline-block;
+	padding: 0 10px 0 0;
+	color: #999;
+	float: right;
+}
+
+
+/*
+** Fixelemente
+*/
+.break {clear: both;}
+
+
+/*
+** Ladegrafik
+*/
 #loading {
 	width: 75px;
 	height: 75px;
@@ -34,6 +177,16 @@
 	background: #1C86EE;
 	animation: loaderSpin 2.5s linear infinite;
 	-webkit-animation: loaderSpin 2.5s linear infinite;
+}
+
+
+/*
+** Animationen und Übergangseffekte
+*/
+#usersites li, #usersites li:hover {
+	transition: box-shadow 0.2s ease-in-out;
+	-moz-transition: box-shadow 0.2s ease-in-out;
+	-webkit-transition: box-shadow 0.2s ease-in-out;
 }
 
 @keyframes loaderBlink {

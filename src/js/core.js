@@ -26,3 +26,41 @@ $.loader = function(action){
 		$('#loader').html("");
 	}
 }
+
+/**
+ * Linkfunktionen ersetzen
+ *
+ * Links werden nun verwendet bla bla
+ */
+$('a').click(function(e){
+	
+	$.loader('show');
+	
+	link = $(this).attr('href');
+	
+	
+	
+	e.preventDefault();
+});
+
+
+/**
+ * Userpanel, Steuerung des Benutzermenus
+ *
+ * Durch einen Klick auf den Benutzernamen kann der
+ * Benutzer das Menu aufrufen, dabei wird der versteckte
+ * Container per slideToggle langsam eingeblendet
+ */
+$('#userfieldVisible').click(function(){
+	$('#userfieldHidden').slideToggle('fast');
+	
+	$('#userfieldIcon').toggleClass('userfieldIconRotate');
+});
+
+
+
+
+
+
+
+
