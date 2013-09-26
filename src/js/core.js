@@ -36,9 +36,17 @@ $('a').click(function(e){
 	
 	$.loader('show');
 	
-	link = $(this).attr('href');
+	link  = $(this).attr('href');
+	parts = link.split('_');
+	type  = parts[0];
+	outpt = parts[1];
 	
-	
+	switch(type){
+		case "page":
+			$('.userelement').removeClass('active');
+			$(this).parent().addClass('active');
+			break;
+	}
 	
 	e.preventDefault();
 });
