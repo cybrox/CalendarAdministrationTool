@@ -1,5 +1,7 @@
 Calendar Administration Tool - Fachübergreifende Projekte HST/INF Technische Berufsschule Zürich, 5. Semester
 
+Weitere Dokumente wie Pflichtenheft, Zeitplan, Schnittstellendokumentation und Bedienungsanleitung finden sich im .docx Format unter http://goo.gl/KfXqcS
+
 Projektvorschlag
 ===
 Bei dem angestrebten Projekt handelt es sich um einen Serverbasierenden Terminkalender zur Verwaltung und automatischen Auswertung von Aufgaben und Prüfungsterminen so wie den dazugehörigen Noten.
