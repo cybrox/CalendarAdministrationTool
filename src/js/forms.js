@@ -85,6 +85,13 @@ function requestUserdata(){
  * im Browser gespeicherte Cookie gelöscht.
  */
 function logout(){
-	$.cookie("cat_user", null);
-	location.reload();
+	$.ajax({
+		type: 'GET',
+		url: './src/api/logout/'+user.auth,
+		dataType: 'json',
+		success: function(){
+			$.cookie("cat_user", null);
+			location.reload();
+		}
+	});
 }
