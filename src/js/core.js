@@ -146,6 +146,10 @@ $('a').click(function(e){
 		case "popup":
 			$.popup(target);
 			break;
+		case "action":
+			func = window[target];
+			func();
+			break;
 	}
 	
 	e.preventDefault();

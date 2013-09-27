@@ -75,3 +75,16 @@ function requestUserdata(){
 		}
 	});
 }
+
+
+/**
+ * Abmelden, Cookie löschen
+ *
+ * Beim Abmelden wird der Benutzer in der
+ * Datenbank abgemeldet und zusätzlich das
+ * im Browser gespeicherte Cookie gelöscht.
+ */
+function logout(){
+	$.cookie("cat_user", null);
+	location.reload();
+}
