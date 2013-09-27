@@ -17,7 +17,8 @@ var user = {
 	'active': 0,
 	'name':   "",
 	'email':  "",
-	'token':  ""
+	'token':  "",
+	'auth':   ""
 }
 
 
@@ -33,17 +34,17 @@ $(document).ready(function(){
 	if($.cookie("cat_user") == undefined){
 		
 		$.loader('show');
-		$.popups('login');
+		$.popup('login');
 		$.loader('hide');
 		
 	} else {
-		$('nav').css("left", "0");
-		
 		usercookie = $.cookie("cat_user");
 		userparts  = usercookie.split("-");
 		user.token = userparts[0];
 		user.id    = userparts[1];
+		user.auth  = usercookie;
 		
+		requestUserdata(user.id);
 	}
 });
  
@@ -69,7 +70,7 @@ $.error = function(message){
  * auf der Seite ausgeführt auf der sie aufgerufen
  * wurden, indem sie in ein Popup ausgelagert werden.
  */
-$.popups = function(content){
+$.popup = function(content){
 	
 	if(content != "close"){
 		$.ajax({
@@ -100,12 +101,9 @@ $.popups = function(content){
  */
 $.loader = function(action){
 	if(action == "show"){
-		$('#loader').html("<div id=\"loading\"></div>");
-		for(i = 0; i < 9; i++){
-			$('#loading').append("<div></div>");
-		}
+		$('#loader').fadeIn('fast');
 	} else {
-		$('#loader').html("");
+		$('#loader').fadeOut('fast');
 	}
 }
 

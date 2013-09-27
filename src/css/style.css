@@ -66,6 +66,7 @@ body {
 	min-height: 100px;
 	margin: -100px 0 0 0;
 	background: #fff;
+	display: none;
 	box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee;
 	-moz-box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee;
 	-webkit-box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee;
@@ -96,9 +97,9 @@ nav {
 	box-shadow: -1px 0 0 #ddd inset;
 	-moz-box-shadow: -1px 0 0 #ddd inset;
 	-webkit-box-shadow: -1px 0 0 #ddd inset;
-	transition: left 1s ease-in-out;
-	-moz-transition: left 1s ease-in-out;
-	-webkit-transition: left 1s ease-in-out;
+	transition: left 0.5s ease-in-out;
+	-moz-transition: left 0.5s ease-in-out;
+	-webkit-transition: left 0.5s ease-in-out;
 }
 
 #userpanel {
@@ -157,6 +158,10 @@ nav {
 	display: inline-block;
 	width: 20px;
 	color: #999;
+}
+
+#username {
+	display: inline !important;
 }
 
 
@@ -218,8 +223,8 @@ nav {
 ** Formularelemente
 */
 input[type="text"], input[type="password"], textarea {
-	width: 100%;
-	padding: 5px 0;
+	width: 97%;
+	padding: 5px 1% 5px 2%;
 	background: #fafafa;
 	border: 0px solid #fff;
 	box-shadow: inset 1px 1px 2px #ddd;

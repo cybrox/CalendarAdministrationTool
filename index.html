@@ -15,7 +15,13 @@
 <body>
 	
 	<!-- Haltecontainer für Ladeanzeige und Popups -->
-	<div id="loader"></div>
+	<div id="loader">
+		<div id="loading">
+			<div></div><div></div><div></div>
+			<div></div><div></div><div></div>
+			<div></div><div></div><div></div>
+		</div>
+	</div>
 	<div id="popups">
 		<i id="popupclose" onClick="$.popups('close')" class="icon-remove-circle"></i>
 		<div id="popupcontent"></div>
@@ -37,7 +43,7 @@
 				<div id="userfieldVisible">
 					<span>
 						<i class="icon-user"></i>
-						Testbenutzer
+						<span id="username">CAT Benutzer</span>
 						<i id="userfieldIcon" class="icon-caret-down"></i>
 					</span>
 				</div>
@@ -50,7 +56,7 @@
 		</section>
 		<section id="usersites">
 			<ul>
-				<li class="userelement"><a href="page_calendar">Kalender <i class="icon-th"></i></a></li>
+				<li class="userelement"><a href="page_calendar" id="uemain">Kalender <i class="icon-th"></i></a></li>
 				<li class="userelement"><a href="page_list">Terminliste  <i class="icon-list-ul"></i></a></li>
 				<li class="userelement"><a href="page_semester">Semester <i class="icon-th-large"></i></a></li>
 				<li class="userelement"><a href="page_rating">Auswertung <i class="icon-list-ol"></i></a></li>
