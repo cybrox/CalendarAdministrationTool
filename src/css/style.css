@@ -25,6 +25,7 @@ a {
 a:hover {color: #104E8B;}
 
 a, a:hover {
+	cursor: pointer !important;
 	transition: color 0.3s ease-in-out;
 	-moz-transition: color 0.3s ease-in-out;
 	-webkit-transition: color 0.3s ease-in-out;
@@ -315,14 +316,75 @@ a.button:hover {
 ** Inhaltscontainer
 */
 #content {
-	width: 80%;
+	width: 85%;
 	height: 100%;
-	margin: 0 0 0 20%;
+	margin: 0 0 0 15%;
 }
 
 #contentInner {
 	padding: 20px;
 }
+
+
+/*
+** Kalender
+*/
+.ui-datepicker-prev, .ui-datepicker-next {
+	display: inline-block;
+	font-size: 3em;
+}
+
+.ui-datepicker-prev {
+	float: left;
+}
+
+.ui-datepicker-next {
+	float: right;
+	text-align: right;
+}
+
+.ui-datepicker-title {
+	text-align: center;
+	font-size: 1.5em;
+	width: 100%;
+	padding: 35px 0 15px 0;
+}
+
+.ui-datepicker-calendar {
+	border: 3px solid #fbfbfb;
+	width: 100%;
+}
+
+.ui-datepicker-header, .ui-datepicker-calendar thead {
+	background: #fbfbfb;
+}
+
+.ui-datepicker-calendar thead tr {
+	height: 40px;
+}
+
+.ui-datepicker-calendar td {
+	border: 1px solid #eee;
+	padding: 10px;
+	vertical-align: top;
+}
+
+.ui-datepicker-other-month span {
+	color: #999;
+}
+
+.ui-datepicker-current-day {
+	background: lightblue;
+}
+
+.schedule {
+	display: block;
+	margin: 1px 0;
+	padding: 3px 2px;
+	background: #bbb;
+	min-height: 10px;
+}
+
 
 
 /*

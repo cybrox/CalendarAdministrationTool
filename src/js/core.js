@@ -134,7 +134,12 @@ $('a').click(function(e){
 				type: 'GET',
 				url: './src/page/'+target+'.html',
 				success: function(data){
+					$('#contentInner').hide();
 					$('#contentInner').html(data);
+					$('#contentInner').fadeIn('fast');
+					
+					func = window["pageinit_"+target];
+					func();
 					
 					$.loader('hide');
 				},
