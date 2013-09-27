@@ -279,7 +279,8 @@ a.button:hover {
 /*
 ** Ladegrafik
 */
-#loading {
+#loader {
+	display: none;
 	width: 75px;
 	height: 75px;
 	position: absolute; 
@@ -289,7 +290,7 @@ a.button:hover {
 	
 }
 
-#loading div {
+#loader div {
 	width: 15px;
 	height: 15px;
 	margin: 5px;
@@ -297,12 +298,12 @@ a.button:hover {
 	background: rgba(0,0,0,0);
 }
 
-#loading div:not(:nth-of-type(5)){
+#loader div:not(:nth-of-type(5)){
 	animation: loaderBlink 2.5s linear infinite;
 	-webkit-animation: loaderBlink 2.5s linear infinite;
 }
 
-#loading div:nth-of-type(5) {
+#loader div:nth-of-type(5) {
 	background: #1C86EE;
 	animation: loaderSpin 2.5s linear infinite;
 	-webkit-animation: loaderSpin 2.5s linear infinite;

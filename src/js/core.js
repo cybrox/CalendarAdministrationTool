@@ -112,7 +112,9 @@ $.loader = function(action){
 /**
  * Linkfunktionen ersetzen
  *
- * Links werden nun verwendet bla bla
+ * Linkklicks werden abgefangen um ihre
+ * Aktionen direkt weiterzuverarbeiten und
+ * zb. Seiten per AJAX ins DOM zu laden.
  */
 $('a').click(function(e){
 	

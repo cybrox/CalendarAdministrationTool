@@ -18,11 +18,10 @@
  * wird auf das Kalenderinterface gewechselt
  */
 function submitLogin(){
+
 	username = $('#inpLoginName').val();
 	userpass = $('#inpLoginPass').val();
-	
-	console.log('./src/api/login/'+username+'/'+userpass+'/');
-	
+
 	$.ajax({
 		type: 'GET',
 		url: './src/api/login/'+username+'/'+userpass+'/',
@@ -34,9 +33,9 @@ function submitLogin(){
 				user.token = json.data['token'];
 				user.auth  = user.token+"-"+user.id;
 				
-				$.popup('hide');
+				$.popup('close');
 				$.cookie("cat_user", user.auth);
-		
+			
 				requestUserdata(user.id);
 			} else {
 				$('#outLoginErr').text("Ungültige Zugangsdaten!");
@@ -69,6 +68,9 @@ function requestUserdata(){
 			
 			$('#username').text(user.name);
 			$('nav').css("left", "0");
+			
+			$('.userelement a').first().click();
+			
 		},
 		error: function() {
 			$.error("Benutzerdaten konnten nicht geladen werden");
