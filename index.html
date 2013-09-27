@@ -14,8 +14,18 @@
 </head>
 <body>
 	
-	<!-- Haltecontainer für Ladeanzeige -->
+	<!-- Haltecontainer für Ladeanzeige und Popups -->
 	<div id="loader"></div>
+	<div id="popups"></div>
+	
+	<!-- Haltecontainer für allfällige Fehlerausgaben -->
+	<div id="errors">
+		<h4>
+			Bei der Verarbeitung ist ein Fehler aufgetreten!<br />
+			Bitte laden Sie die Seite neu um fortzufahren.
+		</h4>
+		<span id="errormsg"></span>.
+	</div>
 	
 	
 	<nav>
@@ -43,15 +53,21 @@
 				<li class="userelement"><a href="page_rating">Auswertung <i class="icon-list-ol"></i></a></li>
 			</ul>
 		</section>
+		<section id="copyright">
+			<span>CAT &copy; 2013 by Sven Gehring</span>
+		</section>
 	</nav>
 	
 	<div id="content">
+		<div id="contentInner">
+		</div>
 	</div>
 	
 	
 	<!-- Javascript jQuery Bibliotheken einbinden -->
 	<script type="text/javascript" src="src/lib/jquery.js"></script>
 	<script type="text/javascript" src="src/lib/jqueryui.js"></script>
+	<script type="text/javascript" src="src/lib/jquerycookie.js"></script>
 	
 	<!-- Javascript CAT Dateien einbinden -->
 	<script type="text/javascript" src="src/js/core.js"></script>

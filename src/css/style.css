@@ -39,11 +39,31 @@ body {
 
 
 /*
+** Popups und Fehlermeldungen
+*/
+#errors {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	top: 0;
+	background: rgba(0,0,0,0.8);
+	text-align: center;
+	color: #ececec;
+	display: none;
+}
+
+#errors h4 {
+	margin-top: 100px;
+}
+
+
+/*
 ** Navigation und Benutzerpanel
 */
 nav {
 	position: fixed;
-	left: 0;
+	left: -15%;
 	top: 0;
 	width: 15%;
 	height: 100%;
@@ -51,6 +71,9 @@ nav {
 	box-shadow: -1px 0 0 #ddd inset;
 	-moz-box-shadow: -1px 0 0 #ddd inset;
 	-webkit-box-shadow: -1px 0 0 #ddd inset;
+	transition: left 1s ease-in-out;
+	-moz-transition: left 1s ease-in-out;
+	-webkit-transition: left 1s ease-in-out;
 }
 
 #userpanel {
@@ -157,6 +180,13 @@ nav {
 	float: right;
 }
 
+#copyright {
+	position: absolute;
+	left: 10px;
+	bottom: 10px;
+	color: #999;
+	font-size: 11px;
+}
 
 /*
 ** Fixelemente
@@ -204,6 +234,9 @@ nav {
 	width: 80%;
 	height: 100%;
 	margin: 0 0 0 20%;
+}
+
+#contentInner {
 	padding: 20px;
 }
 
