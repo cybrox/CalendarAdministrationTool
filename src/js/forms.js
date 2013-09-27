@@ -27,7 +27,6 @@ function submitLogin(){
 		url: './src/api/login/'+username+'/'+userpass+'/',
 		dataType: 'json',
 		success: function(json){
-			console.log(json);
 			if(json.error == ""){
 				user.id    = json.data['userid'];
 				user.token = json.data['token'];
@@ -57,20 +56,19 @@ function requestUserdata(){
 		url: './src/api/database/'+user.auth+'/read/user/id='+user.id+'/',
 		dataType: 'json',
 		success: function(json){
-			
-			console.log(json.data);
-			
-			user.level = json.data[0]['level'];
-			user.name  = json.data[0]['name'];
-			user.email = json.data[0]['email'];
-			
-			console.log(user);
-			
-			$('#username').text(user.name);
-			$('nav').css("left", "0");
-			
-			$('.userelement a').first().click();
-			
+			if(json.error == ""){
+				user.level = json.data[0]['level'];
+				user.name  = json.data[0]['name'];
+				user.email = json.data[0]['email'];
+				
+				$('#username').text(user.name);
+				$('nav').css("left", "0");
+				
+				$('.userelement a').first().click();
+			} else {
+				$.cookie("cat_user", null);
+				$.popup('login');
+			}
 		},
 		error: function() {
 			$.error("Benutzerdaten konnten nicht geladen werden");
