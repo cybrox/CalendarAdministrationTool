@@ -76,16 +76,15 @@ $.popups = function(content){
 			type: 'GET',
 			url: './src/form/'+content+'.html',
 			success: function(data){
-				$('#popups').html(data);
+				$('#popupcontent').html(data);
 			},
 			error: function() {
 				$.error("Formular \""+content+"\" konnte nicht geladen werden");
 			}
 		});
-		$('#popups').show('slow');
+		$('#popups').fadeIn('slow');
 	} else {
-		$('#popups').hide('slow');
-		$('#popups').html("");
+		$('#popups').fadeOut('slow', function(){$('#popupcontent').html("")});
 	}
 	
 }

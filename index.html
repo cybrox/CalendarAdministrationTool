@@ -16,7 +16,10 @@
 	
 	<!-- Haltecontainer für Ladeanzeige und Popups -->
 	<div id="loader"></div>
-	<div id="popups"></div>
+	<div id="popups">
+		<i id="popupclose" onClick="$.popups('close')" class="icon-remove-circle"></i>
+		<div id="popupcontent"></div>
+	</div>
 	
 	<!-- Haltecontainer für allfällige Fehlerausgaben -->
 	<div id="errors">
@@ -71,5 +74,6 @@
 	
 	<!-- Javascript CAT Dateien einbinden -->
 	<script type="text/javascript" src="src/js/core.js"></script>
+	<script type="text/javascript" src="src/js/forms.js"></script>
 </body>
 </html>

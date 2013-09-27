@@ -57,6 +57,31 @@ body {
 	margin-top: 100px;
 }
 
+#popups {
+	position: fixed;
+	top: 50%;
+	left: 30%;
+	width: 40%;
+	height: auto;
+	min-height: 100px;
+	margin: -100px 0 0 0;
+	background: #fff;
+	box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee;
+	-moz-box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee;
+	-webkit-box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee;
+}
+
+#popupclose {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	color: #CD2626;
+}
+
+#popupcontent {
+	padding: 35px 20px 20px 20px;
+}
+
 
 /*
 ** Navigation und Benutzerpanel
@@ -188,10 +213,62 @@ nav {
 	font-size: 11px;
 }
 
+
+/*
+** Formularelemente
+*/
+input[type="text"], input[type="password"], textarea {
+	width: 100%;
+	padding: 5px 0;
+	background: #fafafa;
+	border: 0px solid #fff;
+	box-shadow: inset 1px 1px 2px #ddd;
+	-moz-box-shadow: inset 1px 1px 2px #ddd;
+	-webkit-box-shadow: inset 1px 1px 2px #ddd;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+	color: #1C86EE;
+	outline: 0px !important;
+}
+
+input[type="submit"]{
+	
+}
+
+
 /*
 ** Fixelemente
 */
 .break {clear: both;}
+.error {color: #CD2626;}
+
+a.button {
+	display: inline-block;
+	padding: 3px 5px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-top: 1px solid #fff;
+	border-left: 1px solid #fff;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+a.button:hover {
+	border: 1px solid #ddd;
+	background: #ddd;
+}
+
+.double {
+	width: 100%;
+}
+
+.doublepart {
+	width: 48%;
+	margin: 0 2% 20px 0;
+	float: left;
+}
 
 
 /*
@@ -244,6 +321,18 @@ nav {
 /*
 ** Animationen und Übergangseffekte
 */
+a.button, a.button:hover {
+	transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
+}
+
+input[type="text"], input[type="password"], textarea, input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+	transition: color 0.2s ease-in-out;
+	-moz-transition: color 0.2s ease-in-out;
+	-webkit-transition: color 0.2s ease-in-out;
+}
+
 #usersites li, #usersites li:hover {
 	transition: box-shadow 0.2s ease-in-out;
 	-moz-transition: box-shadow 0.2s ease-in-out;
