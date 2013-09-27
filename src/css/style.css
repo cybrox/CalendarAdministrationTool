@@ -35,6 +35,7 @@ a, a:hover {
 body {
 	margin: 0;
 	padding: 0;
+	min-width: 1350px;
 }
 
 
