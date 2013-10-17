@@ -1,5 +1,5 @@
 /* CAT - Calendar Administration Tool
-** Cascading Style Sheet, Hauptstyle
+** Kalender und Terminlisten Funktionen
 **
 ** Autor: Sven Gehring
 **
@@ -44,4 +44,6 @@ function pageinit_calendar(){
 	$.each($('td'), function(){
 		$(this).append("<p class=\"schedule\"></p><p class=\"schedule\"></p>");
 	});
+			
+	$.loader('hide');
 }

@@ -1,5 +1,5 @@
 /* CAT - Calendar Administration Tool
-** Cascading Style Sheet, Hauptstyle
+** Kernfunktionen, Loginverwaltung
 **
 ** Autor: Sven Gehring
 **
@@ -7,6 +7,13 @@
 ** finden sie in der beiliegenden LICENSE.md
 */
 
+
+/**
+ * Systemobjekt
+ */
+var system = {
+	'page': "unknown"
+}
 
 /**
  * Benutzerobjekt
@@ -34,7 +41,7 @@ $(document).ready(function(){
 	if($.cookie("cat_user") == undefined){
 		
 		$.loader('show');
-		$.popup('login', "abba");
+		$.popup('login', true);
 		$.loader('hide');
 		
 	} else {
@@ -46,6 +53,8 @@ $(document).ready(function(){
 		
 		requestUserdata(user.id);
 	}
+	
+	createLinkListener();
 });
  
 
@@ -78,6 +87,7 @@ $.popup = function(content, isstatic){
 			success: function(data){
 				$('#popupcontent').html(data);
 				createEnterListener();
+				createLinkListener();
 			},
 			error: function() {
 				$.error("Formular \""+content+"\" konnte nicht geladen werden");
@@ -120,6 +130,7 @@ $.loader = function(action){
  * druck abzusenden.
  */
 function createEnterListener(){
+	$('input').unbind('keyup');
 	$('input').keyup(function(key){
 		if(key.keyCode == 13){
 			$('.popupsubmit').trigger('click');
@@ -135,49 +146,76 @@ function createEnterListener(){
  * Aktionen direkt weiterzuverarbeiten und
  * zb. Seiten per AJAX ins DOM zu laden.
  */
-$('a').click(function(e){
-	
+function createLinkListener(){
+	$('a').unbind('click');
+	$('a').click(function(e){
+		
+		link   = $(this).attr('href');
+		parts  = link.split('_');
+		type   = parts[0];
+		target = parts[1];
+		
+		switch(type){
+			case "page":
+				$('.userelement').removeClass('active');
+				$(this).parent().addClass('active');
+				
+				loadPage(target);
+				break;
+			case "popup":
+				$.popup(target, false);
+				break;
+			case "action":
+				func = window[target];
+				func();
+				break;
+		}
+		
+		e.preventDefault();
+	});
+}
+
+
+/**
+ * Einbinden einer Seite in das DOM
+ *
+ * Lädt eine Seite via AJAX in das DOM
+ * des Kalendertools.
+ */
+function loadPage(target){
+	system.page = target;
+
 	$.loader('show');
-	
-	link   = $(this).attr('href');
-	parts  = link.split('_');
-	type   = parts[0];
-	target = parts[1];
-	
-	switch(type){
-		case "page":
-			$('.userelement').removeClass('active');
-			$(this).parent().addClass('active');
+	$.ajax({
+		type: 'GET',
+		url: './src/page/'+target+'.html',
+		success: function(data){
+			$('#contentInner').hide();
+			$('#contentInner').html(data);
+			$('#contentInner').fadeIn('fast');
 			
-			$.ajax({
-				type: 'GET',
-				url: './src/page/'+target+'.html',
-				success: function(data){
-					$('#contentInner').hide();
-					$('#contentInner').html(data);
-					$('#contentInner').fadeIn('fast');
-					
-					func = window["pageinit_"+target];
-					func();
-					
-					$.loader('hide');
-				},
-				error: function() {
-					$.error("Seiteninhalt \""+target+"\" konnte nicht geladen werden");
-				}
-			});
-			break;
-		case "popup":
-			$.popup(target, false);
-			break;
-		case "action":
-			func = window[target];
+			createLinkListener();
+			
+			func = window["pageinit_"+target];
 			func();
-			break;
-	}
-	
-	e.preventDefault();
-});
+		},
+		error: function() {
+			$.error("Seiteninhalt \""+target+"\" konnte nicht geladen werden");
+		}
+	});
+}
+
+
+/**
+ * Seite neu laden
+ *
+ * Erlaubt das neuladen einer Seite
+ * durch erneutes aufrufen der pageinit
+ * Funktion und erneutem einbetten in das DOM
+ */
+function reloadPage(){
+	loadPage(system.page);
+}
 
 
 /**
@@ -194,11 +232,111 @@ $('#userfieldVisible').click(function(){
 });
 
 
+/**
+ * Anmeldefnuktion, Benutzer anmelden
+ *
+ * Beim absenden der Anmeldung wird eine
+ * Anfrage an die Schnittstelle gesendet und
+ * die Benutzerdatan abgefragt, im erfolgsfall
+ * wird auf das Kalenderinterface gewechselt
+ */
+function submitLogin(){
+
+	username = $('#inpLoginName').val();
+	userpass = $('#inpLoginPass').val();
+
+	hashpass = $().crypt({method: "md5", source: userpass});
+	
+	$.ajax({
+		type: 'GET',
+		url: './src/api/login/'+username+'/'+hashpass+'/',
+		dataType: 'json',
+		success: function(json){
+			if(json.error == ""){
+				user.id    = json.data['userid'];
+				user.token = json.data['token'];
+				user.auth  = user.token+"-"+user.id;
+				
+				$.popup('close');
+				$.cookie("cat_user", user.auth);
+			
+				requestUserdata(user.id);
+			} else {
+				$('#outLoginErr').text("Ungültige Zugangsdaten!");
+			}
+		},
+		error: function() {
+			$.error("Benutzerauthentifizierung konnte nicht geladen werden");
+		}
+	});
+}
+
+
+/**
+ * Benutzerdaten anfordern
+ */
+function requestUserdata(){
+	$.ajax({
+		type: 'GET',
+		url: './src/api/database/'+user.auth+'/read/user/id='+user.id+'/',
+		dataType: 'json',
+		success: function(json){
+			if(json.error == ""){
+				user.level = json.data[0]['level'];
+				user.name  = json.data[0]['name'];
+				user.email = json.data[0]['email'];
+				
+				$('#username').text(user.name);
+				$('nav').css("left", "0");
+				
+				$('.userelement a').first().click();
+			} else {
+				$.cookie("cat_user", null);
+				$.popup('login', true);
+			}
+		},
+		error: function() {
+			$.error("Benutzerdaten konnten nicht geladen werden");
+		}
+	});
+}
+
+
+/**
+ * Abmelden, Cookie löschen
+ *
+ * Beim Abmelden wird der Benutzer in der
+ * Datenbank abgemeldet und zusätzlich das
+ * im Browser gespeicherte Cookie gelöscht.
+ */
+function logout(){
+	$.ajax({
+		type: 'GET',
+		url: './src/api/logout/'+user.auth,
+		dataType: 'json',
+		success: function(){
+			$.cookie("cat_user", null);
+			location.reload();
+		}
+	});
+}
+
+
+/**
+ * Vollständigkeitsprüfung
+ *
+ * Prüft ob der übergebene String
+ * leer ist.
+ */
+function empty(string){
+	return (string === "") ? true : false;
+}
+
 
 /**
  * Ungenutzte "init" funktionen
  */
- function pageinit_help(){}
+ function pageinit_help(){ $.loader('hide'); }
 
 
 

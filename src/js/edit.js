@@ -24,7 +24,8 @@ function pageinit_edit(){
 	$('#editDataUsermail').val(user.email);
 	
 	createEnterListener();
-	
+		
+	$.loader('hide');
 }
 
 
