@@ -45,5 +45,5 @@ function pageinit_calendar(){
 		$(this).append("<p class=\"schedule\"></p><p class=\"schedule\"></p>");
 	});
 			
-	$.loader('hide');
+	appendPage();
 }

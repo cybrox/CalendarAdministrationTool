@@ -191,18 +191,31 @@ function loadPage(target){
 		url: './src/page/'+target+'.html',
 		success: function(data){
 			$('#contentInner').hide();
+			$('#contentInner').html("");
 			$('#contentInner').html(data);
-			$('#contentInner').fadeIn('fast');
-			
-			createLinkListener();
-			
+
 			func = window["pageinit_"+target];
 			func();
+	
+			createLinkListener();
 		},
 		error: function() {
 			$.error("Seiteninhalt \""+target+"\" konnte nicht geladen werden");
 		}
 	});
+}
+
+
+/**
+ * Neu geladene Seite in DOM einbinden
+ *
+ * Bindet die zuvor geladene Seite nach
+ * Abschluss der Init funktion ins DOM
+ * ein und blendet den loader aus.
+ */
+function appendPage(){
+	$.loader('hide');
+	$('#contentInner').fadeIn('fast');
 }
 
 
@@ -336,7 +349,7 @@ function empty(string){
 /**
  * Ungenutzte "init" funktionen
  */
- function pageinit_help(){ $.loader('hide'); }
+ function pageinit_help(){ appendPage(); }
 
 
 

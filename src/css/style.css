@@ -45,6 +45,7 @@ body {
 */
 #errors {
 	position: fixed;
+	z-index: 500;
 	height: 100%;
 	width: 100%;
 	left: 0;
@@ -61,6 +62,7 @@ body {
 
 #popups {
 	position: fixed;
+	z-index: 200;
 	top: 50%;
 	left: 30%;
 	width: 40%;
@@ -281,7 +283,8 @@ input[type="submit"]{
 	border-top: 1px dotted #ccc;
 }
 
-.break {clear: both;}
+.options {float: right;}
+.break   {clear: both; }
 
 .error   {color: #CD2626;}
 .success {color: #698B22;}
@@ -431,10 +434,76 @@ a.button:hover {
 }
 
 
+/**
+ * Tooltipps
+ */
+.tooltip {
+	position: relative;
+	display: inline-block;
+	text-decoration: none;
+	outline: none;
+}
+
+.tooltip span {
+	visibility: hidden;
+	position: absolute;
+	text-align: center;
+	font-size: 13px;
+	bottom: 60px;
+	left: 50%;
+	z-index: 999;
+	width: 100px;
+	margin-left: -60px;
+	padding: 10px;
+	opacity: 0;
+	background-color: #ececec;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
+}
+
+.tooltip:hover {border: 0;}
+
+.tooltip:hover span {
+	visibility: visible;
+	bottom: 40px;
+	opacity: .9;
+}
+
+.tooltip span:before, .tooltip span:after{
+	content: "";
+	position: absolute;
+	z-index: 1000;
+	bottom: -7px;
+	left: 50%;
+	margin-left: -8px;
+	border-top: 8px solid #ddd;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent; 
+	border-bottom: 0;
+}
+
+.tooltip span:before {
+	border-top-color: #ccc; 
+	bottom: -8px;
+}
+
+
+
 
 /*
 ** Animationen und Übergangseffekte
 */
+.tooltip span, .tooltip:hover span  {
+	transition: bottom 0.2s ease-in-out, opacity 0.5s ease-in-out;
+	-moz-transition: bottom 0.2s ease-in-out, opacity 0.4s ease-in-out;
+	-webkit-transition: bottom 0.2s ease-in-out, opacity 0.4s ease-in-out;
+}
+
 a.button, a.button:hover {
 	transition: all 0.3s ease-in-out;
 	-moz-transition: all 0.3s ease-in-out;

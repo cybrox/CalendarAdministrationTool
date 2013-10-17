@@ -16,12 +16,13 @@
  * bearbeitbare Liste.
  */
 function pageinit_semester(){
-
 	$.ajax({
 		type: 'GET',
 		url: './src/api/database/'+user.auth+'/read/semester/userid='+user.id,
 		dataType: 'json',
 		success: function(json){
+			$('#semsterContainer').html("");
+			
 			if(json.error !== ""){
 				$('#semsterContainer').html("Es wurden keine Semester für den Benutzer "+user.name+" gefunden.");
 			} else {
@@ -29,8 +30,10 @@ function pageinit_semester(){
 				semestercount = json.data.length;
 				
 				while(semestercount--){
-					$('#semsterContainer').append('<div class="double smalldouble"><div class="doublepart"><i class="icon-ticket"></i> '+json.data[semestercount]['name']+'</div><div class="doublepart"><i class="icon-calendar"></i>'+json.data[semestercount]['startdate']+' bis '+json.data[semestercount]['enddate']+'</div><div class="break"></div></div>');
+					$('#semsterContainer').append('<div class="smalldouble"><div class="doublepart"><i class="icon-ticket"></i> '+json.data[semestercount]['name']+'</div><div class="doublepart"><i class="icon-calendar"></i>'+json.data[semestercount]['startdate']+' bis '+json.data[semestercount]['enddate']+'<div class="options"><a class="button tooltip" href="popup_editsemester"><i class="icon-wrench"></i> <span>Bearbeiten</span></a> <a class="button tooltip" href="action_deletesemester"><i class="icon-remove"></i> <span>Löschen</span></a></div></div><div class="break"></div></div>');
 				}
+				
+				createLinkListener();
 			}
 		},
 		error: function() {
@@ -38,7 +41,7 @@ function pageinit_semester(){
 		}
 	});
 	
-	$.loader('hide');
+	appendPage();
 }
 
 

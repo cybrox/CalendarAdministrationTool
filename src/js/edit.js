@@ -25,7 +25,7 @@ function pageinit_edit(){
 	
 	createEnterListener();
 		
-	$.loader('hide');
+	appendPage();
 }
 
 
