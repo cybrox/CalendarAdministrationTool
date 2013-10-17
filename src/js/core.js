@@ -195,6 +195,11 @@ $('#userfieldVisible').click(function(){
 
 
 
+/**
+ * Ungenutzte "init" funktionen
+ */
+ function pageinit_help(){}
+
 
 
 

@@ -27,6 +27,15 @@ function pageinit_edit(){
 	
 }
 
+
+/**
+ * Speichern der Kontoinformationen
+ *
+ * Diese Funktion wird beim absenden der
+ * Kontoverwaltung aufgerufen, sie speichert
+ * die eingegebenen Informationen in der
+ * Datenbank.
+ */
 function submitEdit(){
 	
 	usermail = $('#editDataUsermail').val();

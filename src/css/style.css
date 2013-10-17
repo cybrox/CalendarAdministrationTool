@@ -267,6 +267,7 @@ input[type="submit"]{
 */
 #headline {
 	margin-top: 0;
+	padding-bottom: 1px;
 	font-family: Ubuntu-Bold;
 	border-bottom: 1px solid #ddd;
 }
@@ -279,6 +280,7 @@ input[type="submit"]{
 .doublepart i {
 	display: inline-block;
 	min-width: 20px;
+	color: #999;
 }
 
 a.button {
@@ -298,9 +300,8 @@ a.button:hover {
 	background: #ddd;
 }
 
-.double {
-	width: 100%;
-}
+.double {width: 100%;}
+.smalldouble {width: 70%;}
 
 .doublepart {
 	width: 48%;
