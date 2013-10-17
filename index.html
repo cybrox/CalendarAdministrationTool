@@ -23,6 +23,9 @@
 	<div id="popups">
 		<i id="popupclose" onClick="$.popup('close')" class="icon-remove-circle"></i>
 		<div id="popupcontent"></div>
+		<div id="staticpopup">
+			<span><i>Calendar Administration Tool</i> &copy; 2013+ by Sven Gehring</span>
+		</div>
 	</div>
 	
 	<!-- Haltecontainer für allfällige Fehlerausgaben -->
@@ -35,6 +38,7 @@
 	</div>
 	
 	
+	<!-- Navigationscontainer und Benutzermenu -->
 	<nav>
 		<section id="userpanel">
 			<div id="userfield">
@@ -65,6 +69,7 @@
 		</section>
 	</nav>
 	
+	<!-- Inhaltscontainer -->
 	<div id="content">
 		<div id="contentInner">
 		</div>
@@ -76,9 +81,12 @@
 	<script type="text/javascript" src="src/lib/jqueryui.min.js"></script>
 	<script type="text/javascript" src="src/lib/jquerycookie.min.js"></script>
 	
+	
 	<!-- Javascript CAT Dateien einbinden -->
 	<script type="text/javascript" src="src/js/core.js"></script>
 	<script type="text/javascript" src="src/js/forms.js"></script>
+	
+	<script type="text/javascript" src="src/js/edit.js"></script>
 	<script type="text/javascript" src="src/js/calendar.js"></script>
 </body>
 </html>

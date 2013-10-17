@@ -67,7 +67,7 @@ function requestUserdata(){
 				$('.userelement a').first().click();
 			} else {
 				$.cookie("cat_user", null);
-				$.popup('login');
+				$.popup('login', true);
 			}
 		},
 		error: function() {

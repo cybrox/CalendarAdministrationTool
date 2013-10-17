@@ -85,6 +85,24 @@ body {
 	padding: 35px 20px 20px 20px;
 }
 
+#staticpopup {
+	display: none;
+	margin: 40px 0 0 0;
+	padding: 10px;
+	color: #aaa;
+	text-align: center;
+	border-top: 1px solid #bbb;
+	border-bottom: 1px solid #bbb;
+}
+
+.isstatic {
+	box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+}
+
+.isstatic #popupclose  { display: none;  }
+.isstatic #staticpopup { display: block; }
 
 /*
 ** Navigation und Benutzerpanel
@@ -247,8 +265,21 @@ input[type="submit"]{
 /*
 ** Fixelemente
 */
+#headline {
+	margin-top: 0;
+	font-family: Ubuntu-Bold;
+	border-bottom: 1px solid #ddd;
+}
+
 .break {clear: both;}
-.error {color: #CD2626;}
+
+.error   {color: #CD2626;}
+.success {color: #698B22;}
+
+.doublepart i {
+	display: inline-block;
+	min-width: 20px;
+}
 
 a.button {
 	display: inline-block;
@@ -371,10 +402,6 @@ a.button:hover {
 
 .ui-datepicker-other-month span {
 	color: #999;
-}
-
-.ui-datepicker-current-day {
-	background: lightblue;
 }
 
 .schedule {

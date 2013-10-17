@@ -34,7 +34,7 @@ $(document).ready(function(){
 	if($.cookie("cat_user") == undefined){
 		
 		$.loader('show');
-		$.popup('login');
+		$.popup('login', "abba");
 		$.loader('hide');
 		
 	} else {
@@ -70,22 +70,26 @@ $.error = function(message){
  * auf der Seite ausgeführt auf der sie aufgerufen
  * wurden, indem sie in ein Popup ausgelagert werden.
  */
-$.popup = function(content){
-	
+$.popup = function(content, isstatic){
 	if(content != "close"){
 		$.ajax({
 			type: 'GET',
 			url: './src/form/'+content+'.html',
 			success: function(data){
 				$('#popupcontent').html(data);
+				createEnterListener();
 			},
 			error: function() {
 				$.error("Formular \""+content+"\" konnte nicht geladen werden");
 			}
 		});
 		$('#popups').fadeIn('slow');
+		if(isstatic){
+			$('#popups').addClass('isstatic');
+		}
 	} else {
 		$('#popups').fadeOut('slow', function(){$('#popupcontent').html("")});
+		$('#popupcontent').removeClass('isstatic');
 	}
 	
 }
@@ -107,6 +111,21 @@ $.loader = function(action){
 	}
 }
 
+
+/**
+ * Formulare per Enter absenden
+ *
+ * Fügt einen listener zu input Feldern
+ * hinzu um Formulare mit einem Enter
+ * druck abzusenden.
+ */
+function createEnterListener(){
+	$('input').keyup(function(key){
+		if(key.keyCode == 13){
+			$('.popupsubmit').trigger('click');
+		}
+	});
+}
 
 
 /**
@@ -149,7 +168,7 @@ $('a').click(function(e){
 			});
 			break;
 		case "popup":
-			$.popup(target);
+			$.popup(target, false);
 			break;
 		case "action":
 			func = window[target];
