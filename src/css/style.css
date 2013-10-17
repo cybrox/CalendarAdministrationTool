@@ -286,6 +286,7 @@ input[type="submit"]{
 .options {float: right;}
 .break   {clear: both; }
 
+.gray    {color: #999999;}
 .error   {color: #CD2626;}
 .success {color: #698B22;}
 

@@ -337,6 +337,20 @@ function logout(){
 
 
 /**
+ * Datum richtig darstellen
+ *
+ * Erzeugt einen Datumsstring im Format dd.mm.yyyy
+ * aus dem verwendeten yyyy-mm-dd stringformat.
+ */
+function chdate(date){
+	
+	parts = date.split("-");
+	return parts[2]+"."+parts[1]+"."+parts[0];
+	
+}
+
+
+/**
  * Vollständigkeitsprüfung
  *
  * Prüft ob der übergebene String
