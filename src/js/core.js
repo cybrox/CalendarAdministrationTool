@@ -96,6 +96,10 @@ $.popup = function(content, isstatic){
 		$('#popups').fadeIn('slow');
 		if(isstatic){
 			$('#popups').addClass('isstatic');
+		} else {
+			if($('#popups').hasClass('isstatic')){
+				$('#popups').removeClass('isstatic');
+			}
 		}
 	} else {
 		$('#popups').fadeOut('slow', function(){$('#popupcontent').html("")});
