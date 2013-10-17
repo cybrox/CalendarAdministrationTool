@@ -289,6 +289,8 @@ input[type="submit"]{
 .error   {color: #CD2626;}
 .success {color: #698B22;}
 
+.centerbutton {text-align:center;}
+
 .doublepart i {
 	display: inline-block;
 	min-width: 20px;

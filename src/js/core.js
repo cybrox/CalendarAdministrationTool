@@ -154,6 +154,7 @@ function createLinkListener(){
 		parts  = link.split('_');
 		type   = parts[0];
 		target = parts[1];
+		system.data = parts[2];
 		
 		switch(type){
 			case "page":

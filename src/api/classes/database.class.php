@@ -76,7 +76,7 @@
 		
 			$this->checkInputs();
 			
-			$requestedData = $this->database->query("SELECT * FROM `".DATENBANK_PREFIX.$this->requestedTables."` WHERE ".$this->requestedFilter.$this->generateSecurityString());
+			$requestedData = $this->database->query("SELECT * FROM `".DATENBANK_PREFIX.$this->requestedTables."` WHERE ".urldecode($this->requestedFilter).$this->generateSecurityString());
 			
 			if($requestedData->num_rows >= 1){
 				
