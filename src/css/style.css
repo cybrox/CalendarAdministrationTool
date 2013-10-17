@@ -36,7 +36,6 @@ a, a:hover {
 body {
 	margin: 0;
 	padding: 0;
-	min-width: 1350px;
 }
 
 
@@ -496,6 +495,16 @@ a.button:hover {
 }
 
 
+
+
+
+/**
+ * Grössenanpassung für kleinere Bildschirme
+ */
+@media (max-width: 1350px) {
+	nav      {width: 20%;}
+	#content {width: 80%; margin: 0 0 0 20%;}
+}
 
 
 /*
