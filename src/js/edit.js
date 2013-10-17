@@ -40,25 +40,39 @@ function submitEdit(){
 	
 	usermail = $('#editDataUsermail').val();
 	userpass = $('#editDataUserpass').val();
+	userpas2 = $('#editDataUserpassRep').val();
+	
+	uservalid = true;
 	
 	requesturl = './src/api/database/'+user.auth+'/write/user/id='+user.id+'/update/`email` = "'+usermail+'"';
 	
 	if(userpass !== ""){
-		requesturl += ', `password` = "'+userpass+'"';
+		
+		if(userpass !== userpas2){
+			$('#successEdit').empty();
+			$('#errorEdit').text("Die eingegebenen Passwörter stimmen nicht überein.");
+			
+			uservalid = false;
+		}
+		
+		hashpass = $().crypt({method: "md5", source: userpass});
+	
+		requesturl += ', `password` = "'+hashpass+'"';
 	}
 	
-	console.log(requesturl);
-	
-	$.ajax({
-		type: 'GET',
-		url: requesturl,
-		dataType: 'json',
-		success: function(json){
-			$('#successEdit').text("Änderungen erfolgreich gespeichert.");
-		},
-		error: function() {
-			$.error("Konnte keine Verbindung zur Datenbankschnittstelle herstellen.");
-		}
-	});
+	if(uservalid){
+		$.ajax({
+			type: 'GET',
+			url: requesturl,
+			dataType: 'json',
+			success: function(json){
+				$('#errorEdit').empty();
+				$('#successEdit').text("Änderungen erfolgreich gespeichert.");
+			},
+			error: function() {
+				$.error("Konnte keine Verbindung zur Datenbankschnittstelle herstellen.");
+			}
+		});
+	}
 
 }

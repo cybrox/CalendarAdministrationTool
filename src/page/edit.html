@@ -18,19 +18,26 @@
 	<div class="break"></div>
 </div>
 
+<div class="hline"></div>
+
 <div class="double smalldouble">
 	<div class="doublepart"><span><i class="icon-envelope"></i> E-Mail Adresse</span></div>
 	<div class="doublepart"><input type="text" id="editDataUsermail"></input></div>
 	<div class="break"></div>
 </div>
 
+<div class="hline"></div>
+
 <div class="double smalldouble">
 	<div class="doublepart"><span><i class="icon-key"></i> Passwort</span></div>
-	<div class="doublepart"><input type="password" id="editDataUserpass" placeholder="Nur ausfüllen um Passwort zu ändern."></input></div>
+	<div class="doublepart">
+		<input type="password" id="editDataUserpass" placeholder="Nur ausfüllen um ein neues Passwort zu setzen."></input>
+		<input type="password" id="editDataUserpassRep" placeholder="Neues Passwort wiederholen."></input>
+	</div>
 	<div class="break"></div>
 </div>
 
 <div class="double smalldouble">
-	<div class="doublepart"><div id="successEdit" class="success">&nbsp;</div></div>
+	<div class="doublepart"><span class="error" id="errorEdit">&nbsp;</span><div id="successEdit" class="success">&nbsp;</div></div>
 	<div class="doublepart"><a href="#" onClick="submitEdit()" class="button popupsubmit"><i class="icon-ok"></i> Änderungen speichern</a></div>
 </div>

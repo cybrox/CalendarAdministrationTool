@@ -22,9 +22,11 @@ function submitLogin(){
 	username = $('#inpLoginName').val();
 	userpass = $('#inpLoginPass').val();
 
+	hashpass = $().crypt({method: "md5", source: userpass});
+	
 	$.ajax({
 		type: 'GET',
-		url: './src/api/login/'+username+'/'+userpass+'/',
+		url: './src/api/login/'+username+'/'+hashpass+'/',
 		dataType: 'json',
 		success: function(json){
 			if(json.error == ""){

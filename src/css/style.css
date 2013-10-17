@@ -272,6 +272,13 @@ input[type="submit"]{
 	border-bottom: 1px solid #ddd;
 }
 
+.hline {
+	width: 100%;
+	margin: 15px 0;
+	height: 1px;
+	border-top: 1px dotted #ccc;
+}
+
 .break {clear: both;}
 
 .error   {color: #CD2626;}
