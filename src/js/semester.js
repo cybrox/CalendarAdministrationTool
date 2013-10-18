@@ -47,8 +47,6 @@ function loadAllSemester(editable){
 		url: './src/api/database/'+user.auth+'/read/semester/deleted="0" AND userid='+user.id,
 		dataType: 'json',
 		success: function(json){
-			console.log(json);
-		
 			if(json.error !== ""){
 				$('#semesterContainer').html("Es wurden keine Semester für den Benutzer "+user.name+" gefunden.");
 			} else {

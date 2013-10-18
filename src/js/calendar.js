@@ -47,3 +47,31 @@ function pageinit_calendar(){
 			
 	appendPage();
 }
+
+/**
+ * Seiteninitialisierung der Terminübersicht
+ *
+ * Lädt anstehende Termine und generiert eine Liste
+ */
+function pageinit_list(){
+	$.ajax({
+		type: 'GET',
+		url: './src/api/database/'+user.auth+'/read/schedule/deleted="0" AND userid='+user.id+'/ORDER BY `id` DESC LIMIT 0, 20',
+		dataType: 'json',
+		success: function(json){
+				console.log(json);
+			if(json.error !== ""){
+				$('#scheduleContainer').html("Es wurden keine anstehenden Termine gefunden.");
+			} else {
+			
+				
+				createLinkListener();
+			}
+		},
+		error: function() {
+			$.error("Konnte keine Verbindung zur Datenbankschnittstelle herstellen.");
+		}
+	});
+			
+	appendPage();
+}
