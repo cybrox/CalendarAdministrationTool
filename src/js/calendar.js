@@ -87,6 +87,7 @@ function loadAllUpcoming(todayonly){
 		success: function(json){
 			if(json.error !== ""){
 				$('#scheduleContainer').html("Keine anstehenden Termine gefunden.");
+				$('#calendarUpcomingNum').text("0");
 			} else {
 				schedulecount = json.data.length;
 				

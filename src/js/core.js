@@ -319,7 +319,7 @@ function requestUserdata(){
 					user.id      = "0";
 					user.admauth = user.auth;
 					
-					$('#userfieldHidden').append('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
+					$('#mn_edt').after('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
 					loadPage('admin');
 					
 				} else {
