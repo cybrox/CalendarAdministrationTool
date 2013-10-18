@@ -14,7 +14,8 @@
 ** Link:  "http://cybrox.eu/project/cat/doc/"
 ** Datei: "#04 - Datenbankschnittstelle.docx"
 */
-
+	
+	
 	/**
 	 * Datenbankklasse, lesen und schreiben in der Datenbank
 	 *
@@ -146,7 +147,7 @@
 		 */
 		private function generateSecurityString(){
 			
-			if($this->userlvl == 2) return "";
+			if($this->userlvl == 2 || $this->requestedTables == "subject") return "";
 			
 			$reqtab = ($this->requestedTables == "user") ? "id" : "userid";
 			

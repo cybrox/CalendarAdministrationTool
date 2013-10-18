@@ -54,18 +54,34 @@ function pageinit_calendar(){
  * Lädt anstehende Termine und generiert eine Liste
  */
 function pageinit_list(){
+
+	requestUrl  = './src/api/database/'+user.auth+'/read/schedule/';
+	requestUrl += '`userid` = \'1\' AND `targetdate` >= \''+now()+'\' AND `deleted` = \'0\'/ORDER BY `targetdate` DESC';
+	
 	$.ajax({
 		type: 'GET',
-		url: './src/api/database/'+user.auth+'/read/schedule/deleted="0" AND userid='+user.id+'/ORDER BY `id` DESC LIMIT 0, 20',
+		url: requestUrl,
 		dataType: 'json',
 		success: function(json){
-				console.log(json);
 			if(json.error !== ""){
 				$('#scheduleContainer').html("Es wurden keine anstehenden Termine gefunden.");
 			} else {
-			
+				console.log(json);
+				schedulecount = json.data.length;
 				
-				createLinkListener();
+				while(schedulecount--){
+				
+					sd = json.data[schedulecount];
+				
+					schedulestring  = '<div class="smalldouble bbtm"><div class="doublepart"><i class="icon-calendar"></i> '+chdate(sd['targetdate']);
+					schedulestring += (sd['scheduletype'] == 1) ? ' <span class="gray">Termin</span>': ' <span class="gray">Prüfung</span>';
+					schedulestring += '<br /><i class="tooltip icon-bell"></i>'+sd['title'];
+					schedulestring += '<span class="gray"> '+getSubjectById(sd['subjectid'])+'</span>';
+					schedulestring += '</div><div class="doublepart"><p class="grey small"> '+sd['description']+'</p>';
+					schedulestring += '</div><div class="break"></div></div>';
+				
+					$('#scheduleContainer').append(schedulestring);
+				}
 			}
 		},
 		error: function() {

@@ -13,7 +13,8 @@
  */
 var system = {
 	'page': "unknown",
-	'data': ""
+	'data': "",
+	'subj': {}
 }
 
 /**
@@ -55,6 +56,7 @@ $(document).ready(function(){
 		requestUserdata(user.id);
 	}
 	
+	loadAllSubjects();
 	createLinkListener();
 });
  
@@ -344,6 +346,8 @@ function logout(){
 }
 
 
+
+
 /**
  * Datum richtig darstellen
  *
@@ -359,6 +363,17 @@ function chdate(date){
 
 
 /**
+ * Heutiges Datum generieren
+ *
+ * Generiert einen String für das
+ * heutige Datum im yyyy-mm-dd format.
+ */
+function now(){
+	return (new Date()).toISOString().substring(0, 10);
+}
+
+
+/**
  * Vollständigkeitsprüfung
  *
  * Prüft ob der übergebene String
@@ -370,10 +385,44 @@ function empty(string){
 
 
 /**
+ * Alle Terminkategorien laden
+ *
+ * Lädt bei initialisierung des CAT
+ * alle verfügbaren Terminkategorien.
+ */
+function loadAllSubjects(){
+	
+	$.ajax({
+		type: 'GET',
+		url: './src/api/database/'+user.auth+'/read/subject/deleted="0"',
+		dataType: 'json',
+		success: function(json){
+		
+			subjectAmount = json.data.length;
+			
+			while(subjectAmount--){
+				system.subj[json.data[subjectAmount]['id']] = json.data[subjectAmount]['name'];
+			}
+		},
+		error: function() {
+			$.error("Konnte keine Verbindung zur Datenbankschnittstelle herstellen.");
+		}
+	});
+}
+ 
+
+/**
+ * Name einer Terminkategorie auslesen
+ *
+ * Gibt den namen einer Terminkategorie
+ * basierend auf der eingegebenen ID zurück.
+ */
+function getSubjectById(id){
+	return system.subj[id];
+}
+
+
+/**
  * Ungenutzte "init" funktionen
  */
  function pageinit_help(){ appendPage(); }
-
-
-
-

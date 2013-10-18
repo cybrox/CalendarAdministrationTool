@@ -36,6 +36,7 @@ a, a:hover {
 body {
 	margin: 0;
 	padding: 0;
+	min-width: 1350px;
 }
 
 
@@ -282,6 +283,19 @@ input[type="submit"]{
 	border-top: 1px dotted #ccc;
 }
 
+.bbtm {
+	padding: 15px 0 0 0;
+	border-bottom: 1px dotted #ccc;
+}
+
+.small {
+	display: block;
+	font-size: 11px;
+	color: #999999;
+	margin: 0;
+	padding: 0;
+}
+
 .options {float: right;}
 .break   {clear: both; }
 
@@ -495,16 +509,6 @@ a.button:hover {
 }
 
 
-
-
-
-/**
- * Grössenanpassung für kleinere Bildschirme
- */
-@media (max-width: 1350px) {
-	nav      {width: 20%;}
-	#content {width: 80%; margin: 0 0 0 20%;}
-}
 
 
 /*
