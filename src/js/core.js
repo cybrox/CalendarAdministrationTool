@@ -56,7 +56,6 @@ $(document).ready(function(){
 		requestUserdata(user.id);
 	}
 	
-	loadAllSubjects();
 	createLinkListener();
 });
  
@@ -197,6 +196,7 @@ function loadPage(target){
 	system.page = target;
 
 	$.loader('show');
+	$.popup('close');
 	$.ajax({
 		type: 'GET',
 		url: './src/page/'+target+'.html',

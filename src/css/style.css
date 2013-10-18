@@ -83,6 +83,10 @@ body {
 	color: #CD2626;
 }
 
+#popupclose:hover {
+	cursor: pointer;
+}
+
 #popupcontent {
 	padding: 35px 20px 20px 20px;
 }
@@ -295,6 +299,8 @@ input[type="submit"]{
 	margin: 0;
 	padding: 0;
 }
+
+.block {text-align: justify;}
 
 .options {float: right;}
 .break   {clear: both; }

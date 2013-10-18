@@ -8,6 +8,9 @@
 */
 
 function pageinit_calendar(){
+
+	if($.isEmptyObject(system.subj)) loadAllSubjects();
+	
 	$('#calendarBody').datepicker({
 		prevText: "<i class=\"icon-caret-left\"></i>",
 		nextText: "<i class=\"icon-caret-right\"></i>",
@@ -55,6 +58,8 @@ function pageinit_calendar(){
  */
 function pageinit_list(){
 
+	if($.isEmptyObject(system.subj)) loadAllSubjects();
+
 	requestUrl  = './src/api/database/'+user.auth+'/read/schedule/';
 	requestUrl += '`userid` = \'1\' AND `targetdate` >= \''+now()+'\' AND `deleted` = \'0\'/ORDER BY `targetdate` DESC';
 	
@@ -66,7 +71,6 @@ function pageinit_list(){
 			if(json.error !== ""){
 				$('#scheduleContainer').html("Es wurden keine anstehenden Termine gefunden.");
 			} else {
-				console.log(json);
 				schedulecount = json.data.length;
 				
 				while(schedulecount--){
