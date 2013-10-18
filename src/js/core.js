@@ -12,7 +12,8 @@
  * Systemobjekt
  */
 var system = {
-	'page': "unknown"
+	'page': "unknown",
+	'data': ""
 }
 
 /**
@@ -158,7 +159,10 @@ function createLinkListener(){
 		parts  = link.split('_');
 		type   = parts[0];
 		target = parts[1];
-		system.data = parts[2];
+		
+		if(parts[2] !== undefined){
+			system.data = parts[2];
+		}
 		
 		switch(type){
 			case "page":

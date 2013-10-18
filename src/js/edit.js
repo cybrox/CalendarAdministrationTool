@@ -1,5 +1,5 @@
 /* CAT - Calendar Administration Tool
-** Cascading Style Sheet, Hauptstyle
+** Benutzerprofilverwaltung
 **
 ** Autor: Sven Gehring
 **

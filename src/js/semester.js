@@ -16,20 +16,55 @@
  * bearbeitbare Liste.
  */
 function pageinit_semester(){
+	loadAllSemester(true);
+	appendPage();
+}
+
+
+/**
+ * Seiteninitialisierung der Auswertung
+ *
+ * Lädt alle verfügbaren Semester um dem
+ * Benutzer eine Auswahl zu ermöglichen von
+ * welchem Semester er die Noten anzeigen
+ * will.
+ */
+function pageinit_rating(){
+	loadAllSemester(false);
+	appendPage();
+}
+
+
+/**
+ * Laden aller Semester eines Benutzers
+ *
+ * Diese Funktion lädt alle Semester eines
+ * Benutzers und erstellt eine passende Liste
+ */
+function loadAllSemester(editable){
 	$.ajax({
 		type: 'GET',
 		url: './src/api/database/'+user.auth+'/read/semester/deleted="0" AND userid='+user.id,
 		dataType: 'json',
 		success: function(json){
-			$('#semsterContainer').html("");
-			
+			console.log(json);
+		
 			if(json.error !== ""){
-				$('#semsterContainer').html("Es wurden keine Semester für den Benutzer "+user.name+" gefunden.");
+				$('#semesterContainer').html("Es wurden keine Semester für den Benutzer "+user.name+" gefunden.");
 			} else {
 				semestercount = json.data.length;
 				
 				while(semestercount--){
-					$('#semsterContainer').append('<div class="smalldouble"><div class="doublepart"><i class="icon-ticket"></i> '+json.data[semestercount]['name']+'</div><div class="doublepart"><i class="icon-calendar"></i>'+chdate(json.data[semestercount]['startdate'])+' <span class="gray">bis</span> '+chdate(json.data[semestercount]['enddate'])+'<div class="options"><a class="button tooltip" href="popup_semesteredit_'+json.data[semestercount]['id']+'"><i class="icon-wrench"></i> <span>Bearbeiten</span></a> <a class="button tooltip" href="popup_semesterdelete_'+json.data[semestercount]['id']+'"><i class="icon-remove"></i> <span>Löschen</span></a></div></div><div class="break"></div></div>');
+					
+					if(editable){
+						optionsstring = '<a class="button tooltip" href="popup_semesteredit_'+json.data[semestercount]['id']+'"><i class="icon-wrench"></i> <span>Bearbeiten</span></a> <a class="button tooltip" href="popup_semesterdelete_'+json.data[semestercount]['id']+'"><i class="icon-remove"></i> <span>Löschen</span></a>';
+					} else {
+						optionsstring = '<a class="button tooltip" href="action_ratesemester_'+json.data[semestercount]['id']+'"><i class="icon-play"></i> <span>Auswerten</span></a>';
+					}
+					
+					console.log('a');
+					
+					$('#semesterContainer').append('<div class="smalldouble"><div class="doublepart"><i class="icon-ticket"></i> '+json.data[semestercount]['name']+'</div><div class="doublepart"><i class="icon-calendar"></i>'+chdate(json.data[semestercount]['startdate'])+' <span class="gray">bis</span> '+chdate(json.data[semestercount]['enddate'])+'<div class="options">'+optionsstring+'</div></div><div class="break"></div></div>');
 				}
 				
 				createLinkListener();
@@ -39,8 +74,6 @@ function pageinit_semester(){
 			$.error("Konnte keine Verbindung zur Datenbankschnittstelle herstellen.");
 		}
 	});
-	
-	appendPage();
 }
 
 
@@ -110,7 +143,7 @@ function getSemesterDetails(semesterid){
  * speichert die neuen informationen nach dem
  * bearbeiten in der Datenbank.
  */
-function editSemester(semesterid){
+function editSemester(){
 
 	semestername  = $('#inpSemTitle').val();
 	semesterstart = $('#inpSemStart').val();
@@ -120,7 +153,7 @@ function editSemester(semesterid){
 	
 	$.ajax({
 		type: 'GET',
-		url: './src/api/database/'+user.auth+'/write/semester/id='+semesterid+'/update/`name`="'+semestername+'", `startdate`="'+semesterstart+'", `enddate`="'+semesterend+'"',
+		url: './src/api/database/'+user.auth+'/write/semester/id='+system.data+'/update/`name`="'+semestername+'", `startdate`="'+semesterstart+'", `enddate`="'+semesterend+'"',
 		dataType: 'json',
 		success: function(json){
 			if(json.status == 4){
