@@ -305,7 +305,8 @@ input[type="submit"]{
 	padding: 0;
 }
 
-.block   {text-align: justify;}
+.block        {text-align: justify;}
+.centerbutton {text-align:center;}
 
 .options {float: right;}
 .break   {clear: both; }
@@ -313,8 +314,6 @@ input[type="submit"]{
 .gray    {color: #999999;}
 .error   {color: #CD2626;}
 .success {color: #698B22;}
-
-.centerbutton {text-align:center;}
 
 .doublepart i {
 	display: inline-block;

@@ -316,7 +316,7 @@ function requestUserdata(){
 //				$('.userelement a').first().click();
 				if(user.level == 2){
 				
-					user.id      = "X";
+					user.id      = "0";
 					user.admauth = user.auth;
 					
 					$('#userfieldHidden').append('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
@@ -345,13 +345,20 @@ function requestUserdata(){
  * im Browser gespeicherte Cookie gelöscht.
  */
 function logout(){
+	
+	requestUrl  = './src/api/logout/';
+	requestUrl += (user.id == 0) ? user.admauth : user.auth;
+	
 	$.ajax({
 		type: 'GET',
-		url: './src/api/logout/'+user.auth,
+		url: requestUrl,
 		dataType: 'json',
 		success: function(){
 			$.cookie("cat_user", null);
 			location.reload();
+		},
+		error: function(){
+			$.error("Konnte keine Verbindung zur Datenbankschnittstelle herstellen.");
 		}
 	});
 }

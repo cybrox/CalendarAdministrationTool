@@ -34,7 +34,7 @@
 		 * Baut eine Datenbankverbindung auf und verarbeitet
 		 * den mitgesendeten Sicherheitsschlüssel-String
 		 */
-		public function __construct($requestParameters){
+		public function __construct($requestParameters, $accessLevel){
 		
 			$this->database = parent::databaseConnect();
 		
