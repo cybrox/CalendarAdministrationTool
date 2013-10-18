@@ -43,9 +43,9 @@
 		 * Baut eine Datenbankverbindung auf und erkennt
 		 * die vom Benutzer gewünschte Aktion
 		 */
-		public function __construct($requestParameters){
+		public function __construct($requestParameters, $accessLevel){
 			$this->database = parent::databaseConnect();
-			$this->userlvl  = parent::getAccessLevel();
+			$this->userlvl  = $accessLevel;
 			
 			$this->requestedAction = $requestParameters[2];
 			$this->requestedTables = $requestParameters[3];

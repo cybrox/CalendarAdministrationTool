@@ -313,7 +313,18 @@ function requestUserdata(){
 				$('#username').text(user.name);
 				$('nav').css("left", "0");
 				
-				$('.userelement a').first().click();
+//				$('.userelement a').first().click();
+				if(user.level == 2){
+				
+					user.id      = "X";
+					user.admauth = user.auth;
+					
+					$('#userfieldHidden').append('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
+					loadPage('admin');
+					
+				} else {
+					loadPage('calendar');
+				}
 			} else {
 				$.cookie("cat_user", null);
 				$.popup('login', true);

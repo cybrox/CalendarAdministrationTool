@@ -300,7 +300,12 @@ input[type="submit"]{
 	padding: 0;
 }
 
-.block {text-align: justify;}
+.listp {
+	margin: 0;
+	padding: 0;
+}
+
+.block   {text-align: justify;}
 
 .options {float: right;}
 .break   {clear: both; }

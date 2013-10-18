@@ -32,7 +32,7 @@
 		 * Übergabe der Anfrageparameter an
 		 * die verwendete Unterklasse.
 		 */
-		public function __construct($requestParameters);
+		public function __construct($requestParameters, $accessLevel);
 		
 	}
 

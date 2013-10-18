@@ -187,7 +187,7 @@
 				$this->status = 3;
 				
 				include('./classes/'.$this->requestClass.'.class.php');
-				$this->sclass = new $this->requestClass($this->requestParms);
+				$this->sclass = new $this->requestClass($this->requestParms, $this->accessLevel);
 			} else {
 				$this->handleError("Unterklasse existiert nicht");
 			}

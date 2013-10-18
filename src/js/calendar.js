@@ -11,6 +11,8 @@ function pageinit_calendar(){
 
 	if($.isEmptyObject(system.subj)) loadAllSubjects();
 	
+	loadAllUpcoming(true);
+	
 	$('#calendarBody').datepicker({
 		prevText: "<i class=\"icon-caret-left\"></i>",
 		nextText: "<i class=\"icon-caret-right\"></i>",
@@ -60,8 +62,23 @@ function pageinit_list(){
 
 	if($.isEmptyObject(system.subj)) loadAllSubjects();
 
+	loadAllUpcoming(false);
+			
+	appendPage();
+}
+
+
+/**
+ * Lade alle termine
+ */
+function loadAllUpcoming(todayonly){
+
+	outputType  = (todayonly) ? "double" : "smalldouble";
 	requestUrl  = './src/api/database/'+user.auth+'/read/schedule/';
-	requestUrl += '`userid` = \'1\' AND `targetdate` >= \''+now()+'\' AND `deleted` = \'0\'/ORDER BY `targetdate` DESC';
+	requestUrl += '`userid` = \''+user.id+'\' AND `targetdate` ';
+	if(!todayonly) requestUrl += '>';
+	requestUrl += '= \''+now()+'\' AND `deleted` = \'0\'/ORDER BY `targetdate` DESC';
+
 	
 	$.ajax({
 		type: 'GET',
@@ -69,7 +86,7 @@ function pageinit_list(){
 		dataType: 'json',
 		success: function(json){
 			if(json.error !== ""){
-				$('#scheduleContainer').html("Es wurden keine anstehenden Termine gefunden.");
+				$('#scheduleContainer').html("Keine anstehenden Termine gefunden.");
 			} else {
 				schedulecount = json.data.length;
 				
@@ -77,7 +94,7 @@ function pageinit_list(){
 				
 					sd = json.data[schedulecount];
 				
-					schedulestring  = '<div class="smalldouble bbtm"><div class="doublepart"><i class="icon-calendar"></i> '+chdate(sd['targetdate']);
+					schedulestring  = '<div class="'+outputType+' bbtm"><div class="doublepart"><i class="icon-calendar"></i> '+chdate(sd['targetdate']);
 					schedulestring += (sd['scheduletype'] == 1) ? ' <span class="gray">Termin</span>': ' <span class="gray">Prüfung</span>';
 					schedulestring += '<br /><i class="tooltip icon-bell"></i>'+sd['title'];
 					schedulestring += '<span class="gray"> '+getSubjectById(sd['subjectid'])+'</span>';
@@ -86,12 +103,13 @@ function pageinit_list(){
 				
 					$('#scheduleContainer').append(schedulestring);
 				}
+				
+				if(todayonly) $('#calendarUpcomingNum').text(json.data.length);
 			}
 		},
 		error: function() {
 			$.error("Konnte keine Verbindung zur Datenbankschnittstelle herstellen.");
 		}
 	});
-			
-	appendPage();
+
 }
