@@ -295,7 +295,7 @@ var system = {
 						system.popup(target, false);
 						break;
 					case "action":
-						func = window[target];
+						func = window["action_"+target];
 						func();
 						break;
 				}
@@ -412,4 +412,5 @@ function getSubjectById(id){
 /**
  * Ungenutzte "init" funktionen
  */
- function pageinit_help(){ system.page.append(); }
+function pageinit_help(){ system.page.append(); }
+function action_logout(){ system.user.logout(); }

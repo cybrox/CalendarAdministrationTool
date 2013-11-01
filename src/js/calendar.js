@@ -9,8 +9,7 @@
 
 function pageinit_calendar(){
 
-	if($.isEmptyObject(system.subj)) loadAllSubjects();
-	
+//	if($.isEmptyObject(system.subj)) loadAllSubjects();
 	loadAllUpcoming(true);
 	
 	$('#calendarBody').datepicker({
@@ -50,7 +49,7 @@ function pageinit_calendar(){
 		$(this).append("<p class=\"schedule\"></p><p class=\"schedule\"></p>");
 	});
 			
-	appendPage();
+	system.page.append();
 }
 
 /**
@@ -60,11 +59,10 @@ function pageinit_calendar(){
  */
 function pageinit_list(){
 
-	if($.isEmptyObject(system.subj)) loadAllSubjects();
-
+//	if($.isEmptyObject(system.subj)) loadAllSubjects();
 	loadAllUpcoming(false);
 			
-	appendPage();
+	system.page.append();
 }
 
 
@@ -74,43 +72,38 @@ function pageinit_list(){
 function loadAllUpcoming(todayonly){
 
 	outputType  = (todayonly) ? "double" : "smalldouble";
-	requestUrl  = './src/api/database/'+user.auth+'/read/schedule/';
-	requestUrl += '`userid` = \''+user.id+'\' AND `targetdate` ';
+	requestUrl  = './src/api/database/'+system.user.me.auth+'/read/schedule/';
+	requestUrl += '`userid` = \''+system.user.me.id+'\' AND `targetdate` ';
 	if(!todayonly) requestUrl += '>';
 	requestUrl += '= \''+now()+'\' AND `deleted` = \'0\'/ORDER BY `targetdate` DESC';
 
 	
-	$.ajax({
-		type: 'GET',
-		url: requestUrl,
-		dataType: 'json',
-		success: function(json){
-			if(json.error !== ""){
-				$('#scheduleContainer').html("Keine anstehenden Termine gefunden.");
-				$('#calendarUpcomingNum').text("0");
-			} else {
-				schedulecount = json.data.length;
-				
-				while(schedulecount--){
-				
-					sd = json.data[schedulecount];
-				
-					schedulestring  = '<div class="'+outputType+' bbtm"><div class="doublepart"><i class="icon-calendar"></i> '+chdate(sd['targetdate']);
-					schedulestring += (sd['scheduletype'] == 1) ? ' <span class="gray">Termin</span>': ' <span class="gray">Prüfung</span>';
-					schedulestring += '<br /><i class="tooltip icon-bell"></i>'+sd['title'];
-					schedulestring += '<span class="gray"> '+getSubjectById(sd['subjectid'])+'</span>';
-					schedulestring += '</div><div class="doublepart"><p class="grey small"> '+sd['description']+'</p>';
-					schedulestring += '</div><div class="break"></div></div>';
-				
-					$('#scheduleContainer').append(schedulestring);
-				}
-				
-				if(todayonly) $('#calendarUpcomingNum').text(json.data.length);
+	$.getJSON(requestUrl, function(json){
+	
+		if(json.error == ""){
+			
+			schedulecount = json.data.length;
+			while(schedulecount--){
+			
+				val = json.data[schedulecount];
+			
+				schedulestring  = '<div class="'+outputType+' bbtm"><div class="doublepart"><i class="icon-calendar"></i> '+chdate(val['targetdate']);
+				schedulestring += (val['scheduletype'] == 1) ? ' <span class="gray">Termin</span>': ' <span class="gray">Prüfung</span>';
+				schedulestring += '<br /><i class="tooltip icon-bell"></i>'+val['title'];
+				schedulestring += '<span class="gray"> '+getSubjectById(val['subjectid'])+'</span>';
+				schedulestring += '</div><div class="doublepart"><p class="grey small"> '+val['description']+'</p>';
+				schedulestring += '</div><div class="break"></div></div>';
+			
+				$('#scheduleContainer').append(schedulestring);
 			}
-		},
-		error: function() {
-			$.error("Konnte keine Verbindung zur Datenbankschnittstelle herstellen.");
+			
+			if(todayonly) $('#calendarUpcomingNum').text(json.data.length);
+		
+		} else {
+			$('#scheduleContainer').html("Keine anstehenden Termine gefunden.");
+			$('#calendarUpcomingNum').text("0");
 		}
+		
 	});
 
 }

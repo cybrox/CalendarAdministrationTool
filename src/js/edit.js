@@ -15,65 +15,62 @@
  */
 function pageinit_edit(){
 	
-	var userType = (user.level == 2) ? "Administrator" : "Normaler Benutzer";
+	var userType = (system.user.me.level == 2) ? "Administrator" : "Normaler Benutzer";
 	
-	$('#editDataUserId').text("#"+user.id);
-	$('#editDataUsername').text(user.name);
+	$('#editDataUserId').text("#"+system.user.me.id);
+	$('#editDataUsername').text(system.user.me.name);
 	$('#editDataUsertype').text(userType);
 	
-	$('#editDataUsermail').val(user.email);
+	$('#editDataUsermail').val(system.user.me.email);
 	
-	createEnterListener();
-		
-	appendPage();
+	system.addListener.enterSubmit();
+	system.page.append();
 }
 
 
-/**
- * Speichern der Kontoinformationen
- *
- * Diese Funktion wird beim absenden der
- * Kontoverwaltung aufgerufen, sie speichert
- * die eingegebenen Informationen in der
- * Datenbank.
- */
-function submitEdit(){
-	
-	usermail = $('#editDataUsermail').val();
-	userpass = $('#editDataUserpass').val();
-	userpas2 = $('#editDataUserpassRep').val();
-	
-	uservalid = true;
-	
-	requesturl = './src/api/database/'+user.auth+'/write/user/id='+user.id+'/update/`email` = "'+usermail+'"';
-	
-	if(userpass !== ""){
+var edit = {
+	/**
+	 * Speichern der Kontoinformationen
+	 *
+	 * Diese Funktion wird beim absenden der
+	 * Kontoverwaltung aufgerufen, sie speichert
+	 * die eingegebenen Informationen in der
+	 * Datenbank.
+	 */
+	submit: function(){
 		
-		if(userpass !== userpas2){
-			$('#successEdit').empty();
-			$('#errorEdit').text("Die eingegebenen Passwörter stimmen nicht überein.");
+		usermail = $('#editDataUsermail').val();
+		userpass = $('#editDataUserpass').val();
+		userpas2 = $('#editDataUserpassRep').val();
+		
+		uservalid = true;
+		
+		requestUrl = './src/api/database/'+system.user.me.auth+'/write/user/id='+system.user.me.id+'/update/`email` = "'+usermail+'"';
+		
+		if(userpass !== ""){
 			
-			uservalid = false;
+			if(userpass !== userpas2){
+				$('#successEdit').empty();
+				$('#errorEdit').text("Die eingegebenen Passwörter stimmen nicht überein.");
+				
+				uservalid = false;
+			}
+			
+			hashpass = $().crypt({method: "md5", source: userpass});
+		
+			requestUrl += ', `password` = "'+hashpass+'"';
 		}
 		
-		hashpass = $().crypt({method: "md5", source: userpass});
-	
-		requesturl += ', `password` = "'+hashpass+'"';
-	}
-	
-	if(uservalid){
-		$.ajax({
-			type: 'GET',
-			url: requesturl,
-			dataType: 'json',
-			success: function(json){
+		if(uservalid){
+			$.getJSON(requestUrl, function(json){
+			
+				console.log(json);
+			
 				$('#errorEdit').empty();
 				$('#successEdit').text("Änderungen erfolgreich gespeichert.");
-			},
-			error: function() {
-				$.error("Konnte keine Verbindung zur Datenbankschnittstelle herstellen.");
-			}
-		});
-	}
+					
+			});
+		}
 
+	}
 }
