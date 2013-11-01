@@ -12,24 +12,299 @@
  * Systemobjekt
  */
 var system = {
-	'page': "unknown",
 	'data': "",
-	'subj': {}
-}
+	
+	
+	/**
+	 * Fehleranzeige zur Benutzerinformation
+	 *
+	 * Bei einem AJAX Fehler wird dem Benutzer
+	 * automatisch eine Fehlermeldung ausgegeben
+	 */
+	handleError: function(message){
+		$('#errormsg').text(message);
+		$('#errors').fadeIn();
+	},
+	
+	
+	page: {
+		current: "",
+		locked:  false,
+	
+		/**
+		 * Einbinden einer Seite in das DOM
+		 *
+		 * Lädt eine Seite via AJAX in das DOM
+		 * des Kalendertools.
+		 */
+		load: function(target){
+		
+			system.page.current = target;
 
-/**
- * Benutzerobjekt
- */
-var user = {
-	'id':     0,
-	'level':  0,
-	'active': 0,
-	'name':   "",
-	'email':  "",
-	'token':  "",
-	'auth':   ""
-}
+			system.loader('show');
+			system.popup('close');
+			
+			$.get('./src/page/'+target+'.html', function(data){
+			
+				$('#contentInner').hide();
+				$('#contentInner').html("");
+				$('#contentInner').html(data);
+				
+				func = window["pageinit_"+target];
+				func();
+		
+				system.addListener.ajaxLink();
+				
+			});
+		},
+		
+		
+		/**
+		 * Neu geladene Seite in DOM einbinden
+		 *
+		 * Bindet die zuvor geladene Seite nach
+		 * Abschluss der Init funktion ins DOM
+		 * ein und blendet den loader aus.
+		 */
+		append: function(){
+		
+			system.loader('hide');
+			$('#contentInner').fadeIn('fast');
+			
+		},
+		
+		
+		/**
+		 * Seite neu laden
+		 *
+		 * Erlaubt das neuladen einer Seite
+		 * durch erneutes aufrufen der pageinit
+		 * Funktion und erneutem einbetten in das DOM
+		 */
+		reload: function(){
+			system.page.load(system.page.current);
+		}
+	},
+	
+	
+	user: {
+		me: {
+			'id':     0,
+			'level':  0,
+			'active': 0,
+			'name':   "",
+			'email':  "",
+			'token':  "",
+			'auth':   ""
+		},
+		
+	
+		/**
+		 * Anmeldefnuktion, Benutzer anmelden
+		 *
+		 * Beim absenden der Anmeldung wird eine
+		 * Anfrage an die Schnittstelle gesendet und
+		 * die Benutzerdatan abgefragt, im erfolgsfall
+		 * wird auf das Kalenderinterface gewechselt
+		 */
+		login: function(){
 
+			username = $('#inpLoginName').val();
+			userpass = $('#inpLoginPass').val();
+			
+			if(empty(username) || empty(userpass)){
+				$('#outLoginErr').text("Ungültige Zugangsdaten!");
+				return false;
+			}
+			
+			hashpass   = $().crypt({method: "md5", source: userpass});
+			requestUrl = './src/api/login/'+username+'/'+hashpass+'/';
+			
+			$.getJSON(requestUrl, function(json){
+			
+				if(json.error == ""){
+				
+					system.user.me.id    = json.data['userid'];
+					system.user.me.token = json.data['token'];
+					system.user.me.auth  = system.user.me.token+"-"+system.user.me.id;
+					
+					system.popup('close');
+					$.cookie("cat_user", system.user.me.auth);
+				
+					system.user.request(system.user.me.id);
+					
+				} else {
+					$('#outLoginErr').text("Ungültige Zugangsdaten!");
+				}
+				
+			});
+		},
+		
+		
+		/**
+		 * Abmelden, Cookie löschen
+		 *
+		 * Beim Abmelden wird der Benutzer in der
+		 * Datenbank abgemeldet und zusätzlich das
+		 * im Browser gespeicherte Cookie gelöscht.
+		 */
+		logout: function(){
+			
+			requestUrl  = './src/api/logout/';
+			requestUrl += (system.user.me.id == 0) ? system.user.me.admauth : system.user.me.auth;
+			
+			$.getJSON(requestUrl, function(json){
+			
+				$.cookie("cat_user", null);
+				location.reload();
+					
+			});
+		},
+		
+		/**
+		 * Benutzerdaten anfordern
+		 */
+		request: function(){
+		
+			requestUrl = './src/api/database/'+system.user.me.auth+'/read/user/id='+system.user.me.id+'/';
+			
+			$.getJSON(requestUrl, function(json){
+				if(json.error == ""){
+				
+					system.user.me.level = json.data[0]['level'];
+					system.user.me.name  = json.data[0]['name'];
+					system.user.me.email = json.data[0]['email'];
+					
+					$('#username').text(system.user.me.name);
+					$('nav').css("left", "0");
+					
+					if(system.user.me.level == 2){
+					
+						system.user.me.id      = "0";
+						system.user.me.admauth = system.user.me.auth;
+						
+						$('#mn_edt').after('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
+						system.page.load('admin');
+						
+					} else {
+						system.page.load('calendar');
+					}
+				} else {
+					$.cookie("cat_user", null);
+					system.popup('login', true);
+				}
+			});
+		}
+	},
+	
+	
+	/**
+	 * AJAX Loader für Ladeanzeige
+	 *
+	 * Beim laden einer neuen Seite oder neuen
+	 * Inhalten für die aktive Seite wird dem
+	 * Benutzer mittels einer Ladeanzeige suggeriert
+	 * zu warten. Diese wird hier generiert.
+	 */
+	loader: function(action){
+	
+		if(action == "show") $('#loader').fadeIn('fast');
+		else                 $('#loader').fadeOut('fast');
+		
+	},
+	
+	
+	/**
+	 * Popups zur Darstellung von On-Site Formularen
+	 *
+	 * Alle Aktionen im Kalendertool werden direkt
+	 * auf der Seite ausgeführt auf der sie aufgerufen
+	 * wurden, indem sie in ein Popup ausgelagert werden.
+	 */
+	popup: function(content, isstatic){
+	
+		if(content != "close"){
+		
+			$.get('./src/form/'+content+'.html', function(data){
+			
+				$('#popupcontent').html(data);
+				$('#popups').fadeIn('slow');
+				
+				system.addListener.enterSubmit();
+				system.addListener.ajaxLink();
+				
+				if(isstatic){
+					$('#popups').addClass('isstatic');
+				} else {
+					if($('#popups').hasClass('isstatic')) $('#popups').removeClass('isstatic');
+				}
+				
+			});
+			
+		} else {
+		
+			$('#popups').fadeOut('slow', function(){$('#popupcontent').html("")});
+			$('#popupcontent').removeClass('isstatic');
+			
+		}
+	},
+
+
+	/**
+	 * Formulare per Enter absenden
+	 *
+	 * Fügt einen listener zu input Feldern
+	 * hinzu um Formulare mit einem Enter
+	 * druck abzusenden.
+	 */
+	addListener: {
+		enterSubmit: function(){
+			$('input').unbind('keyup');
+			$('input').keyup(function(key){
+				if(key.keyCode == 13){
+					$('.popupsubmit').trigger('click');
+				}
+			});
+		},
+		
+		ajaxLink: function(){
+		
+			$('a').unbind('click');
+			$('a').click(function(e){
+				system.page.locked = true;
+				
+				link   = $(this).attr('href');
+				parts  = link.split('_');
+				type   = parts[0];
+				target = parts[1];
+				
+				if(parts[2] !== undefined){
+					system.data = parts[2];
+				}
+				
+				switch(type){
+					case "page":
+						if(system.page.current != target){
+							$('.userelement').removeClass('active');
+							$(this).parent().addClass('active');
+							
+							system.page.load(target);
+						}
+						break;
+					case "popup":
+						system.popup(target, false);
+						break;
+					case "action":
+						func = window[target];
+						func();
+						break;
+				}
+				
+				e.preventDefault();
+			});
+		}
+	}
+}
 
 
 /**
@@ -42,329 +317,47 @@ var user = {
 $(document).ready(function(){
 	if($.cookie("cat_user") == undefined){
 		
-		$.loader('show');
-		$.popup('login', true);
-		$.loader('hide');
+		system.loader('show');
+		system.popup('login', true);
+		system.loader('hide');
 		
 	} else {
+	
 		usercookie = $.cookie("cat_user");
 		userparts  = usercookie.split("-");
-		user.token = userparts[0];
-		user.id    = userparts[1];
-		user.auth  = usercookie;
 		
-		requestUserdata(user.id);
+		system.user.me.token = userparts[0];
+		system.user.me.id    = userparts[1];
+		system.user.me.auth  = usercookie;
+		
+		system.user.request(userparts[1]);
+		
 	}
 	
-	createLinkListener();
-});
- 
-
-/**
- * Fehleranzeige zur Benutzerinformation
- *
- * Bei einem AJAX Fehler wird dem Benutzer
- * automatisch eine Fehlermeldung ausgegeben
- */
-$.error = function(message){
-
-	$('#errormsg').text(message);
-	$('#errors').fadeIn();
-
-}
- 
- 
-/**
- * Popups zur Darstellung von On-Site Formularen
- *
- * Alle Aktionen im Kalendertool werden direkt
- * auf der Seite ausgeführt auf der sie aufgerufen
- * wurden, indem sie in ein Popup ausgelagert werden.
- */
-$.popup = function(content, isstatic){
-	if(content != "close"){
-		$.ajax({
-			type: 'GET',
-			url: './src/form/'+content+'.html',
-			success: function(data){
-				$('#popupcontent').html(data);
-				createEnterListener();
-				createLinkListener();
-			},
-			error: function() {
-				$.error("Formular \""+content+"\" konnte nicht geladen werden");
-			}
-		});
-		$('#popups').fadeIn('slow');
-		if(isstatic){
-			$('#popups').addClass('isstatic');
-		} else {
-			if($('#popups').hasClass('isstatic')){
-				$('#popups').removeClass('isstatic');
-			}
-		}
-	} else {
-		$('#popups').fadeOut('slow', function(){$('#popupcontent').html("")});
-		$('#popupcontent').removeClass('isstatic');
-	}
+	system.addListener.ajaxLink();
 	
-}
- 
- 
-/**
- * AJAX Loader für Ladeanzeige
- *
- * Beim laden einer neuen Seite oder neuen
- * Inhalten für die aktive Seite wird dem
- * Benutzer mittels einer Ladeanzeige suggeriert
- * zu warten. Diese wird hier generiert.
- */
-$.loader = function(action){
-	if(action == "show"){
-		$('#loader').fadeIn('fast');
-	} else {
-		$('#loader').fadeOut('fast');
-	}
-}
-
-
-/**
- * Formulare per Enter absenden
- *
- * Fügt einen listener zu input Feldern
- * hinzu um Formulare mit einem Enter
- * druck abzusenden.
- */
-function createEnterListener(){
-	$('input').unbind('keyup');
-	$('input').keyup(function(key){
-		if(key.keyCode == 13){
-			$('.popupsubmit').trigger('click');
-		}
+	/* Event listener: AJAX Error handler */
+	$(document).ajaxError(function(){
+		system.handleError("Anfrageziel konnte nicht gefunden werden.");
 	});
-}
-
-
-/**
- * Linkfunktionen ersetzen
- *
- * Linkklicks werden abgefangen um ihre
- * Aktionen direkt weiterzuverarbeiten und
- * zb. Seiten per AJAX ins DOM zu laden.
- */
-function createLinkListener(){
-	$('a').unbind('click');
-	$('a').click(function(e){
-		system.lock = true;
-		
-		link   = $(this).attr('href');
-		parts  = link.split('_');
-		type   = parts[0];
-		target = parts[1];
-		
-		if(parts[2] !== undefined){
-			system.data = parts[2];
-		}
-		
-		switch(type){
-			case "page":
-				if(system.page != target){
-					$('.userelement').removeClass('active');
-					$(this).parent().addClass('active');
-					
-					loadPage(target);
-				}
-				break;
-			case "popup":
-				$.popup(target, false);
-				break;
-			case "action":
-				func = window[target];
-				func();
-				break;
-		}
-		
-		e.preventDefault();
+	
+	/* Event listener: Benutzermenu slide toggle */
+	$('#userfieldVisible').click(function(){
+		$('#userfieldHidden').slideToggle('fast');
+		$('#userfieldIcon').toggleClass('userfieldIconRotate');
 	});
-}
-
-
-/**
- * Einbinden einer Seite in das DOM
- *
- * Lädt eine Seite via AJAX in das DOM
- * des Kalendertools.
- */
-function loadPage(target){
-	system.page = target;
-
-	$.loader('show');
-	$.popup('close');
-	$.ajax({
-		type: 'GET',
-		url: './src/page/'+target+'.html',
-		success: function(data){
-			$('#contentInner').hide();
-			$('#contentInner').html("");
-			$('#contentInner').html(data);
+	
+	/* Verfügbare Kalenderkategorien laden * /
+	$.get('./src/api/database/'+user.auth+'/read/subject/deleted="0"', function(json){
+		
+		subjectAmount = json.data.length;
+		
+		while(subjectAmount--){
+			system.subj[json.data[subjectAmount]['id']] = json.data[subjectAmount]['name'];
+		}
 			
-			func = window["pageinit_"+target];
-			func();
-	
-			createLinkListener();
-		},
-		error: function() {
-			$.error("Seiteninhalt \""+target+"\" konnte nicht geladen werden");
-		}
-	});
-}
-
-
-/**
- * Neu geladene Seite in DOM einbinden
- *
- * Bindet die zuvor geladene Seite nach
- * Abschluss der Init funktion ins DOM
- * ein und blendet den loader aus.
- */
-function appendPage(){
-	$.loader('hide');
-	$('#contentInner').fadeIn('fast');
-}
-
-
-/**
- * Seite neu laden
- *
- * Erlaubt das neuladen einer Seite
- * durch erneutes aufrufen der pageinit
- * Funktion und erneutem einbetten in das DOM
- */
-function reloadPage(){
-	loadPage(system.page);
-}
-
-
-/**
- * Userpanel, Steuerung des Benutzermenus
- *
- * Durch einen Klick auf den Benutzernamen kann der
- * Benutzer das Menu aufrufen, dabei wird der versteckte
- * Container per slideToggle langsam eingeblendet
- */
-$('#userfieldVisible').click(function(){
-	$('#userfieldHidden').slideToggle('fast');
-	
-	$('#userfieldIcon').toggleClass('userfieldIconRotate');
+	}); */
 });
-
-
-/**
- * Anmeldefnuktion, Benutzer anmelden
- *
- * Beim absenden der Anmeldung wird eine
- * Anfrage an die Schnittstelle gesendet und
- * die Benutzerdatan abgefragt, im erfolgsfall
- * wird auf das Kalenderinterface gewechselt
- */
-function submitLogin(){
-
-	username = $('#inpLoginName').val();
-	userpass = $('#inpLoginPass').val();
-
-	hashpass = $().crypt({method: "md5", source: userpass});
-	
-	$.ajax({
-		type: 'GET',
-		url: './src/api/login/'+username+'/'+hashpass+'/',
-		dataType: 'json',
-		success: function(json){
-			if(json.error == ""){
-				user.id    = json.data['userid'];
-				user.token = json.data['token'];
-				user.auth  = user.token+"-"+user.id;
-				
-				$.popup('close');
-				$.cookie("cat_user", user.auth);
-			
-				requestUserdata(user.id);
-			} else {
-				$('#outLoginErr').text("Ungültige Zugangsdaten!");
-			}
-		},
-		error: function() {
-			$.error("Benutzerauthentifizierung konnte nicht geladen werden");
-		}
-	});
-}
-
-
-/**
- * Benutzerdaten anfordern
- */
-function requestUserdata(){
-	$.ajax({
-		type: 'GET',
-		url: './src/api/database/'+user.auth+'/read/user/id='+user.id+'/',
-		dataType: 'json',
-		success: function(json){
-			if(json.error == ""){
-				user.level = json.data[0]['level'];
-				user.name  = json.data[0]['name'];
-				user.email = json.data[0]['email'];
-				
-				$('#username').text(user.name);
-				$('nav').css("left", "0");
-				
-//				$('.userelement a').first().click();
-				if(user.level == 2){
-				
-					user.id      = "0";
-					user.admauth = user.auth;
-					
-					$('#mn_edt').after('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
-					loadPage('admin');
-					
-				} else {
-					loadPage('calendar');
-				}
-			} else {
-				$.cookie("cat_user", null);
-				$.popup('login', true);
-			}
-		},
-		error: function() {
-			$.error("Benutzerdaten konnten nicht geladen werden");
-		}
-	});
-}
-
-
-/**
- * Abmelden, Cookie löschen
- *
- * Beim Abmelden wird der Benutzer in der
- * Datenbank abgemeldet und zusätzlich das
- * im Browser gespeicherte Cookie gelöscht.
- */
-function logout(){
-	
-	requestUrl  = './src/api/logout/';
-	requestUrl += (user.id == 0) ? user.admauth : user.auth;
-	
-	$.ajax({
-		type: 'GET',
-		url: requestUrl,
-		dataType: 'json',
-		success: function(){
-			$.cookie("cat_user", null);
-			location.reload();
-		},
-		error: function(){
-			$.error("Konnte keine Verbindung zur Datenbankschnittstelle herstellen.");
-		}
-	});
-}
 
 
 
@@ -406,33 +399,6 @@ function empty(string){
 
 
 /**
- * Alle Terminkategorien laden
- *
- * Lädt bei initialisierung des CAT
- * alle verfügbaren Terminkategorien.
- */
-function loadAllSubjects(){
-	
-	$.ajax({
-		type: 'GET',
-		url: './src/api/database/'+user.auth+'/read/subject/deleted="0"',
-		dataType: 'json',
-		success: function(json){
-		
-			subjectAmount = json.data.length;
-			
-			while(subjectAmount--){
-				system.subj[json.data[subjectAmount]['id']] = json.data[subjectAmount]['name'];
-			}
-		},
-		error: function() {
-			$.error("Konnte keine Verbindung zur Datenbankschnittstelle herstellen.");
-		}
-	});
-}
- 
-
-/**
  * Name einer Terminkategorie auslesen
  *
  * Gibt den namen einer Terminkategorie
@@ -446,4 +412,4 @@ function getSubjectById(id){
 /**
  * Ungenutzte "init" funktionen
  */
- function pageinit_help(){ appendPage(); }
+ function pageinit_help(){ system.page.append(); }
