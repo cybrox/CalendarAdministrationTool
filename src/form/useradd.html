@@ -1,0 +1,50 @@
+<h3 id="headline"><i class="icon-plus"></i> Benutzer hinzufügen</h3>
+
+<div class="double">
+	<div class="doublepart">
+		<label for="username"><i class="icon-user"></i> Benutzername</label>
+	</div>
+	<div class="doublepart">
+		<input id="inpUsrName" type="text" name="username"></label>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<label for="usermail"><i class="icon-envelope"></i> E-Mail Adresse</label>
+	</div>
+	<div class="doublepart">
+		<input id="inpUsrMail" type="text" name="usermail"></label>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<label for="userpass"><i class="icon-key"></i> Passwort</label>
+	</div>
+	<div class="doublepart">
+		<input id="inpUsrPass" type="password" name="userpass"></label>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<label for="usergroup"><i class="icon-group"></i> Benutzergruppe</label>
+	</div>
+	<div class="doublepart">
+		<select id="inpUsrGrou" name="usergroup" size="1">
+			<option value="1">Benutzer</option>
+			<option value="2">Administrator</option>
+		</select>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<span class="error" id="errorUserAdd">&nbsp;</span>
+	</div>
+	<div class="doublepart">
+		<a href="#" onClick="admin.addUser()" class="button popupsubmit"><i class="icon-ok"></i> Benutzer hinzufügen</a>
+	</div>
+	<div class="break"></div>
+</div>

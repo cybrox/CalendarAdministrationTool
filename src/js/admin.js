@@ -24,7 +24,7 @@ var admin = {
 	 */
 	getAllUser: function(){
 		
-		requestUrl = './src/api/database/'+system.user.me.admauth+'/read/user/1=1';
+		requestUrl = './src/api/database/'+system.user.me.auth+'/read/user/1=1';
 		
 		$.getJSON(requestUrl, function(json){
 			if(json.error == ""){
@@ -59,7 +59,7 @@ var admin = {
 	 */
 	getAllSubjects: function(){
 
-		requestUrl = './src/api/database/'+system.user.me.admauth+'/read/subject/1=1';
+		requestUrl = './src/api/database/'+system.user.me.auth+'/read/subject/1=1';
 				
 		$.getJSON(requestUrl, function(json){
 			if(json.error == ""){
@@ -82,5 +82,33 @@ var admin = {
 				$('#subjectContent').html("Keine Kategorien gefunden.");
 			}
 		});
+	},
+	
+	
+	addUser: function(){
+	
+		var username = $('#inpUsrName').val();
+		var usermail = $('#inpUsrMail').val();
+		var userpass = $('#inpUsrPass').val();
+		var usergrou = $('#inpUsrGrou').val();
+		
+		if(!empty(username) && !empty(usermail) && !empty(userpass)){
+		
+			hashpass = $().crypt({method: "md5", source: userpass});
+		
+			requestUrl = './src/api/database/'+system.user.me.auth+'/write/user/1/insert/`name`="'+username+'", `password`="'+hashpass+'", `email`="'+usermail+'", `level`="'+usergrou+'"';
+				
+			$.getJSON(requestUrl, function(json){
+			
+				if(json.status == 4){
+					system.page.reload();
+				} else {
+					$('#errorUserAdd').text("Konnte Benutzer nicht hinzufügen.");
+				}
+			});
+		
+		} else {
+			$('#errorUserAdd').text("Bitte füllen Sie alle Felder aus.");
+		}
 	}
 }

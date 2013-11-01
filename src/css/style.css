@@ -529,6 +529,7 @@ a.button:hover {
 
 	nav {
 		width: 20%;
+		left: -20%;
 	}
 	
 	#content {

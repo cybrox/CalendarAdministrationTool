@@ -90,6 +90,7 @@ var system = {
 	user: {
 		me: {
 			'id':     0,
+			'id2':    0,
 			'level':  0,
 			'active': 0,
 			'name':   "",
@@ -179,9 +180,6 @@ var system = {
 					$('nav').css("left", "0");
 					
 					if(system.user.me.level == 2){
-					
-						system.user.me.id      = "0";
-						system.user.me.admauth = system.user.me.auth;
 						
 						$('#mn_edt').after('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
 						system.page.load('admin');
