@@ -36,7 +36,6 @@ a, a:hover {
 body {
 	margin: 0;
 	padding: 0;
-	min-width: 1350px;
 }
 
 
@@ -123,9 +122,9 @@ nav {
 	box-shadow: -1px 0 0 #ddd inset;
 	-moz-box-shadow: -1px 0 0 #ddd inset;
 	-webkit-box-shadow: -1px 0 0 #ddd inset;
-	transition: left 0.5s ease-in-out;
-	-moz-transition: left 0.5s ease-in-out;
-	-webkit-transition: left 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
 }
 
 #userpanel {
@@ -389,6 +388,9 @@ a.button:hover {
 	width: 85%;
 	height: 100%;
 	margin: 0 0 0 15%;
+	transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
 }
 
 #contentInner {
@@ -516,6 +518,24 @@ a.button:hover {
 .tooltip span:before {
 	border-top-color: #ccc; 
 	bottom: -8px;
+}
+
+
+
+/*
+** Für kleinere Bildschirme
+*/
+@media (max-width: 1350px){
+
+	nav {
+		width: 20%;
+	}
+	
+	#content {
+		width: 80%;
+		margin: 0 0 0 20%;
+	}
+
 }
 
 
