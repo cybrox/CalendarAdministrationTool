@@ -155,6 +155,7 @@ function createEnterListener(){
 function createLinkListener(){
 	$('a').unbind('click');
 	$('a').click(function(e){
+		system.lock = true;
 		
 		link   = $(this).attr('href');
 		parts  = link.split('_');
@@ -167,10 +168,12 @@ function createLinkListener(){
 		
 		switch(type){
 			case "page":
-				$('.userelement').removeClass('active');
-				$(this).parent().addClass('active');
-				
-				loadPage(target);
+				if(system.page != target){
+					$('.userelement').removeClass('active');
+					$(this).parent().addClass('active');
+					
+					loadPage(target);
+				}
 				break;
 			case "popup":
 				$.popup(target, false);
@@ -204,7 +207,7 @@ function loadPage(target){
 			$('#contentInner').hide();
 			$('#contentInner').html("");
 			$('#contentInner').html(data);
-
+			
 			func = window["pageinit_"+target];
 			func();
 	
