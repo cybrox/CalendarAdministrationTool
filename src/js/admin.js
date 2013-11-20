@@ -1,13 +1,19 @@
 /* CAT - Calendar Administration Tool
-** Administrative funktionen
+** Administrative methods
 **
-** Autor: Sven Gehring
+** Author: Sven Gehring
 **
-** Informationen zur Lizenz dieses Quellcodes
-** finden sie in der beiliegenden LICENSE.md
+** Default copyright laws apply on this code.
+** You may not copy, share, edit nor create
+** any derivated work from this or any other
+** file in this project.
 */
 
 
+/**
+ * @name pageinitAdmin
+ * @desc Initialize the admin page, load all users and subjects
+ */
 function pageinit_admin(){
 
 	admin.getAllUser();
@@ -18,9 +24,16 @@ function pageinit_admin(){
 }
 
 
+/**
+ * @namespace Admin
+ * @name Admin
+ * @desc Administrative methods
+ */
 var admin = {
+	
 	/**
-	 * Alle Benutzer auslesen
+	 * @name userRequestAll
+	 * @desc Request all users and generate a list on the admin page
 	 */
 	getAllUser: function(){
 		
@@ -50,12 +63,9 @@ var admin = {
 		});
 	},
 	
-	
 	/**
-	 * Alle Kalenderkategorien laden
-	 *
-	 * Diese Funktion lädt alle Kalender-
-	 * kategorien für das Admininterface
+	 * @name subjectsRequestAll
+	 * @desc Request all subjects and generate a list on the admin page
 	 */
 	getAllSubjects: function(){
 
@@ -84,7 +94,10 @@ var admin = {
 		});
 	},
 	
-	
+	/**
+	 * @name userAdd
+	 * @desc Add a new user to the database based on the values in the popup that triggered this
+	 */
 	addUser: function(){
 	
 		var username = $('#inpUsrName').val();

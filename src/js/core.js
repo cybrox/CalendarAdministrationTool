@@ -1,25 +1,28 @@
 /* CAT - Calendar Administration Tool
-** Kernfunktionen, Loginverwaltung
+** Core methods, login handling
 **
-** Autor: Sven Gehring
+** Author: Sven Gehring
 **
-** Informationen zur Lizenz dieses Quellcodes
-** finden sie in der beiliegenden LICENSE.md
+** Default copyright laws apply on this code.
+** You may not copy, share, edit nor create
+** any derivated work from this or any other
+** file in this project.
 */
 
 
 /**
- * Systemobjekt
+ * @namespace Core
+ * @name System Core
+ * @desc Contains all methos of the page system and everything needed to handle login actions
  */
 var system = {
 	'data': "",
 	
 	
 	/**
-	 * Fehleranzeige zur Benutzerinformation
-	 *
-	 * Bei einem AJAX Fehler wird dem Benutzer
-	 * automatisch eine Fehlermeldung ausgegeben
+	 * @name handleError
+	 * @desc Handly any error that may occur
+	 * @param {string} message - The error mesage the system will output
 	 */
 	handleError: function(message){
 		$('#errormsg').text(message);
@@ -32,10 +35,9 @@ var system = {
 		locked:  false,
 	
 		/**
-		 * Einbinden einer Seite in das DOM
-		 *
-		 * Lädt eine Seite via AJAX in das DOM
-		 * des Kalendertools.
+		 * @name loadPage
+		 * @desc Load the selected page from its HTML file via AJAX request
+		 * @param {string} target - Name of the page and its HTML file to load
 		 */
 		load: function(target){
 		
@@ -58,13 +60,9 @@ var system = {
 			});
 		},
 		
-		
 		/**
-		 * Neu geladene Seite in DOM einbinden
-		 *
-		 * Bindet die zuvor geladene Seite nach
-		 * Abschluss der Init funktion ins DOM
-		 * ein und blendet den loader aus.
+		 * @name appedPage
+		 * @desc Append a loaded page to the DOM (#content)
 		 */
 		append: function(){
 		
@@ -75,11 +73,8 @@ var system = {
 		
 		
 		/**
-		 * Seite neu laden
-		 *
-		 * Erlaubt das neuladen einer Seite
-		 * durch erneutes aufrufen der pageinit
-		 * Funktion und erneutem einbetten in das DOM
+		 * @name reloadPage
+		 * @desc Reload the current page
 		 */
 		reload: function(){
 			system.page.load(system.page.current);
@@ -101,12 +96,8 @@ var system = {
 		
 	
 		/**
-		 * Anmeldefnuktion, Benutzer anmelden
-		 *
-		 * Beim absenden der Anmeldung wird eine
-		 * Anfrage an die Schnittstelle gesendet und
-		 * die Benutzerdatan abgefragt, im erfolgsfall
-		 * wird auf das Kalenderinterface gewechselt
+		 * @name userLogin
+		 * @desc Send a request to the API to perform a login request
 		 */
 		login: function(){
 
@@ -141,13 +132,9 @@ var system = {
 			});
 		},
 		
-		
 		/**
-		 * Abmelden, Cookie löschen
-		 *
-		 * Beim Abmelden wird der Benutzer in der
-		 * Datenbank abgemeldet und zusätzlich das
-		 * im Browser gespeicherte Cookie gelöscht.
+		 * @name userLogout
+		 * @desc Log out the active user and delete his cookie
 		 */
 		logout: function(){
 			
@@ -163,7 +150,8 @@ var system = {
 		},
 		
 		/**
-		 * Benutzerdaten anfordern
+		 * @name userRequest
+		 * @desc Request all details of the current user
 		 */
 		request: function(){
 		
@@ -197,12 +185,9 @@ var system = {
 	
 	
 	/**
-	 * AJAX Loader für Ladeanzeige
-	 *
-	 * Beim laden einer neuen Seite oder neuen
-	 * Inhalten für die aktive Seite wird dem
-	 * Benutzer mittels einer Ladeanzeige suggeriert
-	 * zu warten. Diese wird hier generiert.
+	 * @name loader
+	 * @desc Hide or show the data loader
+	 * @param {string} action - Loader will show if this is set to 'show', other values will hide it
 	 */
 	loader: function(action){
 	
@@ -213,11 +198,10 @@ var system = {
 	
 	
 	/**
-	 * Popups zur Darstellung von On-Site Formularen
-	 *
-	 * Alle Aktionen im Kalendertool werden direkt
-	 * auf der Seite ausgeführt auf der sie aufgerufen
-	 * wurden, indem sie in ein Popup ausgelagert werden.
+	 * @name popup
+	 * @desc Display or hide a popup and load its content from a HTML file
+	 * @param {string} content - The name of the content and its HTML file
+	 * @param {boolean} isstatic - Will hide the close button if set to true
 	 */
 	popup: function(content, isstatic){
 	
@@ -248,14 +232,11 @@ var system = {
 	},
 
 
-	/**
-	 * Formulare per Enter absenden
-	 *
-	 * Fügt einen listener zu input Feldern
-	 * hinzu um Formulare mit einem Enter
-	 * druck abzusenden.
-	 */
 	addListener: {
+		/**
+		 * @name enterListener
+		 * @desc Add an event listener to catch error presses in input fields
+		 */
 		enterSubmit: function(){
 			$('input').unbind('keyup');
 			$('input').keyup(function(key){
@@ -265,6 +246,10 @@ var system = {
 			});
 		},
 		
+		/**
+		 * @name linkListener
+		 * @desc Add an event listener to catch linkclicks and handle them via AJAX
+		 */
 		ajaxLink: function(){
 		
 			$('a').unbind('click');
@@ -361,10 +346,10 @@ $(document).ready(function(){
 
 
 /**
- * Datum richtig darstellen
- *
- * Erzeugt einen Datumsstring im Format dd.mm.yyyy
- * aus dem verwendeten yyyy-mm-dd stringformat.
+ * @name miscChDate
+ * @desc Generate our default date format out of the YYYY-MM-DD syntax
+ * @param {string} date - Date in the YYYY-MM-DD format
+ * @return {string} Date in the DD.MM.YYYY format
  */
 function chdate(date){
 	
@@ -373,42 +358,26 @@ function chdate(date){
 	
 }
 
-
 /**
- * Heutiges Datum generieren
- *
- * Generiert einen String für das
- * heutige Datum im yyyy-mm-dd format.
+ * @name miscGetDate
+ * @desc Generate current date in the YYYY-MM-DD format
+ * @return {string} Date in the YYYY-MM-DD format
  */
 function now(){
 	return (new Date()).toISOString().substring(0, 10);
 }
 
-
 /**
- * Vollständigkeitsprüfung
- *
- * Prüft ob der übergebene String
- * leer ist.
+ * @name miscCheckEmpty
+ * @desc Check if the given string is empty
+ * @param {string} string - The input string to check
+ * @return {boolean} Returns true if the input string was empty
  */
 function empty(string){
 	return (string === "") ? true : false;
 }
 
 
-/**
- * Name einer Terminkategorie auslesen
- *
- * Gibt den namen einer Terminkategorie
- * basierend auf der eingegebenen ID zurück.
- */
-function getSubjectById(id){
-	return system.subj[id];
-}
-
-
-/**
- * Ungenutzte "init" funktionen
- */
+/* Placeholder and unused functions */
 function pageinit_help(){ system.page.append(); }
 function action_logout(){ system.user.logout(); }

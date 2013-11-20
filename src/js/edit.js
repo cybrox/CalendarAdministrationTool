@@ -1,17 +1,18 @@
 /* CAT - Calendar Administration Tool
-** Benutzerprofilverwaltung
+** User profile handling
 **
-** Autor: Sven Gehring
+** Author: Sven Gehring
 **
-** Informationen zur Lizenz dieses Quellcodes
-** finden sie in der beiliegenden LICENSE.md
+** Default copyright laws apply on this code.
+** You may not copy, share, edit nor create
+** any derivated work from this or any other
+** file in this project.
 */
 
+
 /**
- * Initialisierung der edit Seite
- *
- * Wird verwendet um die Daten des
- * aktiven Benutzers anzuzeigen.
+ * @name pageinitEdit
+ * @desc Load user details and prefill the profile form
  */
 function pageinit_edit(){
 	
@@ -28,14 +29,16 @@ function pageinit_edit(){
 }
 
 
+/**
+ * @namespace Edit
+ * @name Edit
+ * @desc Profile administration methods
+ */
 var edit = {
+	
 	/**
-	 * Speichern der Kontoinformationen
-	 *
-	 * Diese Funktion wird beim absenden der
-	 * Kontoverwaltung aufgerufen, sie speichert
-	 * die eingegebenen Informationen in der
-	 * Datenbank.
+	 * @name editSubmit
+	 * @desc Submit the profile form and save the informations in the database
 	 */
 	submit: function(){
 		

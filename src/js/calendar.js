@@ -1,12 +1,19 @@
 /* CAT - Calendar Administration Tool
-** Kalender und Terminlisten Funktionen
+** Calendar and schedule methods
 **
-** Autor: Sven Gehring
+** Author: Sven Gehring
 **
-** Informationen zur Lizenz dieses Quellcodes
-** finden sie in der beiliegenden LICENSE.md
+** Default copyright laws apply on this code.
+** You may not copy, share, edit nor create
+** any derivated work from this or any other
+** file in this project.
 */
 
+
+/**
+ * @name pageinitCalendar
+ * @desc Load the calendae and todays upcoming tasks
+ */
 function pageinit_calendar(){
 
 //	if($.isEmptyObject(system.subj)) loadAllSubjects();
@@ -53,9 +60,8 @@ function pageinit_calendar(){
 }
 
 /**
- * Seiteninitialisierung der Terminübersicht
- *
- * Lädt anstehende Termine und generiert eine Liste
+ * @name pageinitList
+ * @desc Load all upcoming tasks and generate a list
  */
 function pageinit_list(){
 
@@ -67,7 +73,9 @@ function pageinit_list(){
 
 
 /**
- * Lade alle termine
+ * @name scheduleRequestAll
+ * @desc Load all upcomnig tasks and generate a list
+ * @param {boolean} todayonly - Will only load tasks from today if set to true
  */
 function loadAllUpcoming(todayonly){
 

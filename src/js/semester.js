@@ -1,33 +1,27 @@
 /* CAT - Calendar Administration Tool
-** Semesterverwalung und Notenauswertung
+** Semester handling and mark evaluation
 **
-** Autor: Sven Gehring
+** Author: Sven Gehring
 **
-** Informationen zur Lizenz dieses Quellcodes
-** finden sie in der beiliegenden LICENSE.md
+** Default copyright laws apply on this code.
+** You may not copy, share, edit nor create
+** any derivated work from this or any other
+** file in this project.
 */
 
 
 /**
- * Seiteninitalisierung der Semesterübersicht
- *
- * Lädt alle vom Benutzer eingetragenen
- * Semester und erstellt eine einfache
- * bearbeitbare Liste.
+ * @name pageinitSemester
+ * @desc Load all semester and display them in a list
  */
 function pageinit_semester(){
 	semester.loadAll(true);
 	system.page.append();
 }
 
-
 /**
- * Seiteninitialisierung der Auswertung
- *
- * Lädt alle verfügbaren Semester um dem
- * Benutzer eine Auswahl zu ermöglichen von
- * welchem Semester er die Noten anzeigen
- * will.
+ 3 @name pageinitRating
+ * @desc Load all semester and display them in a list
  */
 function pageinit_rating(){
 	semester.loadAll(false);
@@ -35,12 +29,17 @@ function pageinit_rating(){
 }
 
 
+/**
+ * @namespace Semester
+ * @name Semester
+ * @desc Semester and mark evaluation methods
+ */
 var semester = {
+	
 	/**
-	 * Laden aller Semester eines Benutzers
-	 *
-	 * Diese Funktion lädt alle Semester eines
-	 * Benutzers und erstellt eine passende Liste
+	 * @name semesterLoadAll
+	 * @desc Load all semesters from the database and generate a list
+	 * @param {boolean} editable - Will display the buttons to edit or delete a semester if set to true
 	 */
 	loadAll: function(editable){
 		
@@ -64,18 +63,14 @@ var semester = {
 				system.addListener.ajaxLink();
 				
 			} else {
-				$('#semesterContainer').html("Es wurden keine Semester für den Benutzer "+user.name+" gefunden.");
+				$('#semesterContainer').html("Keine Semester gefunden.");
 			}
 		});
 	},
 	
-	
 	/**
-	 * Semesterdetails auslesen
-	 *
-	 * Diese Funktion liest die Semesterdetails aus
-	 * der Datenbank und schreibt die Werte in das
-	 * Popup zum baerbeiten eines Semesters
+	 * @name semesterRequest
+	 * @desc Request a single semester from the database for the edit form
 	 */
 	loadOne: function(semesterid){
 	
@@ -89,12 +84,9 @@ var semester = {
 		});
 	},
 	
-	
 	/**
-	 * Erstellen eines neuen Semesters
-	 *
-	 * Diese Funktion liest die eingegebenen Daten aus
-	 * dem Popup Formular und erstellt ein neues Semester.
+	 * @name semesterCreate
+	 * @desc Create a new semester from the popup on the semesters page
 	 */
 	create: function(){
 
@@ -119,12 +111,9 @@ var semester = {
 		});
 	},
 
-	
 	/**
-	 * Semester bearbeiten
-	 *
-	 * speichert die neuen informationen nach dem
-	 * bearbeiten in der Datenbank.
+	 * @name semesterEdit
+	 * @desc Save semester edit form to the database
 	 */
 	edit: function(){
 
@@ -151,7 +140,12 @@ var semester = {
 	},
 	
 	/**
-	 * Semestereingaben prüfen
+	 * @name semesterValidate
+	 * @desc Check if all values are valid to generate a semester
+	 * @param {string} semestername - The semesters name
+	 * @param {string} semesterstart - The start date in YYYY-MM-DD format
+	 * @param {string} semesterend - The end date in YYYY-MM-DD format
+	 * @return {boolean} Will return true if the given parameters were vaild
 	 */
 	validate: function(semestername, semesterstart, semesterend){
 		
@@ -169,10 +163,8 @@ var semester = {
 	},
 	
 	/**
-	 * Semester löschen
-	 *
-	 * Diese Funktion erlaubt es nach bestätigen der
-	 * Sicherheitsabfrage ein Semester zu löschen.
+	 * @name semesterDelete
+	 * @desc Delete a semester from the database
 	 */
 	dodelete: function(semesterid){
 	
