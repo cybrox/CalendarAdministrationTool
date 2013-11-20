@@ -1,16 +1,27 @@
 /* CAT - Calendar Administration Tool
-** Cascading Style Sheet, Hauptstyle
+** Cascading style sheet, main style
 **
-** Autor: Sven Gehring
+** Author: Sven Gehring
 **
-** Informationen zur Lizenz dieses Quellcodes
-** finden sie in der beiliegenden LICENSE.md
+** Default copyright laws apply on this code.
+** You may not copy, share, edit nor create
+** any derivated work from this or any other
+** file in this project.
 */
 
+
+/**
+ * Custom Chrome Scrollbars
+ */
 ::-webkit-scrollbar {width: 10px; background-color: #fff;}
 ::-webkit-scrollbar-track {border-radius: 0px;}
 ::-webkit-scrollbar-thumb {border-radius: 0px; background-color: #ddd;}
 ::-webkit-scrollbar-thumb:hover {border-radius: 0px; background-color: #1C86EE;}
+
+
+/**
+ * Overall font definitions
+ */
 @font-face {font-family: 'Ubuntu-Regular'; src: url('../font/ubuntu-regular-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
 @font-face {font-family: 'Ubuntu-Medium'; src: url('../font/ubuntu-medium-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
 @font-face {font-family: 'Ubuntu-Bold'; src: url('../font/ubuntu-bold-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
@@ -32,7 +43,9 @@ a, a:hover {
 }
 
 
-
+/**
+ * Body
+ */
 body {
 	margin: 0;
 	padding: 0;
@@ -40,7 +53,7 @@ body {
 
 
 /*
-** Popups und Fehlermeldungen
+** Error message and popups
 */
 #errors {
 	position: fixed;
@@ -109,8 +122,9 @@ body {
 .isstatic #popupclose  { display: none;  }
 .isstatic #staticpopup { display: block; }
 
+
 /*
-** Navigation und Benutzerpanel
+** Navigation and Userpanel
 */
 nav {
 	position: fixed;
@@ -245,7 +259,7 @@ nav {
 
 
 /*
-** Formularelemente
+** Form elements
 */
 input[type="text"], input[type="password"], textarea {
 	width: 97%;
@@ -268,7 +282,7 @@ input[type="submit"]{
 
 
 /*
-** Fixelemente
+** Fixed elements
 */
 #headline {
 	margin-top: 0;
@@ -348,7 +362,7 @@ a.button:hover {
 
 
 /*
-** Ladegrafik
+** Loadingspinner
 */
 #loader {
 	display: none;
@@ -378,87 +392,6 @@ a.button:hover {
 	background: #1C86EE;
 	animation: loaderSpin 2.5s linear infinite;
 	-webkit-animation: loaderSpin 2.5s linear infinite;
-}
-
-
-/*
-** Inhaltscontainer
-*/
-#content {
-	width: 85%;
-	height: 100%;
-	margin: 0 0 0 15%;
-	transition: all 0.5s ease-in-out;
-	-moz-transition: all 0.5s ease-in-out;
-	-webkit-transition: all 0.5s ease-in-out;
-}
-
-#contentInner {
-	padding: 20px;
-}
-
-
-/*
-** Kalender
-*/
-.ui-datepicker-prev, .ui-datepicker-next {
-	display: inline-block;
-	font-size: 3em;
-}
-
-.ui-datepicker-prev {
-	float: left;
-}
-
-.ui-datepicker-next {
-	float: right;
-	text-align: right;
-}
-
-.ui-datepicker-title {
-	text-align: center;
-	font-size: 1.5em;
-	width: 100%;
-	padding: 35px 0 15px 0;
-}
-
-.ui-datepicker-calendar {
-	border: 3px solid #fbfbfb;
-	width: 100%;
-}
-
-.ui-datepicker-header, .ui-datepicker-calendar thead {
-	background: #fbfbfb;
-}
-
-.ui-datepicker-calendar thead tr {
-	height: 40px;
-}
-
-.ui-datepicker-calendar td {
-	border: 1px solid #eee;
-	padding: 10px;
-	vertical-align: top;
-}
-
-.ui-datepicker-other-month span {
-	color: #999;
-}
-
-.schedule {
-	display: block;
-	margin: 1px 0;
-	padding: 3px 2px;
-	background: #bbb;
-	min-height: 10px;
-}
-
-
-/**
- * Semesterübersicht
- */
-#semsterContainer {
-	padding: 25px 0;
 }
 
 
@@ -521,29 +454,89 @@ a.button:hover {
 }
 
 
-
 /*
-** Für kleinere Bildschirme
+** Content
 */
-@media (max-width: 1350px){
+#content {
+	width: 85%;
+	height: 100%;
+	margin: 0 0 0 15%;
+	transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+}
 
-	nav {
-		width: 20%;
-		left: -20%;
-	}
-	
-	#content {
-		width: 80%;
-		margin: 0 0 0 20%;
-	}
-
+#contentInner {
+	padding: 20px;
 }
 
 
+/*
+** Calendar
+*/
+.ui-datepicker-prev, .ui-datepicker-next {
+	display: inline-block;
+	font-size: 3em;
+}
+
+.ui-datepicker-prev {
+	float: left;
+}
+
+.ui-datepicker-next {
+	float: right;
+	text-align: right;
+}
+
+.ui-datepicker-title {
+	text-align: center;
+	font-size: 1.5em;
+	width: 100%;
+	padding: 35px 0 15px 0;
+}
+
+.ui-datepicker-calendar {
+	border: 3px solid #fbfbfb;
+	width: 100%;
+}
+
+.ui-datepicker-header, .ui-datepicker-calendar thead {
+	background: #fbfbfb;
+}
+
+.ui-datepicker-calendar thead tr {
+	height: 40px;
+}
+
+.ui-datepicker-calendar td {
+	border: 1px solid #eee;
+	padding: 10px;
+	vertical-align: top;
+}
+
+.ui-datepicker-other-month span {
+	color: #999;
+}
+
+.schedule {
+	display: block;
+	margin: 1px 0;
+	padding: 3px 2px;
+	background: #bbb;
+	min-height: 10px;
+}
+
+
+/**
+ * Semster
+ */
+#semsterContainer {
+	padding: 25px 0;
+}
 
 
 /*
-** Animationen und Übergangseffekte
+** Animations and Transition
 */
 .tooltip span, .tooltip:hover span  {
 	transition: bottom 0.2s ease-in-out, opacity 0.5s ease-in-out;
@@ -589,4 +582,24 @@ input[type="text"], input[type="password"], textarea, input[type="text"]:focus, 
 	0%   {-webkit-border-radius: 0px; -webkit-transform: rotate(0deg);  }
 	45%  {-webkit-border-radius: 6px;                                   }
 	100% {-webkit-border-radius: 0px; -webkit-transform: rotate(360deg);}
+}
+
+
+
+
+/*
+** Media query for smaller screens
+*/
+@media (max-width: 1350px){
+
+	nav {
+		width: 20%;
+		left: -20%;
+	}
+	
+	#content {
+		width: 80%;
+		margin: 0 0 0 20%;
+	}
+
 }
