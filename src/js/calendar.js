@@ -17,8 +17,6 @@
 function pageinit_calendar(){
 
 //	if($.isEmptyObject(system.subj)) loadAllSubjects();
-	loadAllUpcoming(true);
-	
 	$('#calendarBody').datepicker({
 		prevText: "<i class=\"icon-caret-left\"></i>",
 		nextText: "<i class=\"icon-caret-right\"></i>",
@@ -66,52 +64,63 @@ function pageinit_calendar(){
 function pageinit_list(){
 
 //	if($.isEmptyObject(system.subj)) loadAllSubjects();
-	loadAllUpcoming(false);
+	calendar.scheduleRequestAll();
 			
 	system.page.append();
 }
 
 
 /**
- * @name scheduleRequestAll
- * @desc Load all upcomnig tasks and generate a list
- * @param {boolean} todayonly - Will only load tasks from today if set to true
+ * @namespace Calendar
+ * @name Calendar
+ * @desc Calendar and schedule management
  */
-function loadAllUpcoming(todayonly){
+var calendar = {
 
-	outputType  = (todayonly) ? "double" : "smalldouble";
-	requestUrl  = './src/api/database/'+system.user.me.auth+'/read/schedule/';
-	requestUrl += '`userid` = \''+system.user.me.id+'\' AND `targetdate` ';
-	if(!todayonly) requestUrl += '>';
-	requestUrl += '= \''+now()+'\' AND `deleted` = \'0\'/ORDER BY `targetdate` DESC';
+	/**
+	 * @name scheduleRequestAll
+	 * @desc Load all upcomnig tasks and generate a list
+	 */
+	scheduleRequestAll: function(){
 
-	
-	$.getJSON(requestUrl, function(json){
-	
-		if(json.error == ""){
-			
-			schedulecount = json.data.length;
-			while(schedulecount--){
-			
-				val = json.data[schedulecount];
-			
-				schedulestring  = '<div class="'+outputType+' bbtm"><div class="doublepart"><i class="icon-calendar"></i> '+chdate(val['targetdate']);
-				schedulestring += (val['scheduletype'] == 1) ? ' <span class="gray">Termin</span>': ' <span class="gray">Prüfung</span>';
-				schedulestring += '<br /><i class="tooltip icon-bell"></i>'+val['title'];
-				schedulestring += '<span class="gray"> '+getSubjectById(val['subjectid'])+'</span>';
-				schedulestring += '</div><div class="doublepart"><p class="grey small"> '+val['description']+'</p>';
-				schedulestring += '</div><div class="break"></div></div>';
-			
+		requestUrl  = './src/api/database/'+system.user.me.auth+'/read/schedule/';
+		requestUrl += '`userid` = \''+system.user.me.id+'\' AND `targetdate` ';
+		requestUrl += '= \''+now()+'\' AND `deleted` = \'0\'/ORDER BY `targetdate` DESC';
+
+		
+		$.getJSON(requestUrl, function(json){
+		
+			if(json.error == ""){
+				
+				schedulenotnow = false;
+				schedulestring = '<h3><i class="icon-puzzle-piece"></i> Heute anstehende Termine</h3>';
+				schedulecount  = json.data.length;
+				schedulecounto = schedulecount - 1;
+				while(schedulecount--){
+					
+					if(1==1 && !schedulenotnow){ // Date Check here
+						schedulenotnow  = true;
+						if(schedulecount == schedulecounto) schedulestring += "Keine heute anstehenden Termine gefunden.";
+						schedulestring += '<h3><i class="icon-puzzle-piece"></i> Weitere anstehende Termine</h3>';
+					}
+					
+					val = json.data[schedulecount]; 
+					schedulestring += '<div class="double bbtm"><div class="doublepart"><i class="icon-calendar"></i> '+chdate(val['targetdate']);
+					schedulestring += (val['scheduletype'] == 1) ? ' <span class="gray">Termin</span>': ' <span class="gray">Prüfung</span>';
+					schedulestring += '<br /><i class="tooltip icon-bell"></i>'+val['title'];
+					schedulestring += '<span class="gray"> '+getSubjectById(val['subjectid'])+'</span>';
+					schedulestring += '</div><div class="doublepart"><p class="grey small"> '+val['description']+'</p>';
+					schedulestring += '</div><div class="break"></div></div>';
+				}
+				
 				$('#scheduleContainer').append(schedulestring);
+			
+			} else {
+				$('#scheduleContainer').html("Keine anstehenden Termine gefunden.");
+				$('#calendarUpcomingNum').text("0");
 			}
 			
-			if(todayonly) $('#calendarUpcomingNum').text(json.data.length);
-		
-		} else {
-			$('#scheduleContainer').html("Keine anstehenden Termine gefunden.");
-			$('#calendarUpcomingNum').text("0");
-		}
-		
-	});
+		});
 
+	}
 }

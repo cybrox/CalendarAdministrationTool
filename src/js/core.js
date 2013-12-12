@@ -17,6 +17,7 @@
  */
 var system = {
 	'data': "",
+	'subject': [],
 	
 	
 	/**
@@ -33,6 +34,19 @@ var system = {
 	page: {
 		current: "",
 		locked:  false,
+		
+		/**
+		 * @name checkPage
+		 * @desc Check if url contains a page hash and load the given site
+		 */
+		check: function(){
+			var pagehash = window.location.hash.replace("#", "");
+			
+			if(empty(pagehash)) return false;
+			
+			system.page.load(pagehash);
+			return true;
+		},
 	
 		/**
 		 * @name loadPage
@@ -41,10 +55,9 @@ var system = {
 		 */
 		load: function(target){
 		
-			system.page.current = target;
-
-			system.loader('show');
-			system.popup('close');
+			window.location.hash = target;
+			system.page.current  = target;
+			system.popup.hide();
 			
 			$.get('./src/page/'+target+'.html', function(data){
 			
@@ -66,7 +79,6 @@ var system = {
 		 */
 		append: function(){
 		
-			system.loader('hide');
 			$('#contentInner').fadeIn('fast');
 			
 		},
@@ -98,37 +110,35 @@ var system = {
 		/**
 		 * @name userLogin
 		 * @desc Send a request to the API to perform a login request
+		 * @param {string} username - The user's name
+		 * @param {string} userpass - The user's password
 		 */
-		login: function(){
-
-			username = $('#inpLoginName').val();
-			userpass = $('#inpLoginPass').val();
-			
+		login: function(username, userpass){
+		
 			if(empty(username) || empty(userpass)){
-				$('#outLoginErr').text("Ungültige Zugangsdaten!");
-				return false;
+				system.form.output("login", "error", "Ungültige Zugangsdaten!");
+				return;
 			}
 			
 			hashpass   = $().crypt({method: "md5", source: userpass});
 			requestUrl = './src/api/login/'+username+'/'+hashpass+'/';
-			
 			$.getJSON(requestUrl, function(json){
-			
 				if(json.error == ""){
 				
 					system.user.me.id    = json.data['userid'];
 					system.user.me.token = json.data['token'];
 					system.user.me.auth  = system.user.me.token+"-"+system.user.me.id;
 					
-					system.popup('close');
+					system.popup.hide();
 					$.cookie("cat_user", system.user.me.auth);
 				
-					system.user.request(system.user.me.id);
+					system.initialize();
 					
 				} else {
-					$('#outLoginErr').text("Ungültige Zugangsdaten!");
-				}
 				
+					system.form.output("login", "error", "Ungültige Zugangsdaten!");
+					
+				}
 			});
 		},
 		
@@ -167,17 +177,17 @@ var system = {
 					$('#username').text(system.user.me.name);
 					$('nav').css("left", "0");
 					
-					if(system.user.me.level == 2){
-						
-						$('#mn_edt').after('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
-						system.page.load('admin');
-						
-					} else {
-						system.page.load('calendar');
+					if(!system.page.check()){
+						if(system.user.me.level == 2){
+							$('#mn_edt').after('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
+							system.page.load('admin');
+						} else {
+							system.page.load('calendar');
+						}
 					}
 				} else {
 					$.cookie("cat_user", null);
-					system.popup('login', true);
+					system.popup.show('login', true);
 				}
 			});
 		}
@@ -196,19 +206,17 @@ var system = {
 		
 	},
 	
+	popup: {
 	
-	/**
-	 * @name popup
-	 * @desc Display or hide a popup and load its content from a HTML file
-	 * @param {string} content - The name of the content and its HTML file
-	 * @param {boolean} isstatic - Will hide the close button if set to true
-	 */
-	popup: function(content, isstatic){
-	
-		if(content != "close"){
-		
+		/**
+		 * @name showPopup
+		 * @desc Display or hide a popup and load its content from a HTML file
+		 * @param {string} content - The name of the content and its HTML file
+		 * @param {boolean} isstatic - Will hide the close button if set to true
+		 */
+		show: function(content, isstatic){
 			$.get('./src/form/'+content+'.html', function(data){
-			
+				
 				$('#popupcontent').html(data);
 				$('#popups').fadeIn('slow');
 				
@@ -222,15 +230,39 @@ var system = {
 				}
 				
 			});
-			
-		} else {
+		},
 		
+		/**
+		 * @name hidePopup
+		 * @desc Display or hide a popup and load its content from a HTML file
+		 * @param {string} content - The name of the content and its HTML file
+		 * @param {boolean} isstatic - Will hide the close button if set to true
+		 */
+		hide: function(){
 			$('#popups').fadeOut('slow', function(){$('#popupcontent').html("")});
 			$('#popupcontent').removeClass('isstatic');
-			
 		}
 	},
 
+	
+	form: {
+		/**
+		 * @name formOutput
+		 * @desc Output a message in a form with a smooth 150ms delay
+		 * @param {string} form - Name of the form to output message
+		 * @param {string} type - Can be "error" or "success"
+		 * @param {string} message - The message to display
+		 */
+		output: function(form, type, message){
+			var output = $("#form"+ucfirst(form)+ucfirst(type));
+			
+			output.animate({"opacity": "0"}, 150, function(){
+				output.text(message);
+				output.animate({"opacity": "1"}, 150);
+			});
+		}
+	},
+	
 
 	addListener: {
 		/**
@@ -275,7 +307,7 @@ var system = {
 						}
 						break;
 					case "popup":
-						system.popup(target, false);
+						system.popup.show(target, false);
 						break;
 					case "action":
 						func = window["action_"+target];
@@ -286,22 +318,42 @@ var system = {
 				e.preventDefault();
 			});
 		}
+	},
+	
+	
+	/**
+	 * @name initialize
+	 * @desc Load everything needed to run.
+	 */
+	initialize: function(){
+	
+		$.getJSON('./src/api/database/'+system.user.me.auth+'/read/subject/deleted="0"', function(json){
+			
+			subjectAmount = json.data.length;
+			while(subjectAmount--){
+				system.subject[json.data[subjectAmount]['id']] = json.data[subjectAmount]['name'];
+			}
+			
+			system.user.request(system.user.me.id);
+				
+		});
 	}
 }
 
 
 /**
- * Seiteninitialisierung
+ * Page initializing
  *
- * Wird beim Aufruf der Seite verwendet um
- * uU eine Anmeldeabfrage anzuzeigen oder den
- * Benutzer-Token aus eine cookie zu lesen.
+ * Will be called when the page DOM is
+ * loaded and ready to use.
  */
 $(document).ready(function(){
-	if($.cookie("cat_user") == undefined){
+
+	/* Check if user has an existing session cookie */
+	if($.cookie("cat_user") == "null" || $.cookie("cat_user") == undefined){
 		
 		system.loader('show');
-		system.popup('login', true);
+		system.popup.show('login', true);
 		system.loader('hide');
 		
 	} else {
@@ -313,37 +365,34 @@ $(document).ready(function(){
 		system.user.me.id    = userparts[1];
 		system.user.me.auth  = usercookie;
 		
-		system.user.request(userparts[1]);
+		system.initialize();
 		
 	}
 	
-	system.addListener.ajaxLink();
+	/* Event listener: Handle AJAX events */
+	$(document).ajaxStart(function(){ system.loader("show"); });
+	$(document).ajaxStop(function() { system.loader("hide"); });
+	$(document).ajaxError(function(){ system.handleError("Anfrageziel konnte nicht gefunden werden."); });
 	
-	/* Event listener: AJAX Error handler */
-	$(document).ajaxError(function(){
-		system.handleError("Anfrageziel konnte nicht gefunden werden.");
-	});
-	
-	/* Event listener: Benutzermenu slide toggle */
+	/* Event listener: Usermenu slide toggle */
 	$('#userfieldVisible').click(function(){
 		$('#userfieldHidden').slideToggle('fast');
 		$('#userfieldIcon').toggleClass('userfieldIconRotate');
 	});
-	
-	/* Verfügbare Kalenderkategorien laden * /
-	$.get('./src/api/database/'+user.auth+'/read/subject/deleted="0"', function(json){
-		
-		subjectAmount = json.data.length;
-		
-		while(subjectAmount--){
-			system.subj[json.data[subjectAmount]['id']] = json.data[subjectAmount]['name'];
-		}
-			
-	}); */
 });
 
 
 
+
+/**
+ * @name miscGetCategoryById
+ * @desc Get a categories name by its ID
+ * @param {int} id - The unique id of the requested category
+ * @return {string} The name of the requested category
+ */
+function getSubjectById(id){
+	return system.subject[id];
+}
 
 /**
  * @name miscChDate
@@ -375,6 +424,16 @@ function now(){
  */
 function empty(string){
 	return (string === "") ? true : false;
+}
+
+
+/**
+ * @name miscUcfirst
+ * @desc Capitalize the first letter of a string
+ * @param {string} string - The string to edit
+ */
+function ucfirst(string){
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 

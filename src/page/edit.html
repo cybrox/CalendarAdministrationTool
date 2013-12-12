@@ -1,43 +1,107 @@
 <h1 id="headline"><i class="icon-cogs"></i> Benutzerkonto verwalten</h1>
 
-<div class="double smalldouble">
-	<div class="doublepart"><span><i class="icon-asterisk"></i> Benutzer-ID</span></div>
+<div class="double">
+	<div class="doublepart">
+		<span><i class="icon-asterisk"></i> Benutzer-ID</span>
+		<p class="doubleDescription">
+			Die Benutzer-ID ist ein eindeutiger numerischer Wert der jedem Benutzer bei
+			der Registrierung automiatisch zugewiesen wird. Sie kann nicht vom Benutzer
+			verändert werden und ist fest an das entsprechende Benutzerkonto gebunden.
+		</p>
+	</div>
 	<div class="doublepart"><span id="editDataUserId" disabled></span></div>
 	<div class="break"></div>
 </div>
+<div class="hline"></div>
 
-<div class="double smalldouble">
-	<div class="doublepart"><span><i class="icon-group"></i> Benutzertyp</span></div>
+<div class="double">
+	<div class="doublepart">
+		<span><i class="icon-group"></i> Benutzertyp</span>
+		<p class="doubleDescription">
+			Der Benutzertyp definiert die Rechte eines Benutzers, es wird hierbei zwischen
+			dem <i>Normalen Benutzer</i> und dem <i>Administrator</i> unterschieden.
+		</p>
+	</div>
 	<div class="doublepart"><span id="editDataUsertype" disabled></span></div>
 	<div class="break"></div>
 </div>
+<div class="hline"></div>
 
-<div class="double smalldouble">
-	<div class="doublepart"><span><i class="icon-user"></i> Benutzername</span></div>
+<div class="double">
+	<div class="doublepart">
+		<span><i class="icon-user"></i> Benutzername</span>
+		<p class="doubleDescription">
+			Der Benutzername wurde Ihnen bei der Registrierung von einem Administrator
+			zugewiesen, er kann nur von einem Administrator geändert werden.
+		</p>
+	</div>
 	<div class="doublepart"><span id="editDataUsername" disabled></span></div>
 	<div class="break"></div>
 </div>
-
 <div class="hline"></div>
 
-<div class="double smalldouble">
-	<div class="doublepart"><span><i class="icon-envelope"></i> E-Mail Adresse</span></div>
+<div class="double">
+	<div class="doublepart">
+		<span><i class="icon-envelope"></i> E-Mail Adresse</span>
+		<p class="doubleDescription">
+			Die E-Mail Adresse wurde bei der Registrierung von einem Administrator zugewiesen.
+			Sie sollten diese Adresse immer aktuell halten, damit ein Administator Sie
+			über wichtige Änderungen und Neuigkeiten informieren kann.
+		</p>
+	</div>
 	<div class="doublepart"><input type="text" id="editDataUsermail"></input></div>
 	<div class="break"></div>
 </div>
-
 <div class="hline"></div>
 
-<div class="double smalldouble">
-	<div class="doublepart"><span><i class="icon-key"></i> Passwort</span></div>
+<div class="double">
 	<div class="doublepart">
-		<input type="password" id="editDataUserpass" placeholder="Nur ausfüllen um ein neues Passwort zu setzen."></input>
+		<span><i class="icon-key"></i> Passwort</span>
+		<p class="doubleDescription">
+			Durch das ausfüllen beider Passwort Felder wird das aktuelle Benutzerpasswort
+			geändert, die eingegebenen Passwörter müssen übereinstimmen. Ein sicheres
+			Passwort sollte mindestens 12 Zeichen lang sein und aus Gross- und Kleinbuchstaben
+			so wie Zahlen und Sonderzeichen bestehen.
+		</p>
+	</div>
+	<div class="doublepart">
+		<input type="password" id="editDataUserpass" placeholder="Neues Passwort"></input>
 		<input type="password" id="editDataUserpassRep" placeholder="Neues Passwort wiederholen."></input>
 	</div>
 	<div class="break"></div>
 </div>
+<div class="hline"></div>
 
-<div class="double smalldouble">
-	<div class="doublepart"><span class="error" id="errorEdit">&nbsp;</span><div id="successEdit" class="success">&nbsp;</div></div>
-	<div class="doublepart"><a href="#" onClick="edit.submit()" class="button popupsubmit"><i class="icon-ok"></i> Änderungen speichern</a></div>
+<div class="double">
+	<div class="doublepart">
+		<span><i class="icon-info-sign"></i> Hilfestellungen</span>
+		<p class="doubleDescription">
+			Durch das Deaktivieren der Hilfestellungen werden Hilfetexte wie die
+			Beschreibungen der Optionspunkte dieses Formulars ausgeblendet. Es wird
+			empfohlen die Hilfestellungen zu deaktivieren sobald Sie sich im Umgang mit
+			dem Kalendertool sicher fülen.
+		</p>
+	</div>
+	<div class="doublepart"><input type="checkbox" id="editDataUsermail" checked> Aktivieren</div>
+	<div class="break"></div>
 </div>
+<div class="hline"></div>
+
+<div class="double">
+	<div class="doublepart"><span class="error" id="errorEdit">&nbsp;</span><div id="successEdit" class="success">&nbsp;</div></div>
+	<div class="doublepart"><a href="#" onClick="formEdit.submit()" class="button popupsubmit"><i class="icon-ok"></i> Änderungen speichern</a></div>
+</div>
+
+
+<script type="text/javascript">
+
+	var formEdit = {
+		submit: function(){
+		
+		}
+	}
+
+usermail = $('#editDataUsermail').val();
+		userpass = $('#editDataUserpass').val();
+		userpas2 = $('#editDataUserpassRep').val();
+</script>

@@ -39,12 +39,12 @@ var edit = {
 	/**
 	 * @name editSubmit
 	 * @desc Submit the profile form and save the informations in the database
+	 * @param {string} usermail - The user's E-Mail adress
+	 * @param {string} userpass - The user's new password
+	 * @param {string} userpas2 - Same as "userpass"
+	 * @param {string} userhelp - Display help messages settings
 	 */
-	submit: function(){
-		
-		usermail = $('#editDataUsermail').val();
-		userpass = $('#editDataUserpass').val();
-		userpas2 = $('#editDataUserpassRep').val();
+	submit: function(usermail, userpass, userpas2, userhelp){
 		
 		uservalid = true;
 		
@@ -67,11 +67,11 @@ var edit = {
 		if(uservalid){
 			$.getJSON(requestUrl, function(json){
 			
-				console.log(json);
-			
 				$('#errorEdit').empty();
 				$('#successEdit').text("Änderungen erfolgreich gespeichert.");
-					
+				
+				system.user.request();
+				
 			});
 		}
 

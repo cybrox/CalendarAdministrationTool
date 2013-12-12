@@ -4,7 +4,7 @@
 			<label for="username"><i class="icon-user"></i> Benutzername</label>
 		</div>
 		<div class="doublepart">
-			<input id="inpLoginName" type="text" name="username"></label>
+			<input id="formLoginInputName" type="text" name="username"></label>
 		</div>
 		<div class="break"></div>
 	</div>
@@ -13,17 +13,34 @@
 			<label for="password"><i class="icon-key"></i> Passwort</label>
 		</div>
 		<div class="doublepart">
-			<input id="inpLoginPass" type="password" name="password"></label>
+			<input id="formLoginInputPass" type="password" name="password"></label>
 		</div>
 		<div class="break"></div>
 	</div>
 	<div class="double">
 		<div class="doublepart">
-			<span class="error" id="outLoginErr">&nbsp;</span>
+			<span class="error" id="formLoginError">&nbsp;</span>
+			<span class="success" id="formLoginSuccess">&nbsp;</span>
 		</div>
 		<div class="doublepart">
-			<a href="#" onClick="system.user.login()" class="button popupsubmit"><i class="icon-ok"></i> Login</a>
+			<a href="#" onClick="formLogin.submit()" class="button popupsubmit"><i class="icon-unlock"></i> Login</a>
 		</div>
 		<div class="break"></div>
 	</div>
 </form>
+
+
+<script type="text/javascript">
+
+	var formLogin = {
+		submit: function(){
+			
+			var username = $('#formLoginInputName').val();
+			var userpass = $('#formLoginInputPass').val();
+			
+			system.user.login(username, userpass);
+			
+		}
+	}
+
+</script>

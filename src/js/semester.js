@@ -20,7 +20,7 @@ function pageinit_semester(){
 }
 
 /**
- 3 @name pageinitRating
+ * @name pageinitRating
  * @desc Load all semester and display them in a list
  */
 function pageinit_rating(){
@@ -48,6 +48,7 @@ var semester = {
 		$.getJSON(requestUrl, function(json){
 			if(json.error == ""){
 			
+				$('#semesterContainer').empty();
 				semestercount = json.data.length;
 				while(semestercount--){
 					
@@ -102,7 +103,7 @@ var semester = {
 		
 			if(json.status == 4){
 			
-				system.popup("close");
+				system.popup.hide();
 				system.page.reload();
 				
 			} else {
@@ -129,7 +130,7 @@ var semester = {
 		
 				if(json.status == 4){
 				
-					system.popup("close");
+					system.popup.hide();
 					system.page.reload();
 					
 				} else {
@@ -175,7 +176,7 @@ var semester = {
 		
 			if(json.status == 4){
 			
-				system.popup("close");
+				system.popup.hide();
 				system.page.reload();
 				
 			} else {

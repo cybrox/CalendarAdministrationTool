@@ -69,6 +69,8 @@
 		protected function databaseConnect(){
 			$this->database = new mysqli(DATENBANK_HOSTADDR, DATENBANK_BENUTZER, DATENBANK_PASSWORT, DATENBANK_NAME);
 			
+			$this->database->query("SET CHARACTER SET utf8");
+			
 			return $this->database;
 		}
 		
