@@ -88,8 +88,12 @@
 <div class="hline"></div>
 
 <div class="double">
-	<div class="doublepart"><span class="error" id="errorEdit">&nbsp;</span><div id="successEdit" class="success">&nbsp;</div></div>
+	<div class="doublepart">
+		<span class="error" id="formEditError">&nbsp;</span>
+		<span class="success" id="formEditSuccess">&nbsp;</span>
+	</div>
 	<div class="doublepart"><a href="#" onClick="formEdit.submit()" class="button popupsubmit"><i class="icon-ok"></i> Änderungen speichern</a></div>
+	<div class="break"></div>
 </div>
 
 
@@ -98,10 +102,14 @@
 	var formEdit = {
 		submit: function(){
 		
+			usermail = $('#editDataUsermail').val();
+			userpass = $('#editDataUserpass').val();
+			userpas2 = $('#editDataUserpassRep').val();
+			userhelp = true;
+			
+			edit.submit(usermail, userpass, userpas2, userhelp);
+		
 		}
 	}
-
-usermail = $('#editDataUsermail').val();
-		userpass = $('#editDataUserpass').val();
-		userpas2 = $('#editDataUserpassRep').val();
+	
 </script>

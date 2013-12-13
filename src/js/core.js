@@ -162,8 +162,9 @@ var system = {
 		/**
 		 * @name userRequest
 		 * @desc Request all details of the current user
+		 * @param {boolean} redirect - Indicator wether the system should redirect the user or not
 		 */
-		request: function(){
+		request: function(redirect){
 		
 			requestUrl = './src/api/database/'+system.user.me.auth+'/read/user/id='+system.user.me.id+'/';
 			
@@ -177,12 +178,14 @@ var system = {
 					$('#username').text(system.user.me.name);
 					$('nav').css("left", "0");
 					
-					if(!system.page.check()){
-						if(system.user.me.level == 2){
-							$('#mn_edt').after('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
-							system.page.load('admin');
-						} else {
-							system.page.load('calendar');
+					if(redirect){
+						if(!system.page.check()){
+							if(system.user.me.level == 2){
+								$('#mn_edt').after('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
+								system.page.load('admin');
+							} else {
+								system.page.load('calendar');
+							}
 						}
 					}
 				} else {
@@ -254,8 +257,12 @@ var system = {
 		 * @param {string} message - The message to display
 		 */
 		output: function(form, type, message){
+			var outtyp = (type == "success") ? "Success" : "Error";
+			var notput = $("#form"+ucfirst(form)+ucfirst(outtyp));
 			var output = $("#form"+ucfirst(form)+ucfirst(type));
+			
 			output.animate({"opacity": "0"}, 150, function(){
+				notput.empty();
 				output.text(message);
 				output.animate({"opacity": "1"}, 150);
 			});
@@ -333,7 +340,7 @@ var system = {
 				system.subject[json.data[subjectAmount]['id']] = json.data[subjectAmount]['name'];
 			}
 			
-			system.user.request(system.user.me.id);
+			system.user.request(true);
 				
 		});
 	}
@@ -413,6 +420,23 @@ function chdate(date){
  */
 function now(){
 	return (new Date()).toISOString().substring(0, 10);
+}
+
+/**
+ * @name miscAfter
+ * @desc Check if a given date string comes after today in time order
+ * @param {string} data - the date to check
+ * @return {boolean} Indicator if the check returned true / false
+ */
+function after(date){
+	var datenow = now().split("-");
+	var datechk = date.split("-");
+	
+	if(datechk[0] == datenow[0] && datechk[1] == datenow[1] && datechk[2] > datenow[2]) return true;
+	if(datechk[0] == datenow[0] && datechk[1] >  datenow[1]) return true;
+	if(datechk[0] >  datenow[0]) return true;
+	
+	return false;
 }
 
 /**

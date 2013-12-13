@@ -353,8 +353,14 @@ a.button:hover {
 	background: #ddd;
 }
 
-.double {width: 100%;}
+.double, .tripple {width: 100%;}
 .smalldouble {width: 70%;}
+
+.tripplepart {
+	width: 31%;
+	margin: 0 1% 8px 0;
+	float: left;
+}
 
 .doublepart {
 	width: 48%;

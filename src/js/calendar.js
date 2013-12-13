@@ -84,8 +84,7 @@ var calendar = {
 	scheduleRequestAll: function(){
 
 		requestUrl  = './src/api/database/'+system.user.me.auth+'/read/schedule/';
-		requestUrl += '`userid` = \''+system.user.me.id+'\' AND `targetdate` ';
-		requestUrl += '= \''+now()+'\' AND `deleted` = \'0\'/ORDER BY `targetdate` DESC';
+		requestUrl += '`userid` = \''+system.user.me.id+'\' AND `deleted` = \'0\'/ORDER BY `targetdate` DESC';
 
 		
 		$.getJSON(requestUrl, function(json){
@@ -93,23 +92,23 @@ var calendar = {
 			if(json.error == ""){
 				
 				schedulenotnow = false;
-				schedulestring = '<h3><i class="icon-puzzle-piece"></i> Heute anstehende Termine</h3>';
+				schedulestring = '<h3><i class="icon-bell"></i> Heute anstehende Termine</h3>';
 				schedulecount  = json.data.length;
 				schedulecounto = schedulecount - 1;
 				while(schedulecount--){
+					val = json.data[schedulecount]; 
 					
-					if(1==1 && !schedulenotnow){ // Date Check here
+					if(after(val['targetdate']) && !schedulenotnow){ // Date Check here
 						schedulenotnow  = true;
 						if(schedulecount == schedulecounto) schedulestring += "Keine heute anstehenden Termine gefunden.";
-						schedulestring += '<h3><i class="icon-puzzle-piece"></i> Weitere anstehende Termine</h3>';
+						schedulestring += '<div class="hline"></div><h3><i class="icon-bell"></i> Weitere anstehende Termine</h3>';
 					}
 					
-					val = json.data[schedulecount]; 
-					schedulestring += '<div class="double bbtm"><div class="doublepart"><i class="icon-calendar"></i> '+chdate(val['targetdate']);
-					schedulestring += (val['scheduletype'] == 1) ? ' <span class="gray">Termin</span>': ' <span class="gray">Prüfung</span>';
-					schedulestring += '<br /><i class="tooltip icon-bell"></i>'+val['title'];
-					schedulestring += '<span class="gray"> '+getSubjectById(val['subjectid'])+'</span>';
-					schedulestring += '</div><div class="doublepart"><p class="grey small"> '+val['description']+'</p>';
+					schedulestring += '<div class="tripple bbtm"><div class="tripplepart"><i class="icon-calendar"></i> ';
+//					schedulestring += (val['scheduletype'] == 1) ? ' <span class="gray">Termin</span>': ' <span class="gray">Prüfung</span>';
+					schedulestring += '<span class="gray">'+getSubjectById(val['subjectid'])+': </span>';
+					schedulestring += chdate(val['targetdate'])+'</div><div class="tripplepart"> '+val['title'];
+					schedulestring += '</div><div class="tripplepart"><p class="grey small"> '+val['description']+'</p>';
 					schedulestring += '</div><div class="break"></div></div>';
 				}
 				

@@ -45,33 +45,25 @@ var edit = {
 	 * @param {string} userhelp - Display help messages settings
 	 */
 	submit: function(usermail, userpass, userpas2, userhelp){
-		
 		uservalid = true;
 		
 		requestUrl = './src/api/database/'+system.user.me.auth+'/write/user/id='+system.user.me.id+'/update/`email` = "'+usermail+'"';
 		
 		if(userpass !== ""){
-			
 			if(userpass !== userpas2){
-				$('#successEdit').empty();
-				$('#errorEdit').text("Die eingegebenen Passwörter stimmen nicht überein.");
+				system.form.output("edit", "error", "Die eingegebenen Passwörter stimmen nicht überein.");
 				
 				uservalid = false;
 			}
 			
 			hashpass = $().crypt({method: "md5", source: userpass});
-		
 			requestUrl += ', `password` = "'+hashpass+'"';
 		}
 		
 		if(uservalid){
 			$.getJSON(requestUrl, function(json){
-			
-				$('#errorEdit').empty();
-				$('#successEdit').text("Änderungen erfolgreich gespeichert.");
-				
-				system.user.request();
-				
+				system.form.output("edit", "success", "Änderungen erfolgreich gespeichert.");
+				system.user.request(false);
 			});
 		}
 
