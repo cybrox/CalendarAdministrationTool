@@ -46,8 +46,11 @@ a, a:hover {
 /**
  * Body
  */
+html {
+    overflow-y: scroll; 
+}
+ 
 body {
-	overflow-y: visible;
 	margin: 0;
 	padding: 0;
 }
@@ -353,12 +356,21 @@ a.button:hover {
 	background: #ddd;
 }
 
-.double, .tripple {width: 100%;}
+.double, .tripple {
+	display: block;
+	width: 100%;
+}
 .smalldouble {width: 70%;}
+
+.hoverable { padding: 10px; }
+.hoverable:hover {
+	background: rgba(0,0,0,0.05);
+	cursor: pointer;
+}
 
 .tripplepart {
 	width: 31%;
-	margin: 0 1% 8px 0;
+	margin: 0 1% 0 0;
 	float: left;
 }
 
@@ -551,21 +563,9 @@ a.button:hover {
 }
 
 
-/*
-** Animations and Transition
-*/
-.tooltip span, .tooltip:hover span  {
-	transition: bottom 0.2s ease-in-out, opacity 0.5s ease-in-out;
-	-moz-transition: bottom 0.2s ease-in-out, opacity 0.4s ease-in-out;
-	-webkit-transition: bottom 0.2s ease-in-out, opacity 0.4s ease-in-out;
-}
-
-a.button, a.button:hover {
-	transition: all 0.3s ease-in-out;
-	-moz-transition: all 0.3s ease-in-out;
-	-webkit-transition: all 0.3s ease-in-out;
-}
-
+/**
+ * temp
+ */
 .popupsubmit {
 	float: right;
 }
@@ -574,17 +574,39 @@ input:nth-of-type(2){
 	margin-top: 15px !important;
 }
 
+/*
+** Animations and Transition
+*/
+a.button, a.button:hover {
+	-webkit-transition: all 0.3s ease-in-out;
+	   -moz-transition: all 0.3s ease-in-out;
+	        transition: all 0.3s ease-in-out;
+}
+
+.hoverable, .hoverable:hover {
+	-webkit-transition: background 0.3s ease-in-out;
+	   -moz-transition: background 0.3s ease-in-out;
+	        transition: background 0.3s ease-in-out;
+}
+
+.tooltip span, .tooltip:hover span  {
+	-webkit-transition: bottom 0.2s ease-in-out, opacity 0.4s ease-in-out;
+	   -moz-transition: bottom 0.2s ease-in-out, opacity 0.4s ease-in-out;
+	        transition: bottom 0.2s ease-in-out, opacity 0.5s ease-in-out;
+}
+
 input[type="text"], input[type="password"], textarea, input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
-	transition: color 0.2s ease-in-out;
-	-moz-transition: color 0.2s ease-in-out;
 	-webkit-transition: color 0.2s ease-in-out;
+	   -moz-transition: color 0.2s ease-in-out;
+	        transition: color 0.2s ease-in-out;
 }
 
 #usersites li, #usersites li:hover {
-	transition: box-shadow 0.2s ease-in-out;
-	-moz-transition: box-shadow 0.2s ease-in-out;
 	-webkit-transition: box-shadow 0.2s ease-in-out;
+	   -moz-transition: box-shadow 0.2s ease-in-out;
+	        transition: box-shadow 0.2s ease-in-out;
 }
+
 
 @keyframes loaderBlink {
 	0%   {background: rgba(0,0,0,0.1);}

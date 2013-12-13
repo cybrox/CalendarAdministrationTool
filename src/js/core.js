@@ -59,8 +59,30 @@ var system = {
 			system.page.current  = target;
 			system.popup.hide();
 			
+			if(target == "admin"){
+				requestUrl = './src/api/database/'+system.user.me.auth+'/read/user/id='+system.user.me.id+'/';
+				$.getJSON(requestUrl, function(json){
+					if(json.data[0]['level'] == 2){
+						system.page.loadContent(target);
+					} else {
+						system.handleError("Sie verfügen nicht über die notwendigen Berechtigungen diese Aktion durchzuführen");
+						return;
+					}
+				});
+			} else {
+				system.page.loadContent(target);
+			}
+		},
+		
+		/**
+		 * @name loadPageContent
+		 * @desc Load the page's content after the security check
+		 * @param {string} target - the page to load
+		 */
+		loadContent: function(target){
 			$.get('./src/page/'+target+'.html', function(data){
 			
+				$('#mm_'+target).addClass("active");
 				$('#contentInner').hide();
 				$('#contentInner').html("");
 				$('#contentInner').html(data);
@@ -78,9 +100,7 @@ var system = {
 		 * @desc Append a loaded page to the DOM (#content)
 		 */
 		append: function(){
-		
 			$('#contentInner').fadeIn('fast');
-			
 		},
 		
 		
@@ -153,6 +173,7 @@ var system = {
 			
 			$.getJSON(requestUrl, function(json){
 			
+				window.location.hash = "";
 				$.cookie("cat_user", null);
 				location.reload();
 					
@@ -178,14 +199,12 @@ var system = {
 					$('#username').text(system.user.me.name);
 					$('nav').css("left", "0");
 					
+					if(system.user.me.level == 2) $('#mn_edt').after('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
+					
 					if(redirect){
 						if(!system.page.check()){
-							if(system.user.me.level == 2){
-								$('#mn_edt').after('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
-								system.page.load('admin');
-							} else {
-								system.page.load('calendar');
-							}
+							if(system.user.me.level == 2) system.page.load('admin');
+							else system.page.load('calendar');
 						}
 					}
 				} else {

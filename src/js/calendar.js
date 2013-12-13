@@ -84,40 +84,38 @@ var calendar = {
 	scheduleRequestAll: function(){
 
 		requestUrl  = './src/api/database/'+system.user.me.auth+'/read/schedule/';
-		requestUrl += '`userid` = \''+system.user.me.id+'\' AND `deleted` = \'0\'/ORDER BY `targetdate` DESC';
+		requestUrl += '`userid` = \''+system.user.me.id+'\' AND `deleted` = \'0\' AND `targetdate` >= CURDATE() ORDER BY `targetdate` DESC';
 
 		
 		$.getJSON(requestUrl, function(json){
 		
-			if(json.error == ""){
+			if(json.error != ""){
+				$('#scheduleContainer').html("Keine anstehenden Termine gefunden.");
+				return;
+			}
 				
-				schedulenotnow = false;
-				schedulestring = '<h3><i class="icon-bell"></i> Heute anstehende Termine</h3>';
-				schedulecount  = json.data.length;
-				schedulecounto = schedulecount - 1;
-				while(schedulecount--){
-					val = json.data[schedulecount]; 
-					
-					if(after(val['targetdate']) && !schedulenotnow){ // Date Check here
-						schedulenotnow  = true;
-						if(schedulecount == schedulecounto) schedulestring += "Keine heute anstehenden Termine gefunden.";
-						schedulestring += '<div class="hline"></div><h3><i class="icon-bell"></i> Weitere anstehende Termine</h3>';
-					}
-					
-					schedulestring += '<div class="tripple bbtm"><div class="tripplepart"><i class="icon-calendar"></i> ';
-//					schedulestring += (val['scheduletype'] == 1) ? ' <span class="gray">Termin</span>': ' <span class="gray">Prüfung</span>';
-					schedulestring += '<span class="gray">'+getSubjectById(val['subjectid'])+': </span>';
-					schedulestring += chdate(val['targetdate'])+'</div><div class="tripplepart"> '+val['title'];
-					schedulestring += '</div><div class="tripplepart"><p class="grey small"> '+val['description']+'</p>';
-					schedulestring += '</div><div class="break"></div></div>';
+			schedulenotnow = false;
+			schedulestring = '<h3><i class="icon-bell"></i> Heute anstehende Termine</h3>';
+			schedulecount  = json.data.length;
+			schedulecounto = schedulecount - 1;
+			while(schedulecount--){
+				val = json.data[schedulecount]; 
+				
+				if(after(val['targetdate']) && !schedulenotnow){ // Date Check here
+					schedulenotnow  = true;
+					if(schedulecount == schedulecounto) schedulestring += "Keine heute anstehenden Termine gefunden.";
+					schedulestring += '<div class="hline"></div><h3><i class="icon-bell"></i> Weitere anstehende Termine</h3>';
 				}
 				
-				$('#scheduleContainer').append(schedulestring);
-			
-			} else {
-				$('#scheduleContainer').html("Keine anstehenden Termine gefunden.");
-				$('#calendarUpcomingNum').text("0");
+				schedulestring += '<div name="'+val['id']+'" class="tripple hoverable"><div class="tripplepart"><i class="icon-calendar"></i> ';
+//					schedulestring += (val['scheduletype'] == 1) ? ' <span class="gray">Termin</span>': ' <span class="gray">Prüfung</span>';
+				schedulestring += chdate(val['targetdate'])+' - <span class="gray">'+getSubjectById(val['subjectid']);
+				schedulestring += ': </span></div><div class="tripplepart"> '+val['title'];
+				schedulestring += '</div><div class="tripplepart"><p class="grey small"> '+val['description']+'</p>';
+				schedulestring += '</div><div class="break"></div></div>';
 			}
+			
+			$('#scheduleContainer').append(schedulestring);
 			
 		});
 
