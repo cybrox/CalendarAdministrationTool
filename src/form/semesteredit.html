@@ -7,7 +7,7 @@
 		<label for="semestername"><i class="icon-ticket"></i> Semestername</label>
 	</div>
 	<div class="doublepart">
-		<input id="inpSemTitle" type="text" name="semestername"></label>
+		<input id="formSemesterAddInputName" type="text" name="semestername"></label>
 	</div>
 	<div class="break"></div>
 </div>
@@ -16,7 +16,7 @@
 		<label for="startdate"><i class="icon-calendar"></i> Startdatum</label>
 	</div>
 	<div class="doublepart">
-		<input id="inpSemStart" type="date" name="startdate"></label>
+		<input id="formSemesterAddInputStart" type="date" name="startdate"></label>
 	</div>
 	<div class="break"></div>
 </div>
@@ -25,16 +25,34 @@
 		<label for="enddate"><i class="icon-calendar"></i> Enddatum</label>
 	</div>
 	<div class="doublepart">
-		<input id="inpSemEnd" type="date" name="enddate"></label>
+		<input id="formSemesterAddInputEnd" type="date" name="enddate"></label>
 	</div>
 	<div class="break"></div>
 </div>
 <div class="double">
 	<div class="doublepart">
-		<span class="error" id="errorSemester">&nbsp;</span>
+		<span class="error" id="formSemesterAddError">&nbsp;</span>
+		<span class="success" id="formSemesterAddSuccess">&nbsp;</span>
 	</div>
 	<div class="doublepart">
-		<a href="#" onClick="semester.edit()" class="button popupsubmit"><i class="icon-ok"></i> Änderungen speichern</a>
+		<a href="#" onClick="formSemesterEdit.submit()" class="button popupsubmit"><i class="icon-ok"></i> Semester hinzufügen</a>
 	</div>
 	<div class="break"></div>
 </div>
+
+
+<script type="text/javascript">
+
+	var formSemesterEdit = {
+		submit: function(){
+			
+			var semesterName      = $('#formSemesterAddInputName').val();
+			var semesterDateStart = $('#formSemesterAddInputStart').val();
+			var semesterDateEnd   = $('#formSemesterAddInputEnd').val();
+			
+			semester.edit(semesterName, semesterDateStart, semesterDateEnd);
+			
+		}
+	}
+
+</script>

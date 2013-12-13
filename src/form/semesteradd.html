@@ -2,37 +2,55 @@
 
 <div class="double">
 	<div class="doublepart">
-		<label for="semestername"><i class="icon-ticket"></i> Semestername</label>
+		<label for="semesterName"><i class="icon-ticket"></i> Semestername</label>
 	</div>
 	<div class="doublepart">
-		<input id="inpSemTitle" type="text" name="semestername"></label>
+		<input id="formSemesterAddInputName" type="text" name="semesterName"></label>
 	</div>
 	<div class="break"></div>
 </div>
 <div class="double">
 	<div class="doublepart">
-		<label for="startdate"><i class="icon-calendar"></i> Startdatum</label>
+		<label for="semesterStart"><i class="icon-calendar"></i> Startdatum</label>
 	</div>
 	<div class="doublepart">
-		<input id="inpSemStart" type="date" name="startdate"></label>
+		<input id="formSemesterAddInputStart" type="date" name="semesterStart"></label>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart"> 
+		<label for="semesterEnd"><i class="icon-calendar"></i> Enddatum</label>
+	</div>
+	<div class="doublepart">
+		<input id="formSemesterAddInputEnd" type="date" name="semesterEnd"></label>
 	</div>
 	<div class="break"></div>
 </div>
 <div class="double">
 	<div class="doublepart">
-		<label for="enddate"><i class="icon-calendar"></i> Enddatum</label>
+		<span class="error" id="formSemesterAddError">&nbsp;</span>
+		<span class="success" id="formSemesterAddSuccess">&nbsp;</span>
 	</div>
 	<div class="doublepart">
-		<input id="inpSemEnd" type="date" name="enddate"></label>
+		<a href="#" onClick="formSemesterAdd.submit()" class="button popupsubmit"><i class="icon-ok"></i> Semester hinzufügen</a>
 	</div>
 	<div class="break"></div>
 </div>
-<div class="double">
-	<div class="doublepart">
-		<span class="error" id="errorSemester">&nbsp;</span>
-	</div>
-	<div class="doublepart">
-		<a href="#" onClick="semester.create()" class="button popupsubmit"><i class="icon-ok"></i> Semester hinzufügen</a>
-	</div>
-	<div class="break"></div>
-</div>
+
+
+<script type="text/javascript">
+
+	var formSemesterAdd = {
+		submit: function(){
+			
+			var semesterName      = $('#formSemesterAddInputName').val();
+			var semesterDateStart = $('#formSemesterAddInputStart').val();
+			var semesterDateEnd   = $('#formSemesterAddInputEnd').val();
+			
+			semester.create(semesterName, semesterDateStart, semesterDateEnd);
+			
+		}
+	}
+
+</script>

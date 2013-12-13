@@ -78,85 +78,68 @@ var semester = {
 		requestUrl = './src/api/database/'+system.user.me.auth+'/read/semester/id='+semesterid;
 			
 		$.getJSON(requestUrl, function(json){
-				$('#inpSemTitle').val(json.data[0]['name']);
-				$('#inpSemStart').val(json.data[0]['startdate']);
-				$('#inpSemEnd').val(json.data[0]['enddate']);
-				
+			if(json.status != 4)  system.form.output("SemesterEdit", "error", "Konnte Semester nicht laden.");
+			$('#formSemesterAddInputName').val(json.data[0]['name']);
+			$('#formSemesterAddInputStart').val(json.data[0]['startdate']);
+			$('#formSemesterAddInputEnd').val(json.data[0]['enddate']);
 		});
 	},
 	
 	/**
 	 * @name semesterCreate
 	 * @desc Create a new semester from the popup on the semesters page
+	 * @param {string} semesterName - The name of the new semester
+	 * @param {string} semesterDateStart - The start date of the new semester
+	 * @param {string} semesterDateEnd - The end date of the new semester
 	 */
-	create: function(){
-
-		semestername  = $('#inpSemTitle').val();
-		semesterstart = $('#inpSemStart').val();
-		semesterend   = $('#inpSemEnd').val();
+	create: function(semesterName, semesterDateStart, semesterDateEnd){
+	
+		if(!semester.validate("SemesterAdd", semesterName, semesterDateStart, semesterDateEnd)) return;
 		
-		if(!semester.validate(semestername, semesterstart, semesterend)) return false;
-		
-		requestUrl = './src/api/database/'+system.user.me.auth+'/write/semester/1/insert/`userid`="'+system.user.me.id+'", `name`="'+semestername+'", `startdate`="'+semesterstart+'", `enddate`="'+semesterend+'"';
+		requestUrl = './src/api/database/'+system.user.me.auth+'/write/semester/1/insert/`userid`="'+system.user.me.id+'", `name`="'+semesterName+'", `startdate`="'+semesterDateStart+'", `enddate`="'+semesterDateEnd+'"';
 		
 		$.getJSON(requestUrl, function(json){
-		
-			if(json.status == 4){
-			
-				system.popup.hide();
-				system.page.reload();
-				
-			} else {
-				$('#errorSemester').text("Beim speichern des Semesters ist ein Fehler aufgetreten.");
-			}
+			if(json.status == 4) system.page.reload();
+			else system.form.output("SemesterEdit", "error", "Beim speichern des Semesters ist ein Fehler aufgetreten.");
 		});
 	},
 
 	/**
 	 * @name semesterEdit
 	 * @desc Save semester edit form to the database
+	 * @param {string} semesterName - The name of the new semester
+	 * @param {string} semesterDateStart - The start date of the new semester
+	 * @param {string} semesterDateEnd - The end date of the new semester
 	 */
-	edit: function(){
-
-		semestername  = $('#inpSemTitle').val();
-		semesterstart = $('#inpSemStart').val();
-		semesterend   = $('#inpSemEnd').val();
+	edit: function(semesterName, semesterDateStart, semesterDateEnd){
+	
+		if(!semester.validate("SemesterEdit", semesterName, semesterDateStart, semesterDateEnd)) return;
 		
-		if(!semester.validate(semestername, semesterstart, semesterend)) return false;
-		
-		requestUrl = './src/api/database/'+system.user.me.auth+'/write/semester/id='+system.data+'/update/`name`="'+semestername+'", `startdate`="'+semesterstart+'", `enddate`="'+semesterend+'"';
+		requestUrl = './src/api/database/'+system.user.me.auth+'/write/semester/id='+system.data+'/update/`name`="'+semesterName+'", `startdate`="'+semesterDateStart+'", `enddate`="'+semesterDateEnd+'"';
 		
 		$.getJSON(requestUrl, function(json){
-		
-				if(json.status == 4){
-				
-					system.popup.hide();
-					system.page.reload();
-					
-				} else {
-					$('#errorSemester').text("Beim speichern des Semesters ist ein Fehler aufgetreten.");
-				}
-				
+			if(json.status == 4) system.page.reload();
+			else system.form.output("SemesterEdit", "error", "Beim speichern des Semesters ist ein Fehler aufgetreten.");
 		});
 	},
 	
 	/**
 	 * @name semesterValidate
 	 * @desc Check if all values are valid to generate a semester
+	 * @param {string} errorOutput - Name of the error output field
 	 * @param {string} semestername - The semesters name
 	 * @param {string} semesterstart - The start date in YYYY-MM-DD format
 	 * @param {string} semesterend - The end date in YYYY-MM-DD format
 	 * @return {boolean} Will return true if the given parameters were vaild
 	 */
-	validate: function(semestername, semesterstart, semesterend){
-		
+	validate: function(errorOutput, semestername, semesterstart, semesterend){
 		if(empty(semestername)){
-			$('#errorSemester').text("Der Semestername muss mindestens ein Zeichen lang sein.");
+			system.form.output(errorOutput, "error", "Der Semestername muss mindestens ein Zeichen lang sein.");
 			return false;
 		}
 		
 		if(empty(semesterstart) || empty(semesterend)){
-			$('#errorSemester').text("Es müssen Start- und Enddatum eingegeben werden.");
+			system.form.output(errorOutput, "error", "Es müssen Start- und Enddatum eingegeben werden.");
 			return false;
 		}
 		
@@ -169,20 +152,11 @@ var semester = {
 	 */
 	dodelete: function(semesterid){
 	
-		
 		requestUrl = './src/api/database/'+system.user.me.auth+'/write/semester/id='+semesterid+'/update/`deleted`="1"';
 		
 		$.getJSON(requestUrl, function(json){
-		
-			if(json.status == 4){
-			
-				system.popup.hide();
-				system.page.reload();
-				
-			} else {
-				$('#errorSemester').text("Beim speichern des Semesters ist ein Fehler aufgetreten.");
-			}
-				
+			if(json.status == 4) system.page.reload();
+			else $('#errorSemester').text("Beim speichern des Semesters ist ein Fehler aufgetreten.");	
 		});
 	}
 }

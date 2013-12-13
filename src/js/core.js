@@ -255,7 +255,6 @@ var system = {
 		 */
 		output: function(form, type, message){
 			var output = $("#form"+ucfirst(form)+ucfirst(type));
-			
 			output.animate({"opacity": "0"}, 150, function(){
 				output.text(message);
 				output.animate({"opacity": "1"}, 150);
@@ -423,7 +422,7 @@ function now(){
  * @return {boolean} Returns true if the input string was empty
  */
 function empty(string){
-	return (string === "") ? true : false;
+	return (string === "" || string == undefined) ? true : false;
 }
 
 
