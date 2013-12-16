@@ -1,0 +1,70 @@
+<script type="text/javascript">admin.user.loadOne(system.data)</script>
+<h3 id="headline"><i class="icon-wrench"></i> Benutzer bearbeiten</h3>
+
+<div class="double">
+	<div class="doublepart">
+		<label for="username"><i class="icon-user"></i> Benutzername</label>
+	</div>
+	<div class="doublepart">
+		<input id="formUserEditInputName" type="text" name="username"></label>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<label for="usermail"><i class="icon-envelope"></i> E-Mail Adresse</label>
+	</div>
+	<div class="doublepart">
+		<input id="formUserEditInputMail" type="text" name="usermail"></label>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<label for="userpass"><i class="icon-key"></i> Passwort</label>
+	</div>
+	<div class="doublepart">
+		<input id="formUserEditInputPass" type="password" name="userpass" placeholder="Leer = Altes Kennwort"></label>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<label for="usergroup"><i class="icon-group"></i> Benutzergruppe</label>
+	</div>
+	<div class="doublepart">
+		<select id="formUserEditInputGroup" name="usergroup" size="1">
+			<option value="1">Benutzer</option>
+			<option value="2">Administrator</option>
+		</select>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<span class="error" id="formUserEditError">&nbsp;</span>
+		<span class="success" id="formUserEditSuccess">&nbsp;</span>
+	</div>
+	<div class="doublepart">
+		<a href="#" onClick="formUserEdit.submit()" class="button popupsubmit"><i class="icon-ok"></i> Änderungen speichern</a>
+	</div>
+	<div class="break"></div>
+</div>
+
+
+<script type="text/javascript">
+	
+	var formUserEdit = {
+		submit: function(){
+		
+			var username  = $('#formUserEditInputName').val();
+			var usermail  = $('#formUserEditInputMail').val();
+			var userpass  = $('#formUserEditInputPass').val();
+			var usergroup = $('#formUserEditInputGroup').val();
+			
+			admin.user.edit(username, usermail, userpass, usergroup);
+			
+		}
+	}
+	
+</script>

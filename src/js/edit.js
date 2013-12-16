@@ -17,12 +17,14 @@
 function pageinit_edit(){
 	
 	var userType = (system.user.me.level == 2) ? "Administrator" : "Normaler Benutzer";
+	var userHelp = (system.user.me.help !== "0") ? true : false;
 	
 	$('#editDataUserId').text("#"+system.user.me.id);
 	$('#editDataUsername').text(system.user.me.name);
 	$('#editDataUsertype').text(userType);
 	
 	$('#editDataUsermail').val(system.user.me.email);
+	$("#editDataUserhelp").attr("checked", userHelp);
 	
 	system.addListener.enterSubmit();
 	system.page.append();
@@ -46,8 +48,9 @@ var edit = {
 	 */
 	submit: function(usermail, userpass, userpas2, userhelp){
 		uservalid = true;
+		userhelp  = (userhelp == true) ? "1" : "0";
 		
-		requestUrl = './src/api/database/'+system.user.me.auth+'/write/user/id='+system.user.me.id+'/update/`email` = "'+usermail+'"';
+		requestUrl = './src/api/database/'+system.user.me.auth+'/write/user/id='+system.user.me.id+'/update/`email` = "'+usermail+'", `help` = "'+userhelp+'"';
 		
 		if(userpass !== ""){
 			if(userpass !== userpas2){

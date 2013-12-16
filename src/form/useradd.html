@@ -5,7 +5,7 @@
 		<label for="username"><i class="icon-user"></i> Benutzername</label>
 	</div>
 	<div class="doublepart">
-		<input id="inpUsrName" type="text" name="username"></label>
+		<input id="formUserAddInputName" type="text" name="username"></label>
 	</div>
 	<div class="break"></div>
 </div>
@@ -14,7 +14,7 @@
 		<label for="usermail"><i class="icon-envelope"></i> E-Mail Adresse</label>
 	</div>
 	<div class="doublepart">
-		<input id="inpUsrMail" type="text" name="usermail"></label>
+		<input id="formUserAddInputMail" type="text" name="usermail"></label>
 	</div>
 	<div class="break"></div>
 </div>
@@ -23,7 +23,7 @@
 		<label for="userpass"><i class="icon-key"></i> Passwort</label>
 	</div>
 	<div class="doublepart">
-		<input id="inpUsrPass" type="password" name="userpass"></label>
+		<input id="formUserAddInputPass" type="password" name="userpass"></label>
 	</div>
 	<div class="break"></div>
 </div>
@@ -32,7 +32,7 @@
 		<label for="usergroup"><i class="icon-group"></i> Benutzergruppe</label>
 	</div>
 	<div class="doublepart">
-		<select id="inpUsrGrou" name="usergroup" size="1">
+		<select id="formUserAddInputGroup" name="usergroup" size="1">
 			<option value="1">Benutzer</option>
 			<option value="2">Administrator</option>
 		</select>
@@ -44,7 +44,25 @@
 		<span class="error" id="errorUserAdd">&nbsp;</span>
 	</div>
 	<div class="doublepart">
-		<a href="#" onClick="admin.addUser()" class="button popupsubmit"><i class="icon-ok"></i> Benutzer hinzufügen</a>
+		<a href="#" onClick="formUserAdd.submit()" class="button popupsubmit"><i class="icon-ok"></i> Benutzer hinzufügen</a>
 	</div>
 	<div class="break"></div>
 </div>
+
+
+<script type="text/javascript">
+	
+	var formUserAdd = {
+		submit: function(){
+		
+			var username  = $('#formUserAddInputName').val();
+			var usermail  = $('#formUserAddInputMail').val();
+			var userpass  = $('#formUserAddInputPass').val();
+			var usergroup = $('#formUserAddInputGroup').val();
+			
+			admin.user.add(username, usermail, userpass, usergroup);
+			
+		}
+	}
+	
+</script>

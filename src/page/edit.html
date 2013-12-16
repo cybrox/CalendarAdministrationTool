@@ -3,7 +3,7 @@
 <div class="double">
 	<div class="doublepart">
 		<span><i class="icon-asterisk"></i> Benutzer-ID</span>
-		<p class="doubleDescription">
+		<p class="doubleDescription help">
 			Die Benutzer-ID ist ein eindeutiger numerischer Wert der jedem Benutzer bei
 			der Registrierung automiatisch zugewiesen wird. Sie kann nicht vom Benutzer
 			verändert werden und ist fest an das entsprechende Benutzerkonto gebunden.
@@ -17,7 +17,7 @@
 <div class="double">
 	<div class="doublepart">
 		<span><i class="icon-group"></i> Benutzertyp</span>
-		<p class="doubleDescription">
+		<p class="doubleDescription help">
 			Der Benutzertyp definiert die Rechte eines Benutzers, es wird hierbei zwischen
 			dem <i>Normalen Benutzer</i> und dem <i>Administrator</i> unterschieden.
 		</p>
@@ -30,7 +30,7 @@
 <div class="double">
 	<div class="doublepart">
 		<span><i class="icon-user"></i> Benutzername</span>
-		<p class="doubleDescription">
+		<p class="doubleDescription help">
 			Der Benutzername wurde Ihnen bei der Registrierung von einem Administrator
 			zugewiesen, er kann nur von einem Administrator geändert werden.
 		</p>
@@ -43,7 +43,7 @@
 <div class="double">
 	<div class="doublepart">
 		<span><i class="icon-envelope"></i> E-Mail Adresse</span>
-		<p class="doubleDescription">
+		<p class="doubleDescription help">
 			Die E-Mail Adresse wurde bei der Registrierung von einem Administrator zugewiesen.
 			Sie sollten diese Adresse immer aktuell halten, damit ein Administator Sie
 			über wichtige Änderungen und Neuigkeiten informieren kann.
@@ -57,7 +57,7 @@
 <div class="double">
 	<div class="doublepart">
 		<span><i class="icon-key"></i> Passwort</span>
-		<p class="doubleDescription">
+		<p class="doubleDescription help">
 			Durch das ausfüllen beider Passwort Felder wird das aktuelle Benutzerpasswort
 			geändert, die eingegebenen Passwörter müssen übereinstimmen. Ein sicheres
 			Passwort sollte mindestens 12 Zeichen lang sein und aus Gross- und Kleinbuchstaben
@@ -75,14 +75,14 @@
 <div class="double">
 	<div class="doublepart">
 		<span><i class="icon-info-sign"></i> Hilfestellungen</span>
-		<p class="doubleDescription">
+		<p class="doubleDescription help">
 			Durch das Deaktivieren der Hilfestellungen werden Hilfetexte wie die
 			Beschreibungen der Optionspunkte dieses Formulars ausgeblendet. Es wird
 			empfohlen die Hilfestellungen zu deaktivieren sobald Sie sich im Umgang mit
 			dem Kalendertool sicher fülen.
 		</p>
 	</div>
-	<div class="doublepart"><input type="checkbox" id="editDataUsermail" checked> Aktivieren</div>
+	<div class="doublepart"><input type="checkbox" id="editDataUserhelp"> Aktivieren</div>
 	<div class="break"></div>
 </div>
 <div class="hline"></div>
@@ -105,7 +105,7 @@
 			usermail = $('#editDataUsermail').val();
 			userpass = $('#editDataUserpass').val();
 			userpas2 = $('#editDataUserpassRep').val();
-			userhelp = true;
+			userhelp = $('#editDataUserhelp').is(":checked");
 			
 			edit.submit(usermail, userpass, userpas2, userhelp);
 		

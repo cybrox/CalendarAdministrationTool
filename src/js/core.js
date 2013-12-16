@@ -84,8 +84,10 @@ var system = {
 			
 				$('#mm_'+target).addClass("active");
 				$('#contentInner').hide();
-				$('#contentInner').html("");
+				$('#contentInner').empty();
 				$('#contentInner').html(data);
+				
+				if(system.user.me.help == "1") $(".help").css("display", "block");
 				
 				func = window["pageinit_"+target];
 				func();
@@ -103,6 +105,19 @@ var system = {
 			$('#contentInner').fadeIn('fast');
 		},
 		
+		/**
+		 * @name parsePage
+		 * @desc Writes content smoothly into DOM
+		 * @param {string} target - The target container 
+		 * @param {DOM} content - The container content
+		 */
+		parse: function(target, content){
+			output = $("#"+target);
+			output.animate({"opacity": "0"}, 150, function(){
+				output.html(content);
+				output.animate({"opacity": "1"}, 150);
+			});
+		},
 		
 		/**
 		 * @name reloadPage
@@ -119,6 +134,7 @@ var system = {
 			'id':     0,
 			'id2':    0,
 			'level':  0,
+			'help':   0,
 			'active': 0,
 			'name':   "",
 			'email':  "",
@@ -147,6 +163,7 @@ var system = {
 				
 					system.user.me.id    = json.data['userid'];
 					system.user.me.token = json.data['token'];
+					system.user.me.help  = json.data['help'];
 					system.user.me.auth  = system.user.me.token+"-"+system.user.me.id;
 					
 					system.popup.hide();
@@ -193,13 +210,14 @@ var system = {
 				if(json.error == ""){
 				
 					system.user.me.level = json.data[0]['level'];
-					system.user.me.name  = json.data[0]['name'];
 					system.user.me.email = json.data[0]['email'];
+					system.user.me.name  = json.data[0]['name'];
+					system.user.me.help  = json.data[0]['help'];
 					
 					$('#username').text(system.user.me.name);
 					$('nav').css("left", "0");
 					
-					if(system.user.me.level == 2) $('#mn_edt').after('<li><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
+					if(system.user.me.level == 2 && $("#mn_adm").length == 0) $('#mn_edt').after('<li id="mn_adm"><i class="icon-shield"></i><a href="page_admin"> Administration</a></li>');
 					
 					if(redirect){
 						if(!system.page.check()){

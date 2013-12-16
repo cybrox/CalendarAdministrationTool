@@ -2,17 +2,48 @@
 
 <div class="double">
 	<div class="doublepart">
+		<p class="doubleDescription help full">
+			In der Benutzerliste können sämtliche registrierte Benutzer
+			verwaltet so wie neue Benutzer hinzugefügt werden. es ist
+			möglich den Namen, die E-Mail Adresse, das Passwort und die
+			Gruppe eines Benutzers zu ändern.
+			<span class="error">
+				Bitte beachten Sie, dass ein Ändern der eigenen Gruppenzugehörigkeit
+				Sie versehentlich vom System ausschliessen kann. Dies kann nur durch
+				einen anderen Administrator oder direkten Datenbankzugriff wieder
+				rückgängig gemacht werden.
+			</span>
+		</p>
+	</div>
+	<div class="doublepart">
+		<p class="doubleDescription help full">
+			In der Kategorieliste können sämtliche im Kalender eingetragenen
+			Kategorien bearbeitet so wie neue hinzugefügt werden. Die Benutzer
+			müssen beim Erstellen eines neuen Termins eine der hier eingetragenen
+			Kategorien auswählen. Beim Auswerten der Noten eines Benutzers wird
+			die Ansicht in die hier gelisteten Kategorien aufgelistet.
+		</p>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="hline help"></div>
+<div class="double">
+	<div class="doublepart">
 		<h3><i class="icon-group"></i> Benutzer</h3>
+		<div class="headbutton underh3">
+			<a href="popup_useradd" class="button">
+				<i class="icon-plus"></i> Benutzer hinzufügen
+			</a>
+		</div>
 		<div id="userContent"></div>
-		<a href="popup_useradd" class="button">
-			<i class="icon-plus"></i> Benutzer hinzufügen
-		</a>
 	</div>
 	<div class="doublepart">
 		<h3><i class="icon-tags"></i> Kalenderkategorien</h3>
+		<div class="headbutton underh3">
+			<a href="popup_subjectadd" class="button">
+				<i class="icon-plus"></i> Kategorie hinzufügen
+			</a>
+		</div>
 		<div id="subjectContent"></div>
-		<a href="popup_subjectadd" class="button">
-			<i class="icon-plus"></i> Kategorie hinzufügen
-		</a>
 	</div>
 </div>

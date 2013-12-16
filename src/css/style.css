@@ -297,10 +297,14 @@ input[type="submit"]{
 
 #popupcontent #headline { margin-top: -20px; }
 
-#headbutton {
+.headbutton {
 	width: 100%;
 	padding: 0 0 15px 0;
 	text-align: right;
+}
+
+.underh3 {
+	margin-top: -45px;
 }
 
 .hline {
@@ -325,6 +329,9 @@ input[type="submit"]{
 
 .block        {text-align: justify;}
 .centerbutton {text-align:center;}
+
+.help {display: none;}
+.full {width: 100% !important;}
 
 .options {float: right;}
 .break   {clear: both; }

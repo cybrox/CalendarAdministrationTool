@@ -76,7 +76,6 @@ var semester = {
 	loadOne: function(semesterid){
 	
 		requestUrl = './src/api/database/'+system.user.me.auth+'/read/semester/id='+semesterid;
-			
 		$.getJSON(requestUrl, function(json){
 			if(json.status != 4)  system.form.output("SemesterEdit", "error", "Konnte Semester nicht laden.");
 			$('#formSemesterAddInputName').val(json.data[0]['name']);
