@@ -79,7 +79,7 @@
 			Durch das Deaktivieren der Hilfestellungen werden Hilfetexte wie die
 			Beschreibungen der Optionspunkte dieses Formulars ausgeblendet. Es wird
 			empfohlen die Hilfestellungen zu deaktivieren sobald Sie sich im Umgang mit
-			dem Kalendertool sicher fülen.
+			dem Kalendertool sicher fühlen.
 		</p>
 	</div>
 	<div class="doublepart"><input type="checkbox" id="editDataUserhelp"> Aktivieren</div>
@@ -107,7 +107,7 @@
 			userpas2 = $('#editDataUserpassRep').val();
 			userhelp = $('#editDataUserhelp').is(":checked");
 			
-			edit.submit(usermail, userpass, userpas2, userhelp);
+			system.user.edit(usermail, userpass, userpas2, userhelp);
 		
 		}
 	}

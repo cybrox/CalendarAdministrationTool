@@ -51,14 +51,15 @@ var semester = {
 				$('#semesterContainer').empty();
 				semestercount = json.data.length;
 				while(semestercount--){
+					val = json.data[semestercount];
 					
 					if(editable){
-						optionsstring = '<a class="button tooltip" href="popup_semesteredit_'+json.data[semestercount]['id']+'"><i class="icon-wrench"></i> <span>Bearbeiten</span></a> <a class="button tooltip" href="popup_semesterdelete_'+json.data[semestercount]['id']+'"><i class="icon-remove"></i> <span>Löschen</span></a>';
+						optionsstring = '<a class="button tooltip" href="popup_semesteredit_'+val['id']+'"><i class="icon-wrench"></i> <span class="help">Bearbeiten</span></a> <a class="button tooltip" href="popup_semesterdelete_'+val['id']+'"><i class="icon-remove"></i> <span class="help">Löschen</span></a>';
 					} else {
-						optionsstring = '<a class="button tooltip" href="action_ratesemester_'+json.data[semestercount]['id']+'"><i class="icon-play"></i> <span>Auswerten</span></a>';
+						optionsstring = '<a class="button tooltip" href="action_ratesemester_'+val['id']+'"><i class="icon-play"></i> <span>Auswerten</span></a>';
 					}
 					
-					$('#semesterContainer').append('<div class="smalldouble"><div class="doublepart"><i class="icon-ticket"></i> '+json.data[semestercount]['name']+'</div><div class="doublepart"><i class="icon-calendar"></i>'+chdate(json.data[semestercount]['startdate'])+' <span class="gray">bis</span> '+chdate(json.data[semestercount]['enddate'])+'<div class="options">'+optionsstring+'</div></div><div class="break"></div></div>');
+					$('#semesterContainer').append('<div class="smalldouble"><div class="doublepart"><i class="icon-ticket"></i> '+val['name']+'</div><div class="doublepart"><i class="icon-calendar"></i>'+chdate(val['startdate'])+' <span class="gray">bis</span> '+chdate(val['enddate'])+'<div class="options">'+optionsstring+'</div></div><div class="break"></div></div>');
 				}
 				
 				system.addListener.ajaxLink();
@@ -74,13 +75,13 @@ var semester = {
 	 * @desc Request a single semester from the database for the edit form
 	 */
 	loadOne: function(semesterid){
-	
 		requestUrl = './src/api/database/'+system.user.me.auth+'/read/semester/id='+semesterid;
 		$.getJSON(requestUrl, function(json){
 			if(json.status != 4)  system.form.output("SemesterEdit", "error", "Konnte Semester nicht laden.");
-			$('#formSemesterAddInputName').val(json.data[0]['name']);
-			$('#formSemesterAddInputStart').val(json.data[0]['startdate']);
-			$('#formSemesterAddInputEnd').val(json.data[0]['enddate']);
+
+			$('#formSemesterEditInputName').val(json.data[0]['name']);
+			$('#formSemesterEditInputStart').val(json.data[0]['startdate']);
+			$('#formSemesterEditInputEnd').val(json.data[0]['enddate']);
 		});
 	},
 	

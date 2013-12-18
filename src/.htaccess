@@ -1,0 +1,4 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule .* - [R=404,L]

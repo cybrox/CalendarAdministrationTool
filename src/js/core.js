@@ -230,6 +230,40 @@ var system = {
 					system.popup.show('login', true);
 				}
 			});
+		},
+		
+		/**
+		 * @name userEdit
+		 * @desc Submit the profile form and save the informations in the database
+		 * @param {string} usermail - The user's E-Mail adress
+		 * @param {string} userpass - The user's new password
+		 * @param {string} userpas2 - Same as "userpass"
+		 * @param {string} userhelp - Display help messages settings
+		 */
+		edit: function(usermail, userpass, userpas2, userhelp){
+			uservalid = true;
+			userhelp  = (userhelp == true) ? "1" : "0";
+			
+			requestUrl = './src/api/database/'+system.user.me.auth+'/write/user/id='+system.user.me.id+'/update/`email` = "'+usermail+'", `help` = "'+userhelp+'"';
+			
+			if(userpass !== ""){
+				if(userpass !== userpas2){
+					system.form.output("edit", "error", "Die eingegebenen Passwörter stimmen nicht überein.");
+					
+					uservalid = false;
+				}
+				
+				hashpass = $().crypt({method: "md5", source: userpass});
+				requestUrl += ', `password` = "'+hashpass+'"';
+			}
+			
+			if(uservalid){
+				$.getJSON(requestUrl, function(json){
+					system.form.output("edit", "success", "Änderungen erfolgreich gespeichert.");
+					system.user.request(false);
+				});
+			}
+
 		}
 	},
 	
@@ -329,37 +363,45 @@ var system = {
 		
 			$('a').unbind('click');
 			$('a').click(function(e){
-				system.page.locked = true;
-				
-				link   = $(this).attr('href');
-				parts  = link.split('_');
-				type   = parts[0];
-				target = parts[1];
-				
-				if(parts[2] !== undefined){
-					system.data = parts[2];
-				}
-				
-				switch(type){
-					case "page":
-						if(system.page.current != target){
-							$('.userelement').removeClass('active');
-							$(this).parent().addClass('active');
-							
-							system.page.load(target);
-						}
-						break;
-					case "popup":
-						system.popup.show(target, false);
-						break;
-					case "action":
-						func = window["action_"+target];
-						func();
-						break;
-				}
+				system.addListener.handleLink($(this).attr('href'));
 				
 				e.preventDefault();
 			});
+		},
+		
+		/**
+		 * @name handleLink
+		 * @desc Handle the AJAX links
+		 * @param {string} target - The link target (href attribute)
+		 */
+		handleLink: function(target){
+			system.page.locked = true;
+			
+			parts  = target.split('_');
+			type   = parts[0];
+			target = parts[1];
+			
+			if(parts[2] !== undefined){
+				system.data = parts[2];
+			}
+			
+			switch(type){
+				case "page":
+					if(system.page.current != target){
+						$('.userelement').removeClass('active');
+						$(this).parent().addClass('active');
+						
+						system.page.load(target);
+					}
+					break;
+				case "popup":
+					system.popup.show(target, false);
+					break;
+				case "action":
+					func = window["action_"+target];
+					func();
+					break;
+			}
 		}
 	},
 	
@@ -500,3 +542,21 @@ function ucfirst(string){
 /* Placeholder and unused functions */
 function pageinit_help(){ system.page.append(); }
 function action_logout(){ system.user.logout(); }
+
+
+/* Pageinit for user edit page */
+function pageinit_edit(){
+	
+	var userType = (system.user.me.level == 2) ? "Administrator" : "Normaler Benutzer";
+	var userHelp = (system.user.me.help !== "0") ? true : false;
+	
+	$('#editDataUserId').text("#"+system.user.me.id);
+	$('#editDataUsername').text(system.user.me.name);
+	$('#editDataUsertype').text(userType);
+	
+	$('#editDataUsermail').val(system.user.me.email);
+	$("#editDataUserhelp").attr("checked", userHelp);
+	
+	system.addListener.enterSubmit();
+	system.page.append();
+}

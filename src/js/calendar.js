@@ -62,10 +62,7 @@ function pageinit_calendar(){
  * @desc Load all upcoming tasks and generate a list
  */
 function pageinit_list(){
-
-//	if($.isEmptyObject(system.subj)) loadAllSubjects();
-	calendar.scheduleRequestAll();
-			
+	calendar.listAll();
 	system.page.append();
 }
 
@@ -79,9 +76,9 @@ var calendar = {
 
 	/**
 	 * @name scheduleRequestAll
-	 * @desc Load all upcomnig tasks and generate a list
+	 * @desc Load all upcoming tasks and generate a list
 	 */
-	scheduleRequestAll: function(){
+	listAll: function(){
 
 		requestUrl  = './src/api/database/'+system.user.me.auth+'/read/schedule/';
 		requestUrl += '`userid` = \''+system.user.me.id+'\' AND `deleted` = \'0\' AND `targetdate` >= CURDATE() ORDER BY `targetdate` DESC';
@@ -107,17 +104,43 @@ var calendar = {
 					schedulestring += '<div class="hline"></div><h3><i class="icon-bell"></i> Weitere anstehende Termine</h3>';
 				}
 				
-				schedulestring += '<div name="'+val['id']+'" class="tripple hoverable"><div class="tripplepart"><i class="icon-calendar"></i> ';
-//					schedulestring += (val['scheduletype'] == 1) ? ' <span class="gray">Termin</span>': ' <span class="gray">Prüfung</span>';
+				schedulestring += '<div name="'+val['id']+'" class="tripple"><div class="tripplepart"><i class="icon-calendar"></i> ';
 				schedulestring += chdate(val['targetdate'])+' - <span class="gray">'+getSubjectById(val['subjectid']);
 				schedulestring += ': </span></div><div class="tripplepart"> '+val['title'];
-				schedulestring += '</div><div class="tripplepart"><p class="grey small"> '+val['description']+'</p>';
-				schedulestring += '</div><div class="break"></div></div>';
+				schedulestring += '</div><div class="tripplepart"><span class="small">'+val['description']+'</span><div class="options">';
+				schedulestring += '<a class="button tooltip" href="popup_scheduleedit_'+val['id']+'"><i class="icon-wrench"></i> <span class="help">Bearbeiten</span></a>';
+				schedulestring += '<a class="button tooltip" href="popup_scheduledelete_'+val['id']+'"><i class="icon-remove"></i> <span class="help">Löschen</span></a>';
+				schedulestring += '</div></div><div class="break"></div></div>';
 			}
 			
 			$('#scheduleContainer').append(schedulestring);
-			
+			system.addListener.ajaxLink();
 		});
-
+	},
+	
+	loadOne: function(scheduleid){
+	
+		requestUrl = './src/api/database/'+system.user.me.auth+'/read/schedule/id='+scheduleid;
+		$.getJSON(requestUrl, function(json){
+			if(json.status != 4)  system.form.output("ScheduleEdit", "error", "Konnte Termin nicht laden.");
+			$('#formScheduleEditInputType').val(json.data[0]['scheduletype']);
+			$('#formScheduleEditInputCategory').val(json.data[0]['subjectid']);
+			$('#formSemesterEditInputTitle').val(json.data[0]['title']);
+			$('#formSemesterEditInputDesc').text(json.data[0]['description']);
+			$('#formSemesterEditInputDate').val(json.data[0]['targetdate']);
+		});
+	},
+		
+	/**
+	 * @name scheduleDodelete
+	 * @desc Delete an event from the database
+	 * @param {int} scheduleid - The id of the respective event
+	 */
+	dodelete: function(scheduleid){
+		requestUrl = './src/api/database/'+system.user.me.auth+'/write/schedule/id='+scheduleid+'/update/`deleted`="1"';
+		$.getJSON(requestUrl, function(json){
+			if(json.status == 4) system.page.reload();
+			else system.form.output("userdelete", "error", "Bei der Löschung des Termins ist ein Fehler aufgetreten.");
+		});
 	}
 }

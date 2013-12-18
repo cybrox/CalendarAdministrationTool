@@ -297,15 +297,8 @@ input[type="submit"]{
 
 #popupcontent #headline { margin-top: -20px; }
 
-.headbutton {
-	width: 100%;
-	padding: 0 0 15px 0;
-	text-align: right;
-}
-
-.underh3 {
-	margin-top: -45px;
-}
+.headbutton { float: right; }
+.underh3 { margin-top: -45px; }
 
 .hline {
 	width: 100%;
@@ -315,11 +308,13 @@ input[type="submit"]{
 }
 
 .small {
+/*
 	display: block;
-	font-size: 11px;
-	color: #999999;
 	margin: 0;
 	padding: 0;
+*/
+	font-size: 11px;
+	color: #555;
 }
 
 .listp {
@@ -330,13 +325,12 @@ input[type="submit"]{
 .block        {text-align: justify;}
 .centerbutton {text-align:center;}
 
-.help {display: none;}
 .full {width: 100% !important;}
 
 .options {float: right;}
 .break   {clear: both; }
 
-.gray    {color: #999999;}
+.gray    {color: #555555;}
 .error   {color: #CD2626;}
 .success {color: #698B22;}
 
@@ -358,6 +352,8 @@ a.button {
 	border-right: 1px solid #ddd;
 }
 
+a.button i { color: #555; }
+
 a.button:hover {
 	border: 1px solid #ddd;
 	background: #ddd;
@@ -377,7 +373,7 @@ a.button:hover {
 
 .tripplepart {
 	width: 31%;
-	margin: 0 1% 0 0;
+	margin: 0 1% 10px 0;
 	float: left;
 }
 
@@ -387,14 +383,15 @@ a.button:hover {
 	float: left;
 }
 
-.doubleDescription {
-	width: 85%;
+.doubleDescription { width: 85%; }
+
+.help {
+	display: none;
 	margin: 5px 0 0 0;
 	text-align: justify;
 	font-size: 0.8em;
 	color: #555;
 }
-
 
 /*
 ** Loadingspinner
@@ -575,6 +572,7 @@ a.button:hover {
  */
 .popupsubmit {
 	float: right;
+	margin-top: 15px;
 }
 
 input:nth-of-type(2){

@@ -48,8 +48,8 @@ var admin = {
 					val = json.data[subjectcount];
 					
 					subjectstring  = '<div class="listp"><i class="icon-tag"></i> <span>'+val['name']+'</span><div class="options">';
-					subjectstring += '<a class="button tooltip" href="popup_subjectedit_'+val['id']+'"><i class="icon-wrench"></i> <span>Bearbeiten</span></a>';
-					subjectstring += '<a class="button tooltip" href="popup_subjectdelete_'+val['id']+'"><i class="icon-remove"></i> <span>Löschen</span></a></div><div class="break"></div></div>';
+					subjectstring += '<a class="button tooltip" href="popup_subjectedit_'+val['id']+'"><i class="icon-wrench"></i> <span class="help">Bearbeiten</span></a>';
+					subjectstring += '<a class="button tooltip" href="popup_subjectdelete_'+val['id']+'"><i class="icon-remove"></i> <span class="help">Löschen</span></a></div><div class="break"></div></div>';
 				
 					$('#subjectContent').append(subjectstring);
 				}
@@ -75,12 +75,11 @@ var admin = {
 				
 					usercount = json.data.length;
 					while(usercount--){
-					
 						val = json.data[usercount];
 						
 						userstring  = '<div class="listp"><i class="icon-user"></i> <span>'+val['name']+'</span><div class="options">';
-						userstring += '<a class="button tooltip" href="popup_useredit_'+val['id']+'"><i class="icon-wrench"></i> <span>Bearbeiten</span></a>';
-						userstring += '<a class="button tooltip" href="popup_userdelete_'+val['id']+'"><i class="icon-remove"></i> <span>Löschen</span></a></div><div class="break"></div></div>';
+						userstring += '<a class="button tooltip" href="popup_useredit_'+val['id']+'"><i class="icon-wrench"></i> <span class="help">Bearbeiten</span></a>';
+						userstring += '<a class="button tooltip" href="popup_userdelete_'+val['id']+'"><i class="icon-remove"></i> <span class="help">Löschen</span></a></div><div class="break"></div></div>';
 					
 						$('#userContent').append(userstring);
 					}

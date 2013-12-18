@@ -1,0 +1,77 @@
+<script type="text/javascript">calendar.loadOne(system.data)</script>
+
+<h3 id="headline"><i class="icon-wrench"></i> Termin bearbeiten</h3>
+
+<div class="double">
+	<div class="doublepart">
+		<label for="scheduletype"><i class="icon-retweet"></i> Termintyp</label>
+	</div>
+	<div class="doublepart">
+		<select id="formScheduleEditInputType" name="scheduletype" size="1">
+			<option value="1">Aufgabe</option>
+			<option value="2">Prüfung</option>
+		</select>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<label for="schedulecategory"><i class="icon-tag"></i> Kategorie</label>
+	</div>
+	<div class="doublepart">
+		<select id="formScheduleEditInputCategory" name="schedulecategory" size="1">
+			<option value="1">Aufgabe</option>
+			<option value="2">Prüfung</option>
+		</select>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<label for="scheduletitle"><i class="icon-pencil"></i> Titel</label>
+	</div>
+	<div class="doublepart">
+		<input id="formSemesterEditInputTitle" type="text" name="scheduletitle"></label>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<label for="scheduledesc"><i class="icon-pencil"></i> Beschreibung</label>
+	</div>
+	<div class="doublepart">
+		<textarea id="formSemesterEditInputDesc" type="text" name="scheduledesc"></textarea>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<label for="scheduledate"><i class="icon-calendar"></i> Datum</label>
+	</div>
+	<div class="doublepart">
+		<input id="formSemesterEditInputDate" type="date" name="scheduledate"></label>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<span class="error" id="formScheduleEditError">&nbsp;</span>
+		<span class="success" id="formScheduleEditSuccess">&nbsp;</span>
+	</div>
+	<div class="doublepart">
+		<a href="#" onClick="formScheduleEdit.submit()" class="button popupsubmit"><i class="icon-ok"></i> Änderungen speichern</a>
+	</div>
+	<div class="break"></div>
+</div>
+
+
+<script type="text/javascript">
+
+	var formScheduleEdit = {
+		submit: function(){
+			
+			
+		}
+	}
+
+</script>
