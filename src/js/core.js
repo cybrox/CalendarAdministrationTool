@@ -363,9 +363,8 @@ var system = {
 		
 			$('a').unbind('click');
 			$('a').click(function(e){
-				system.addListener.handleLink($(this).attr('href'));
-				
-				e.preventDefault();
+				var validLink = system.addListener.handleLink($(this).attr('href'));
+				if(validLink) e.preventDefault();
 			});
 		},
 		
@@ -373,19 +372,23 @@ var system = {
 		 * @name handleLink
 		 * @desc Handle the AJAX links
 		 * @param {string} target - The link target (href attribute)
+		 * @return {boolean} return true if link was valid
 		 */
 		handleLink: function(target){
 			system.page.locked = true;
 			
-			parts  = target.split('_');
-			type   = parts[0];
-			target = parts[1];
+			console.log(target);
 			
-			if(parts[2] !== undefined){
-				system.data = parts[2];
+			if(!empty(target)){
+				targetParts  = target.split('_');
+				targetType   = targetParts[0];
+				target       = targetParts[1];
+				if(targetParts[2] !== undefined) system.data = targetParts[2];
+			} else {
+				return false;
 			}
 			
-			switch(type){
+			switch(targetType){
 				case "page":
 					if(system.page.current != target){
 						$('.userelement').removeClass('active');
@@ -402,6 +405,8 @@ var system = {
 					func();
 					break;
 			}
+			
+			return true;
 		}
 	},
 	

@@ -35,7 +35,8 @@ a {
 
 a:hover {color: #104E8B;}
 
-a, a:hover {
+a,
+a:hover {
 	cursor: pointer !important;
 	transition: color 0.3s ease-in-out;
 	-moz-transition: color 0.3s ease-in-out;
@@ -197,7 +198,8 @@ nav {
 	padding: 4px 0;
 }
 
-#userfieldHidden li i, #userfieldVisible i{
+#userfieldHidden li i,
+#userfieldVisible i {
 	display: inline-block;
 	width: 20px;
 	color: #999;
@@ -211,7 +213,7 @@ nav {
 /*
 ** Menu
 */
-#usersites ul {margin: 0;}
+#usersites ul { margin: 0; }
 
 #usersites li {
 	list-style-type: none;
@@ -235,7 +237,8 @@ nav {
 	background: #fff;
 }
 
-#usersites li.active, #usersites li.active:hover {
+#usersites li.active,
+#usersites li.active:hover {
 	box-shadow: 0 1px 0 #ddd, inset 1px 1px 0 #f4f4f4;
 	-moz-box-shadow: 0 1px 0 #ddd, inset 1px 1px 0 #f4f4f4;
 	-webkit-box-shadow: 0 1px 0 #ddd, inset 1px 1px 0 #f4f4f4;
@@ -265,7 +268,10 @@ nav {
 /*
 ** Form elements
 */
-input[type="text"], input[type="password"], textarea {
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="select"] {
 	width: 97%;
 	padding: 5px 1% 5px 2%;
 	background: #fafafa;
@@ -275,13 +281,11 @@ input[type="text"], input[type="password"], textarea {
 	-webkit-box-shadow: inset 1px 1px 2px #ddd;
 }
 
-input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus {
 	color: #1C86EE;
 	outline: 0px !important;
-}
-
-input[type="submit"]{
-	
 }
 
 
@@ -308,11 +312,6 @@ input[type="submit"]{
 }
 
 .small {
-/*
-	display: block;
-	margin: 0;
-	padding: 0;
-*/
 	font-size: 11px;
 	color: #555;
 }
@@ -359,7 +358,8 @@ a.button:hover {
 	background: #ddd;
 }
 
-.double, .tripple {
+.double,
+.tripple {
 	display: block;
 	width: 100%;
 }
@@ -467,7 +467,8 @@ a.button:hover {
 	opacity: .9;
 }
 
-.tooltip span:before, .tooltip span:after{
+.tooltip span:before,
+.tooltip span:after {
 	content: "";
 	position: absolute;
 	z-index: 1000;
@@ -506,57 +507,101 @@ a.button:hover {
 /*
 ** Calendar
 */
-.ui-datepicker-prev, .ui-datepicker-next {
-	display: inline-block;
-	font-size: 3em;
+.ui-datepicker,
+.ui-datepicker table,
+.ui-datepicker tr,
+.ui-datepicker td,
+.ui-datepicker th {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-spacing: 0;
 }
 
-.ui-datepicker-prev {
-	float: left;
-}
-
-.ui-datepicker-next {
-	float: right;
-	text-align: right;
-}
-
-.ui-datepicker-title {
-	text-align: center;
-	font-size: 1.5em;
-	width: 100%;
-	padding: 35px 0 15px 0;
-}
-
+.ui-datepicker,
 .ui-datepicker-calendar {
-	border: 3px solid #fbfbfb;
-	width: 100%;
+	border: 2px solid #ddd;
+    width: 100%;
 }
 
-.ui-datepicker-header, .ui-datepicker-calendar thead {
-	background: #fbfbfb;
+.ui-datepicker {
+    display: none;
+    cursor: default;
+    text-transform: uppercase;
 }
 
-.ui-datepicker-calendar thead tr {
-	height: 40px;
+.ui-datepicker-header,
+.ui-datepicker-calendar th {
+	background: #ddd;
+}
+
+.ui-datepicker-header {
+    position: relative;
+	padding-top: 15px;
+	font-size: 2em;
+}
+ 
+.ui-datepicker-title { text-align: center; }
+.ui-datepicker-month { color: #565656; }
+.ui-datepicker-year  { color: #a8a8a8; }
+
+.ui-datepicker-prev,
+.ui-datepicker-next {
+    position: absolute;
+	font-size: 1.7em;
+	color: #999;
+    top: -0.3em;
+	margin-top: 15px;
+    cursor: pointer;
+}
+ 
+.ui-datepicker-prev { left:  20px; padding-left:  0; }
+.ui-datepicker-next { right: 20px; padding-right: 0; }
+
+.ui-datepicker-calendar th {
+    padding: 15px 0 10px 0;
+    text-align: center;
+    color: #bbb;
 }
 
 .ui-datepicker-calendar td {
-	border: 1px solid #eee;
-	padding: 10px;
 	vertical-align: top;
+	width: 14.287%;
+    height: 150px;
+	border-right:  1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 
-.ui-datepicker-other-month span {
-	color: #999;
+.ui-datepicker-calendar td:hover {
+	background: #f4f4f4;
+	cursor: pointer;
+}
+
+.ui-datepicker-calendar .ui-state-default {
+    display: block;
+	padding: 10px 0 0 10px;
+    color: #555;
+}
+
+.ui-datepicker-other-month .ui-state-default { color: #d2d2d2; }
+.ui-datepicker-today,
+.ui-datepicker-today:hover {
+	background: #BCD2EE !important;
 }
 
 .schedule {
 	display: block;
-	margin: 1px 0;
-	padding: 3px 2px;
-	background: #bbb;
-	min-height: 10px;
+	width: 90%;
+	margin: 2px 3%;
+	padding: 4px 2%;
+	font-size: 0.7em;
+	-webkit-border-radius: 2px;
+	   -moz-border-radius: 2px;
+	        border-radius: 2px;
 }
+
+.scheduletype1 { background: #B2DFEE; }
+.scheduletype2 { background: #FF6347; }
 
 
 /**
@@ -582,31 +627,40 @@ input:nth-of-type(2){
 /*
 ** Animations and Transition
 */
-a.button, a.button:hover {
+a.button,
+a.button:hover {
 	-webkit-transition: all 0.3s ease-in-out;
 	   -moz-transition: all 0.3s ease-in-out;
 	        transition: all 0.3s ease-in-out;
 }
 
-.hoverable, .hoverable:hover {
-	-webkit-transition: background 0.3s ease-in-out;
-	   -moz-transition: background 0.3s ease-in-out;
-	        transition: background 0.3s ease-in-out;
-}
-
-.tooltip span, .tooltip:hover span  {
+.tooltip span,
+.tooltip:hover span  {
 	-webkit-transition: bottom 0.2s ease-in-out, opacity 0.4s ease-in-out;
 	   -moz-transition: bottom 0.2s ease-in-out, opacity 0.4s ease-in-out;
 	        transition: bottom 0.2s ease-in-out, opacity 0.5s ease-in-out;
 }
 
-input[type="text"], input[type="password"], textarea, input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+.ui-datepicker-calendar td,
+.ui-datepicker-calendar td:hover {
+	-webkit-transition: background 0.5s ease-in-out;
+	   -moz-transition: background 0.5s ease-in-out;
+	        transition: background 0.5s ease-in-out;
+}
+
+textarea,
+textarea:focus, 
+input[type="text"],
+input[type="password"],
+input[type="text"]:focus,
+input[type="password"]:focus {
 	-webkit-transition: color 0.2s ease-in-out;
 	   -moz-transition: color 0.2s ease-in-out;
 	        transition: color 0.2s ease-in-out;
 }
 
-#usersites li, #usersites li:hover {
+#usersites li,
+#usersites li:hover {
 	-webkit-transition: box-shadow 0.2s ease-in-out;
 	   -moz-transition: box-shadow 0.2s ease-in-out;
 	        transition: box-shadow 0.2s ease-in-out;
@@ -642,7 +696,6 @@ input[type="text"], input[type="password"], textarea, input[type="text"]:focus, 
 ** Media query for smaller screens
 */
 @media (max-width: 1350px){
-
 	nav {
 		width: 20%;
 		left: -20%;
@@ -652,5 +705,4 @@ input[type="text"], input[type="password"], textarea, input[type="text"]:focus, 
 		width: 80%;
 		margin: 0 0 0 20%;
 	}
-
 }
