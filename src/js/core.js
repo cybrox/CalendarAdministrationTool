@@ -295,7 +295,7 @@ var system = {
 				$('#popups').fadeIn('slow');
 				
 				system.addListener.enterSubmit();
-				system.addListener.ajaxLink();
+//				system.addListener.ajaxLink(); // devnote: why is this even here?
 				
 				if(isstatic){
 					$('#popups').addClass('isstatic');
@@ -377,8 +377,6 @@ var system = {
 		handleLink: function(target){
 			system.page.locked = true;
 			
-			console.log(target);
-			
 			if(!empty(target)){
 				targetParts  = target.split('_');
 				targetType   = targetParts[0];
@@ -416,7 +414,24 @@ var system = {
 	 * @desc Load everything needed to run.
 	 */
 	initialize: function(){
-	
+		jQuery(function($){$.datepicker.regional['de'] = {
+				prevText:   "<i class=\"icon-angle-left\"></i>",
+				prevStatus: "Letzten Monat anzeigen",
+				nextText:   "<i class=\"icon-angle-right\"></i>",
+				nextStatus: "Nächsten Monat anzeigen",
+				
+				dayNamesMin:   ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+				dayNamesShort: ["Son", "Mon", "Die", "Mit", "Don", "Fre", "Sam"],
+				dayNames:      ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+				
+				monthNamesShort: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+				monthNames:      ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" ],
+				
+				firstDay: 1
+			};
+			$.datepicker.setDefaults($.datepicker.regional['de']);
+		});
+		
 		$.getJSON('./src/api/database/'+system.user.me.auth+'/read/subject/deleted="0"', function(json){
 			
 			subjectAmount = json.data.length;

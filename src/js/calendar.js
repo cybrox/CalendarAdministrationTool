@@ -41,21 +41,9 @@ var calendar = {
 		
 		initialize: function(){
 			$("#calendarBody").datepicker({
-				prevText: "<i class=\"icon-angle-left\"></i>",
-				nextText: "<i class=\"icon-angle-right\"></i>",
-				inline: true,
-				firstDay: 1,
-				showOtherMonths: true,
-				
-//				onSelect:          calendar.ui.handleInput,
 				onChangeMonthYear: calendar.ui.handleSwipe,
-				
-				dayNamesMin:   ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
-				dayNamesShort: ["Son", "Mon", "Die", "Mit", "Don", "Fre", "Sam"],
-				dayNames:      ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
-				
-				monthNamesShort: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
-				monthNames:      ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" ]
+				showOtherMonths: true,
+				inline: true
 			});
 			
 			var currentDate = $.datepicker.formatDate("yy-mm", $("#calendarBody").datepicker("getDate"));
@@ -64,14 +52,8 @@ var calendar = {
 			
 			system.page.append();
 		},
-	
-		handleInput: function(){
-			alert($(this).datepicker('getDate'));
-			calendar.ui.appendData();
-		},
 		
 		handleSwipe: function(year, month, element){
-			console.log("swiped month");
 			calendar.ui.fetchData(year, month);
 		},
 		
@@ -80,13 +62,11 @@ var calendar = {
 			var startDate = year+"-"+month+"-01";
 			
 			requestUrl  = "./src/api/database/"+system.user.me.auth+"/read/schedule/";
-			requestUrl += "`userid` = '"+system.user.me.id+"' AND `deleted` = '0' AND `targetdate` BETWEEN '"+startDate+"' AND LAST_DAY('"+startDate+"') ORDER BY `targetdate` DESC";
+			requestUrl += "`userid` = '"+system.user.me.id+"' AND `deleted` = '0' AND `targetdate` BETWEEN '"+startDate+"' AND LAST_DAY('"+startDate+"')/ORDER BY `targetdate` DESC";
 			
 			$.getJSON(requestUrl, function(json){
 				calendar.ui.eventcache = json.data;
-				
-				var monthStarted = false;
-				if(empty(calendar.ui.eventcache)) return;
+				var monthStarted       = false;
 				
 				$("#calendarBody").datepicker("refresh");
 				$("td").each(function(){
@@ -98,23 +78,28 @@ var calendar = {
 					if(monthStarted){
 						if(parseInt(dayNumber) < 10) dayNumber = "0"+dayNumber;
 						dayField
+							.html(dayField.html().replace("a", "span"))
 							.attr("id", "f"+year+"-"+month+"-"+dayNumber)
+							.addClass("ui-datepicker-emptyday")
 							.unbind()
 							.click(function(){
 								var thisDay   = $(this).children().first().text();
 								var dayNumber = (parseInt(dayNumber) < 10) ? "0"+thisDay : thisDay;
-								
+									
 								system.addListener.handleLink("popup_scheduleview_"+calendar.ui.datescache+dayNumber);
 							});
 					}
 				});
-				calendar.ui.appendData();
+				if(!empty(calendar.ui.eventcache)) calendar.ui.appendData();
 			});
 		},
 		
 		appendData: function(){
 			$.each(calendar.ui.eventcache, function(key, value){
-				calendar.ui.appendSchedule($("#f"+value.targetdate), value);
+				var targetField = $("#f"+value.targetdate);
+				
+				calendar.ui.appendSchedule(targetField, value);
+				targetField.removeClass("ui-datepicker-emptyday")
 			});
 		},
 		
@@ -130,7 +115,7 @@ var calendar = {
 	listAll: function(){
 
 		requestUrl  = './src/api/database/'+system.user.me.auth+'/read/schedule/';
-		requestUrl += '`userid` = \''+system.user.me.id+'\' AND `deleted` = \'0\' AND `targetdate` >= CURDATE() ORDER BY `targetdate` DESC';
+		requestUrl += '`userid` = \''+system.user.me.id+'\' AND `deleted` = \'0\' AND `targetdate` >= CURDATE()/ORDER BY `targetdate` DESC';
 
 		
 		$.getJSON(requestUrl, function(json){
@@ -170,16 +155,30 @@ var calendar = {
 	},
 	
 	loadOneDay: function(scheduledate){
-	
-		requestUrl = './src/api/database/'+system.user.me.auth+'/read/schedule/targetdate='+scheduledate;
+		requestUrl = "./src/api/database/"+system.user.me.auth+"/read/schedule/targetdate='"+scheduledate+"'";
 		$.getJSON(requestUrl, function(json){
-			console.log(json);
+			$("#tdte").text($.datepicker.formatDate( "DD, d. MM yy", new Date(scheduledate.replace("-", ","))));
+			
+			htmlString = "";
+			if(json.status == 4){
+				$.each(json.data, function(key, value){
+					htmlString += "<div class=\"calendarEntry\"><p class=\"scheduleDesc\"><i class=\"icon-bell\"></i> ";
+					htmlString += (value.scheduletype == "2") ? "Prüfung" : "Aufgabe";
+					htmlString += " <i class=\"icon-ticket\"></i> "+value.subjectid+"<br />"+value.title;
+					htmlString += "<br /><span class=\"small\">"+value.description+"</span></p><div class=\"hline\"></div></div>"
+				});
+			} else {
+				htmlString += "Es wurden keine anstehenden Termine am "+chdate(scheduledate)+" gefunden.";
+			}
+			htmlString += "<a class=\"button popupsubmit\" onClick=\"system.addListener.handleLink('popup_scheduleadd')\"><i class=\"icon-add\"></i> Termin hinzufügen</a>";
+			htmlString += "<div class=\"break\"></div>";
+			
+			$("#scheduleContainer").html(htmlString);
 		});
 	},
 	
 	loadOne: function(scheduleid){
-	
-		requestUrl = './src/api/database/'+system.user.me.auth+'/read/schedule/id='+scheduleid;
+		requestUrl = "./src/api/database/"+system.user.me.auth+"/read/schedule/id='"+scheduleid+"'";
 		$.getJSON(requestUrl, function(json){
 			if(json.status != 4){
 				system.form.output("ScheduleEdit", "error", "Konnte Termin nicht laden.");
@@ -200,7 +199,7 @@ var calendar = {
 	 * @param {int} scheduleid - The id of the respective event
 	 */
 	dodelete: function(scheduleid){
-		requestUrl = './src/api/database/'+system.user.me.auth+'/write/schedule/id='+scheduleid+'/update/`deleted`="1"';
+		requestUrl = "./src/api/database/"+system.user.me.auth+"/write/schedule/id="+scheduleid+"/update/`deleted`='1'";
 		$.getJSON(requestUrl, function(json){
 			if(json.status == 4) system.page.reload();
 			else system.form.output("userdelete", "error", "Bei der Löschung des Termins ist ein Fehler aufgetreten.");

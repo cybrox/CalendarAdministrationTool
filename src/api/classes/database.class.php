@@ -1,47 +1,43 @@
 <?php
-
 /* CAT - Calendar Administration Tool
-** Datenbankschnittstelle http/https
+** Database API database subclass
 **
-** Autor: Sven Gehring
+** Author: Sven Gehring
 **
-** Informationen zur Lizenz dieses Quellcodes
-** finden sie in der beiliegenden LICENSE.md
-**
-** Für weitere Informationen zum Aufbau und der
-** Verwendung dieser Schnittstelle, lesen sie
-** bitte die API-Dokumentation, zu finden unter
-** Link:  "http://cybrox.eu/project/cat/doc/"
-** Datei: "#04 - Datenbankschnittstelle.docx"
+** Default copyright laws apply on this code.
+** You may not copy, share, edit nor create
+** any derivated work from this or any other
+** file in this project.
 */
 	
 	
 	/**
-	 * Datenbankklasse, lesen und schreiben in der Datenbank
-	 *
-	 * Diese Klasse ermöglicht das lesen und schreiben
-	 * von Einträgen in der Datenbank. Dazu gehören das
-	 * auslesen, einfügen und modifizieren von Daten.
+	 * @namespace Database
+	 * @class Database
+	 * @desc The database class will handle all MySQLi database requests the user
+	 *		 may perform expect for the login and logout requests.
 	 */
 	class database extends CatInterface implements apiElement {
 		
-		protected $database; 	// Datenbankelement
-		protected $userlvl;		// Benutzerlevel
-		protected $userid;		// Benutzer ID
+		protected $database;		// MySQLi database object
+		protected $userlvl;			// Requesting user's access level
+		protected $userid;			// Requesting user's unique Id
 		
-		private $requestedAction;
-		private $requestedTables;
-		private $requestedFilter;
-		private $requestedReType;
-		private $requestedInputs;
+		private $requestedAction;	// Requested database action
+		private $requestedTables;	// Requested database table
+		private $requestedFilter;	// Requested filter parameter
+		private $requestedReType;	// Requested action type
+		private $requestedInputs;	// Requested input data
 		
 		
 		
 		/**
-		 * Klassenkonstruktor, Datenbankverbindung herstellen
-		 *
-		 * Baut eine Datenbankverbindung auf und erkennt
-		 * die vom Benutzer gewünschte Aktion
+		 * @method __construct
+		 * @name constructor
+		 * @desc Initialize a new database request, filter the parameters and
+		 *		 perform the respective database action.
+		 * @param {array} requestParameter - Request parameter array
+		 * @param {int} accessLevel - Requesting user's access level
 		 */
 		public function __construct($requestParameters, $accessLevel){
 			$this->database = parent::databaseConnect();
@@ -67,20 +63,19 @@
 		
 		
 		/**
-		 * Leseanfrage bearbeiten
-		 *
-		 * Bearbeitet eine Leseanfrage und gibt das Ergebnis
-		 * im JSON Format an die Ausgabefunktion der Elternklasse
-		 * zurück.
+		 * @method handleReadRequest
+		 * @name Handle Read Request
+		 * @desc Handle a database read request, this will generate the SQL query and
+		 *		 send it to the connected database, it will output the returned data or
+		 *		 an error if the returned resource is empty.
 		 */
 		private function handleReadRequest(){
-		
 			$this->checkInputs();
 			
-			$requestedData = $this->database->query("SELECT * FROM `".DATENBANK_PREFIX.$this->requestedTables."` WHERE ".urldecode($this->requestedFilter).$this->generateSecurityString()." ".urldecode($this->requestedReType));
+			$requestqQuery = "SELECT * FROM `".DATENBANK_PREFIX.$this->requestedTables."` WHERE ".urldecode($this->requestedFilter).$this->generateSecurityString()." ".urldecode($this->requestedReType);
+			$requestedData = $this->database->query($requestqQuery);
 			
 			if($requestedData->num_rows >= 1){
-				
 				while($row = $requestedData->fetch_assoc()){
 					$requestedDataOutput[] = $row;
 				}
@@ -93,14 +88,14 @@
 		
 		
 		/**
-		 * Ausführen einer Schreibanfrage
-		 *
-		 * Ermöglicht das schreiben neuer Datensätze
-		 * so wie das bearbeiten bestehender Datensätze
-		 * in der Datenbank.
+		 * @method handleWriteRequest
+		 * @name Handle Write Request
+		 * @desc Handle a database write request, this will generate the SQL query
+		 *		 depending on the given filters and parameters and input data. If the
+		 *		 database returns an error, the method will output it, otherwise it will
+		 *		 display a success message.
 		 */
 		private function handleWriteRequest(){
-		
 			$this->checkInputs();
 			
 			if(preg_match("#(INSERT|UPDATE)#i", $this->requestedReType)){
@@ -114,11 +109,8 @@
 				
 				$requestedData  = $this->database->query($requestedQuery);
 				
-				if(empty($this->database->error)){
-					parent::handleOutput("Aktion erfolgreich");
-				} else {
-					parent::handleError($this->database->error);
-				}
+				if(empty($this->database->error)) parent::handleOutput("Aktion erfolgreich");
+				else parent::handleError($this->database->error);
 			} else {
 				parent::handleError("Ungueltige Aktion ausgewaehlt");
 			}
@@ -126,11 +118,11 @@
 		
 		
 		/**
-		 * Prüfen der Eingangswerte
-		 *
-		 * Prüft ob die für eine Abfrage nötigen Werte
-		 * vorhanden sind, der Name der Tabelle und der
-		 * Filter der anzuzeigenden Datensätze
+		 * @method checkInputs
+		 * @name Check Inputs
+		 * @desc Check the given input values, this will output an error if the user
+		 *		 has no specified a table or a filte because these two values are
+		 *		 needed in every type of request this class will handle.
 		 */
 		private function checkInputs(){
 			if(empty($this->requestedTables)) parent::handleError("Keine Tabelle ausgewaehlt");
@@ -139,20 +131,20 @@
 		
 		
 		/**
-		 * Sicherheitsstring generieren
-		 *
-		 * Generiert einen String für das Abfragequery um
-		 * zu verhidnern, dass ein Benutzer Daten anderer
-		 * Benutzer auslesen kann.
+		 * @method generateSecurityString
+		 * @name Generate Security String
+		 * @desc In order to allow the administrator to view all user's data and
+		 *		 to prevent normal users from reading other user's data, this
+		 *		 method will generate a security string which will be added to the
+		 *		 SQL query that will limit access to the requesting user's Id if this
+		 *		 user is not an administrator.
 		 */
 		private function generateSecurityString(){
-			
 			if($this->userlvl == 2 || $this->requestedTables == "subject") return "";
 			
 			$reqtab = ($this->requestedTables == "user") ? "id" : "userid";
 			
-			return " AND `".$reqtab."` = '".$this->userid."'";
-			
+			return " AND `".$reqtab."` = '".$this->userid."'";	
 		}
 	}
 

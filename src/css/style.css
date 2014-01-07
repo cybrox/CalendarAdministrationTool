@@ -10,30 +10,33 @@
 */
 
 
-/**
- * Custom Chrome Scrollbars
- */
-::-webkit-scrollbar {width: 10px; background-color: #fff;}
-::-webkit-scrollbar-track {border-radius: 0px;}
-::-webkit-scrollbar-thumb {border-radius: 0px; background-color: #ddd;}
-::-webkit-scrollbar-thumb:hover {border-radius: 0px; background-color: #1C86EE;}
+/*
+** Custom Chrome Scrollbars
+** This will apply custom scrollbars in the Google Chrome web browser
+** to create a very simple and elegant layout
+*/
+::-webkit-scrollbar             { width:        10px; background-color: #FFFFFF; }
+::-webkit-scrollbar-track       { border-radius: 0px;                            }
+::-webkit-scrollbar-thumb       { border-radius: 0px; background-color: #DDDDDD; }
+::-webkit-scrollbar-thumb:hover { border-radius: 0px; background-color: #1C86EE; }
 
 
-/**
- * Overall font definitions
- */
+/*
+** Font definitions
+** Load the used custom fonts (Ubuntu Fonts) and define the basic font style
+** for every elemen and the link appearance.
+*/
 @font-face {font-family: 'Ubuntu-Regular'; src: url('../font/ubuntu-regular-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
 @font-face {font-family: 'Ubuntu-Medium'; src: url('../font/ubuntu-medium-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
 @font-face {font-family: 'Ubuntu-Bold'; src: url('../font/ubuntu-bold-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
 
-* {font-family: Ubuntu-Regular, Arial;}
+* { font-family: Ubuntu-Regular, Arial; }
 
+a:hover { color: #104E8B; }
 a {
 	text-decoration: none;
 	color: #1C86EE;
 }
-
-a:hover {color: #104E8B;}
 
 a,
 a:hover {
@@ -44,22 +47,36 @@ a:hover {
 }
 
 
-/**
- * Body
- */
-html {
-    overflow-y: scroll; 
-}
- 
+/*
+** Page style
+** Append an overflow to prevent page jumping and reset the body's spacing
+** This also contains the basic style definitions for the content container
+*/
+html {  overflow-y: scroll; }
 body {
 	margin: 0;
 	padding: 0;
 }
 
+#content {
+	width: 85%;
+	height: 100%;
+	margin: 0 0 0 15%;
+	transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+}
+
+#contentInner {
+	padding: 20px;
+}
+
 
 /*
 ** Error message and popups
+** The style for the error message overlay and the popup boxes
 */
+#errors h4 { margin-top: 100px; }
 #errors {
 	position: fixed;
 	z-index: 500;
@@ -73,19 +90,17 @@ body {
 	display: none;
 }
 
-#errors h4 {
-	margin-top: 100px;
-}
-
 #popups {
 	position: fixed;
 	z-index: 200;
-	top: 50%;
+	top: 30%;
 	left: 30%;
 	width: 40%;
 	height: auto;
+	max-height: 60%;
 	min-height: 100px;
-	margin: -100px 0 0 0;
+	overflow: auto;
+	margin: 0;
 	background: #fff;
 	display: none;
 	box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee;
@@ -100,13 +115,8 @@ body {
 	color: #CD2626;
 }
 
-#popupclose:hover {
-	cursor: pointer;
-}
-
-#popupcontent {
-	padding: 35px 20px 20px 20px;
-}
+#popupclose:hover { cursor: pointer; }
+#popupcontent { padding: 35px 20px 20px 20px; }
 
 #staticpopup {
 	display: none;
@@ -130,6 +140,7 @@ body {
 
 /*
 ** Navigation and Userpanel
+** The style for the navigation sidebar, the menu items and the dropdown user panel
 */
 nav {
 	position: fixed;
@@ -179,13 +190,8 @@ nav {
 	-webkit-transform: rotate(180deg);
 }
 
-#userfieldVisible {
-	padding: 13px 10px;
-}
-
-#userfieldVisible:hover {
-	cursor:pointer;
-}
+#userfieldVisible { padding: 13px 10px; }
+#userfieldVisible:hover { cursor:pointer; }
 
 #userfieldHidden {
 	margin: 0;
@@ -205,16 +211,9 @@ nav {
 	color: #999;
 }
 
-#username {
-	display: inline !important;
-}
+#username { display: inline !important; }
 
-
-/*
-** Menu
-*/
 #usersites ul { margin: 0; }
-
 #usersites li {
 	list-style-type: none;
 	margin: 0 0 10px 0;
@@ -229,13 +228,8 @@ nav {
 	-webkit-box-shadow: -3px 0 0 #ddd inset;
 }
 
-#usersites li:nth-of-type(2) {
-	margin: 0 0 30px 0;
-}
-
-#usersites li.active {
-	background: #fff;
-}
+#usersites li:nth-of-type(2) { margin: 0 0 30px 0; }
+#usersites li.active { background: #fff; }
 
 #usersites li.active,
 #usersites li.active:hover {
@@ -267,7 +261,9 @@ nav {
 
 /*
 ** Form elements
+** The style for all select and input boxes as well as text area boxes
 */
+select,
 textarea,
 input[type="text"],
 input[type="password"],
@@ -290,12 +286,13 @@ input[type="password"]:focus {
 
 
 /*
-** Fixed elements
+** Framework element
+** This contains style defintions for elements that may occur in multiple page
+** templates, it defines the basic appearance of all CAT sites.
 */
 #headline {
 	margin-top: 0;
 	padding-bottom: 1px;
-	font-family: Ubuntu-Bold;
 	border-bottom: 1px solid #ddd;
 }
 
@@ -321,17 +318,17 @@ input[type="password"]:focus {
 	padding: 0;
 }
 
-.block        {text-align: justify;}
-.centerbutton {text-align:center;}
+.block        { text-align: justify; }
+.centerbutton { text-align:center;   }
 
-.full {width: 100% !important;}
+.full    { width: 100% !important; }
 
-.options {float: right;}
-.break   {clear: both; }
+.options { float: right; }
+.break   { clear: both;  }
 
-.gray    {color: #555555;}
-.error   {color: #CD2626;}
-.success {color: #698B22;}
+.gray    { color: #555555; }
+.error   { color: #CD2626; }
+.success { color: #698B22; }
 
 .doublepart i {
 	display: inline-block;
@@ -393,8 +390,11 @@ a.button:hover {
 	color: #555;
 }
 
+
 /*
 ** Loadingspinner
+** The style definitions fot the loading spinner that appears while the system
+** is loading a new page template or a popup into the DOM
 */
 #loader {
 	display: none;
@@ -427,9 +427,10 @@ a.button:hover {
 }
 
 
-/**
- * Tooltipps
- */
+/*
+** Tooltipps
+** The style definitions for the tooltips that describe the button function
+*/
 .tooltip {
 	position: relative;
 	display: inline-block;
@@ -459,7 +460,7 @@ a.button:hover {
 	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
 }
 
-.tooltip:hover {border: 0;}
+.tooltip:hover { border: 0; }
 
 .tooltip:hover span {
 	visibility: visible;
@@ -487,25 +488,11 @@ a.button:hover {
 }
 
 
-/*
-** Content
-*/
-#content {
-	width: 85%;
-	height: 100%;
-	margin: 0 0 0 15%;
-	transition: all 0.5s ease-in-out;
-	-moz-transition: all 0.5s ease-in-out;
-	-webkit-transition: all 0.5s ease-in-out;
-}
-
-#contentInner {
-	padding: 20px;
-}
 
 
 /*
-** Calendar
+** PAGE: Calendar
+** All style definitions used on the calendar page, calendar and schedule layout
 */
 .ui-datepicker,
 .ui-datepicker table,
@@ -589,10 +576,16 @@ a.button:hover {
 	background: #BCD2EE !important;
 }
 
+.ui-datepicker-unselectable:hover,
+.ui-datepicker-other-month:hover {
+	background: none !important;
+	cursor: default !important;
+}
+
 .schedule {
 	display: block;
 	width: 90%;
-	margin: 2px 3%;
+	margin: 3px 3%;
 	padding: 4px 2%;
 	font-size: 0.7em;
 	-webkit-border-radius: 2px;
@@ -603,18 +596,17 @@ a.button:hover {
 .scheduletype1 { background: #B2DFEE; }
 .scheduletype2 { background: #FF6347; }
 
+.calendarEntry i { color: #666; }
+
 
 /**
- * Semster
- */
+** PAGE: Semster
+** All style definitions used on the semester page
+*/
 #semsterContainer {
 	padding: 25px 0;
 }
 
-
-/**
- * temp
- */
 .popupsubmit {
 	float: right;
 	margin-top: 15px;
@@ -624,8 +616,11 @@ input:nth-of-type(2){
 	margin-top: 15px !important;
 }
 
+
 /*
 ** Animations and Transition
+** Smooth animations and page transitions to give the UI a smoother look
+** on modern (CSS3 compatible) browsers.
 */
 a.button,
 a.button:hover {
@@ -690,10 +685,8 @@ input[type="password"]:focus {
 }
 
 
-
-
 /*
-** Media query for smaller screens
+** Media queries for smaller screens
 */
 @media (max-width: 1350px){
 	nav {

@@ -1,37 +1,24 @@
 <?php
-
 /* CAT - Calendar Administration Tool
-** Datenbankschnittstelle http/https
+** Database API subclass interface
 **
-** Autor: Sven Gehring
+** Author: Sven Gehring
 **
-** Informationen zur Lizenz dieses Quellcodes
-** finden sie in der beiliegenden LICENSE.md
-**
-** Für weitere Informationen zum Aufbau und der
-** Verwendung dieser Schnittstelle, lesen sie
-** bitte die API-Dokumentation, zu finden unter
-** Link:  "http://cybrox.eu/project/cat/doc/"
-** Datei: "#04 - Datenbankschnittstelle.docx"
+** Default copyright laws apply on this code.
+** You may not copy, share, edit nor create
+** any derivated work from this or any other
+** file in this project.
 */
 
+
 	/**
-	 * Interface für Unterklassen
+	 * Interface example for subclasses
 	 *
-	 * Um eine Unterklasse korrekt aufrufen
-	 * zu können, muss sie mindestens über
-	 * einen Konstruktor verfügen, deshalb
-	 * steht ein einfaches Interface zur
-	 * Einbindung zur Verfügung.
+	 * This is a small interface for additional
+	 * API subclasses to define the embedding structure.
 	 */
 	interface apiElement {
 		
-		/**
-		 * Klassenkonstruktor
-		 *
-		 * Übergabe der Anfrageparameter an
-		 * die verwendete Unterklasse.
-		 */
 		public function __construct($requestParameters, $accessLevel);
 		
 	}

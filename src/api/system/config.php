@@ -1,28 +1,24 @@
 <?php
 
 
-	/* Diese Konfigurationsdatei beinhaltet die bei der Installationen eingetragenen
-	** Zugangsdaten für die verwendete MySQL Datenbank.
-	**
-	** Änderungen an diesen Daten können ihre Installtion dieser Software unbrauchbar
-	** machen, folgen sie bei allfälligen Änderungen den Anweisungen zur Datenbankänderung
-	** welche sie im Anhang der Installationsanleitung finden. */
-	define("DATENBANK_HOSTADDR", "localhost");			// MySQL Hostadresse
-	define("DATENBANK_BENUTZER", "ni31524_5sql16");		// MySQL Benutzername
-	define("DATENBANK_PASSWORT", "028cdbe5");			// MySQL Passwort
-	define("DATENBANK_NAME",     "ni31524_5sql16");		// MySQL Datenbankname
+	/* This config file contains the MySQL connection values you entered while
+	** you first installed this software. You may not change any of these values
+	** unless you want to move the software's database to another host or change
+	** its structure, however you should know how to handle SQL databases if you
+	** plan to cange anything here. */
+	define("MYSQL_HOST", "localhost");			// MySQL host address
+	define("MYSQL_USER", "ni31524_5sql16");		// MySQL user name
+	define("MYSQL_PASS", "028cdbe5");			// MySQL user password
+	define("MYSQL_NAME", "ni31524_5sql16");		// MySQL database name
 	
 	
-	/* Das Datenbankpräfix wird bei der Installation gesetzt und kann bei nachträglicher
-	** Änderung zu kritischen Fehlern führen. Bitte bearbeiten sie diesen Wert nur, wenn
-	** sie zuvor Änderungen an der Datenbank vorgenommen haben und über das entsprechende
-	** Hintergrundwissen verfügen. */
-	define("DATENBANK_PREFIX", "cat_");
+	/* The database prefix will be set when you first install the software, it is
+	** used to allow multiple CAT installations on a single host or to sepparate its
+	** tables from other data that may be stored in the database.
+	** You may not change this string after the successful installation of this 
+	** software unless you're aware how to deal with errors that may occur and know
+	** how to correctly rename your tables after changin this. */
+	define("DATENBANK_PREFIX", "cat_");	
 	
 	
-	/* Das Multilogin ermöglicht es einem Benutzer von verschiedenen Standorten aus gleich-
-	** zeitig eingeloggt zu sein. Diese Option ist standardmässig deaktiviert, da dies eine
-	** Sicherheitslücke darstellt, wenn der Benutzer sich nicht manuell ausloggt. */
-	define("OPTION_MULTILOGIN", false);
-
 ?>

@@ -1,50 +1,42 @@
 <?php
-
 /* CAT - Calendar Administration Tool
-** Datenbankschnittstelle http/https
+** Database API main class
 **
-** Autor: Sven Gehring
+** Author: Sven Gehring
 **
-** Informationen zur Lizenz dieses Quellcodes
-** finden sie in der beiliegenden LICENSE.md
-**
-** Für weitere Informationen zum Aufbau und der
-** Verwendung dieser Schnittstelle, lesen sie
-** bitte die API-Dokumentation, zu finden unter
-** Link:  "http://cybrox.eu/project/cat/doc/"
-** Datei: "#04 - Datenbankschnittstelle.docx"
+** Default copyright laws apply on this code.
+** You may not copy, share, edit nor create
+** any derivated work from this or any other
+** file in this project.
 */
 	
 	/**
-	 * CAT Schnittstelle Hauptklasse
-	 *
-	 * Die CatInterface Klasse ist die Hauptklasse der
-	 * API, sie wird bei jedem Aufruf verwendet um den
-	 * Benutzer zu authentifizieren und eventuelle
-	 * Unterklassen zur weiteren Datenverarbeitung zu
-	 * laden und zu verwalten.
+	 * @namespace CatInterface
+	 * @class CatInterface
+	 * @desc The CAT interface' main class, this class will handle all incoming
+	 *		 API requests and redirect them to the respective subclass.
+	 *		 For additional information, please read the API Documentation file.
 	 */
 	class CatInterface{
 		
-		protected $status;		// Status der API Abfrage
-		protected $sclass;		// Eingebundene Unterklasse
-		protected $database;	// MySQLi Datenbankonjekt
-		protected $accessLevel;	// Benutzerlevel
+		protected $status;		// Internal request status
+		protected $sclass;		// Requested API subclass object
+		protected $database;	// MySQLi database object
+		protected $accessLevel;	// Requesting user's access level
 		
-		public $requestParms;	// Anfrageparameter
-		public $requestClass;	// Angeforderte Klasse
-		public $requestToken;	// Übergebener Session-Token (Benutzername bei Login)
-		public $requestThird;	// Übergebener Drittwert (Passwort bei Login)
+		public $requestParms;	// Request parameter array
+		public $requestClass;	// Requested subclass name
+		public $requestToken;	// Requesting user's auth-token
+		public $requestThird;	// Requested third-value (used for login)
 		
 		
 		
 		/**
-		 * Klassenkonstruktor, Datenbankinitialisierung
-		 *
-		 * Die Datenbankklasse dieser Schnittstelle ist
-		 * so konzipiert, dass das daraus erzeugte Objekt
-		 * möglist selbstständig funktioniert, es sind
-		 * kein weiteren Methodenaufrufe nötig.
+		 * @method __construct
+		 * @name constructor
+		 * @desc Initialize a new API request, connect to the database,
+		 *		 filter parameters, check user token and call subclass.
+		 * @param {array} requestParameter - Request parameter array
 		 */
 		public function __construct($requestParameter){
 			$this->databaseConnect();
@@ -64,10 +56,13 @@
 		
 		
 		/**
-		 * Datenbankverbindung herstellen
+		 * @method databaseConnect
+		 * @name Database Connect
+		 * @desc Connect to the configured database and set CHARSET
+		 * @return {object} this::database - The mysqli database object
 		 */
 		protected function databaseConnect(){
-			$this->database = new mysqli(DATENBANK_HOSTADDR, DATENBANK_BENUTZER, DATENBANK_PASSWORT, DATENBANK_NAME);
+			$this->database = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_NAME);
 			
 			$this->database->query("SET CHARACTER SET utf8");
 			
@@ -76,13 +71,10 @@
 		
 		
 		/**
-		 * Sicherheitsschlüssel verifizieren
-		 *
-		 * Bei einer Loginanfrage werden die übergebenen
-		 * Parameter entsprechend verarbeitet, in jedem
-		 * anderen Fall wird geprüft ob der gesendete Token
-		 * dem Benutzer zugeordnet ist und dieser bereits
-		 * eingeloggt ist.
+		 * @method validateToken
+		 * @name Validate Token
+		 * @desc Check if the user has requested a login action and perform a
+		 *		 login request, validate the user's give auth-token otherwise.
 		 */
 		private function validateToken(){
 			if($this->requestClass == "login"){
@@ -94,10 +86,12 @@
 		
 		
 		/**
-		 * Neuen Session-Token generieren
-		 *
-		 * Bei jedem Login wird für den Benutzer ein neuer
-		 * Sicherheitsschlüssel (Token) generiert.
+		 * @method generateToken
+		 * @name Generate Token
+		 * @desc Generate a new user token, a token will be used to allow the user
+		 *		 to perform further API requests, it contains 20 randomly generated
+		 *		 characers including upper- and lowercased letters and numbers.
+		 * @return {string} tokenStringy - The generated user token
 		 */
 		private function generateToken(){
 			$tokenCharset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -112,13 +106,12 @@
 		
 		
 		/**
-		 * Loginanfrage verarbeiten
-		 *
-		 * Prüft die vom Benutzer übergebenen Login
-		 * Daten und generiert bei Erfolg einen neuen
-		 * Session Token der in der Datenbank gespeichert
-		 * wird, zudem wird der Benutzer in der
-		 * Datenbank als "active" markiert.
+		 * @method userLogin
+		 * @name User Login
+		 * @desc Send a new login request to the database and check if the user's
+		 *		 given credentials are valid, generate and return a new auth-token
+		 *		 and set the user active in the database if the login request was
+		 *		 handled successfully.
 		 */
 		private function userLogin(){
 			$requestedUser = $this->database->query("SELECT `id` FROM `".DATENBANK_PREFIX."user` WHERE `name` = '".$this->requestToken."' AND `password` = '".$this->requestThird."'");
@@ -138,11 +131,12 @@
 		
 		
 		/**
-		 * Übergebenenen Sicherheitsschlüssel prüfen
-		 *
-		 * Prüfen ob der übergebene Sicherheitsschlüssel
-		 * mit der gegebenen Benutzer-ID überein stimmt
-		 * und der Benutzer angemeldet ist.
+		 * @method userValidate
+		 * @name User Validate
+		 * @desc Validate a user's auth token. This method will be called in every
+		 *		 API request to check if the requesting user has the permission to
+		 *		 perform the respective request. If the given auth-token is invalid,
+		 *		 the system will output an error.
 		 */
 		private function userValidate(){
 			if(preg_match("#[A-z0-9]{18,22}\-[0-9]{1,}#", $this->requestToken)){
@@ -170,19 +164,10 @@
 		
 		
 		/**
-		 * Gibt den Benutzerlevel zurück
-		 */
-		protected function getAccessLevel(){
-			return $this->accessLevel;
-		}
-		
-		
-		/**
-		 * Prüfen ob die angeforderte Unterklasse existiert
-		 *
-		 * Da die API Modular aufgebaut ist, wir zuerst
-		 * geprüft, ob die angefragte Unterklasse überhaupt
-		 * existiert. Im Erfolgsfall wird sie eingebunden.
+		 * @method checkSubclass
+		 * @name Check Subclass
+		 * @desc Check if the requested subclass is an existing PHP file and load
+		 *		 it if this check was successful.
 		 */
 		private function checkSubclass(){
 			if(file_exists('./classes/'.$this->requestClass.'.class.php')){
@@ -197,11 +182,9 @@
 		
 		
 		/**
-		 * Ausgabe eines Fehlers
-		 *
-		 * Beim Auftreten eines Fehlers in der API- oder
-		 * einer Unterklasse wird der Fehler ausgegeben
-		 * und die aktive Anfrage komplett beendet.
+		 * @method handleError
+		 * @name Handle Error
+		 * @desc Output an Error message and the current API status
 		 */
 		protected function handleError($error){
 			die('{"status": "'.$this->status.'", "error": "'.$error.'", "data": ""}');
@@ -209,11 +192,9 @@
 		
 		
 		/**
-		 * Ausgabe einer Rückmeldung
-		 *
-		 * Nach erfolgreicher Verarbeitung einer Anfrage
-		 * werden die Daten hier von der API ausgegeben.
-		 * Danach wird die Anfrage beendet.
+		 * @method handleOutput
+		 * @name Handle Output
+		 * @desc Output a result message and the current API status
 		 */
 		protected function handleOutput($data){
 			die('{"status": "4", "error": "", "data": '.json_encode($data).'}');
