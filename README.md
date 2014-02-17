@@ -1,5 +1,7 @@
 Calendar Administration Tool - Fachübergreifende Projekte HST/INF Technische Berufsschule Zürich, 5. Semester
 
+**Important Note:** *This software is using its own core to handle links, data-shifts and ... well, pretty much everything. I'd use Ember.js if I'd be allowed to but since that obviously isn't the case, the tools is based on a selfwritten, minimalized core.*
+
 Preamble
 ===
 The Calendar administration tool (short CAT) is a server based calender that allows you to manage and evaluate upcoming events, tasks and exams. It is designed especially for the use in student groups or instructive operation. CAT is a web application, therefore the user can run it without anything else than the default browser.
