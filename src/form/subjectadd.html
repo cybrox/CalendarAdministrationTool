@@ -1,0 +1,35 @@
+<h3 id="headline"><i class="icon-plus"></i> Kalenderkategorie hinzufügen</h3>
+
+<div class="double">
+	<div class="doublepart">
+		<label for="catgname"><i class="icon-tag"></i> Kategoriename</label>
+	</div>
+	<div class="doublepart">
+		<input id="formSubjectAddInputName" type="text" name="catgname"></label>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<span class="error" id="errorSubjectAdd">&nbsp;</span>
+	</div>
+	<div class="doublepart">
+		<a href="#" onClick="formSubjectAdd.submit()" class="button popupsubmit"><i class="icon-ok"></i> Kategorie hinzufügen</a>
+	</div>
+	<div class="break"></div>
+</div>
+
+
+<script type="text/javascript">
+	
+	var formSubjectAdd = {
+		submit: function(){
+		
+			var subjectname  = $('#formSubjectAddInputName').val();
+			
+			admin.subject.add(subjectname);
+			
+		}
+	}
+	
+</script>

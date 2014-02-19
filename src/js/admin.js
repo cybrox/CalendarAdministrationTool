@@ -17,7 +17,7 @@
 function pageinit_admin(){
 
 	admin.user.loadAll();
-	admin.getAllSubjects();
+	admin.subject.loadAll();
 	
 	system.page.append();
 
@@ -31,35 +31,107 @@ function pageinit_admin(){
  */
 var admin = {
 	
-	/**
-	 * @name subjectsRequestAll
-	 * @desc Request all subjects and generate a list on the admin page
-	 */
-	getAllSubjects: function(){
+	subject: {
+		/**
+		 * @name subjectLoadAll
+		 * @desc Request all subjects and generate a list on the admin page
+		 */
+		loadAll: function(){
 
-		requestUrl = './src/api/database/'+system.user.me.auth+'/read/subject/1=1';
-				
-		$.getJSON(requestUrl, function(json){
-			if(json.error == ""){
-			
-				subjectcount = json.data.length;
-				while(subjectcount--){
-				
-					val = json.data[subjectcount];
+			requestUrl = './src/api/database/'+system.user.me.auth+'/read/subject/deleted = 0';
 					
-					subjectstring  = '<div class="listp"><i class="icon-tag"></i> <span>'+val['name']+'</span><div class="options">';
-					subjectstring += '<a class="button tooltip" href="popup_subjectedit_'+val['id']+'"><i class="icon-wrench"></i> <span class="help">Bearbeiten</span></a>';
-					subjectstring += '<a class="button tooltip" href="popup_subjectdelete_'+val['id']+'"><i class="icon-remove"></i> <span class="help">Löschen</span></a></div><div class="break"></div></div>';
+			$.getJSON(requestUrl, function(json){
+				if(json.error == ""){
 				
-					$('#subjectContent').append(subjectstring);
+					subjectcount = json.data.length;
+					while(subjectcount--){
+					
+						val = json.data[subjectcount];
+						
+						subjectstring  = '<div class="listp"><i class="icon-tag"></i> <span>'+val['name']+'</span><div class="options">';
+						subjectstring += '<a class="button tooltip" href="popup_subjectedit_'+val['id']+'"><i class="icon-wrench"></i> <span class="help">Bearbeiten</span></a>';
+						subjectstring += '<a class="button tooltip" href="popup_subjectdelete_'+val['id']+'"><i class="icon-remove"></i> <span class="help">Löschen</span></a></div><div class="break"></div></div>';
+					
+						$('#subjectContent').append(subjectstring);
+					}
+					
+					system.addListener.ajaxLink();
+					
+				} else {
+					$('#subjectContent').html("Keine Kategorien gefunden.");
 				}
+			});
+		},
+	
+		/**
+		 * @name subjectLoadOne
+		 * @desc Load a single subject's data to the edit form
+		 * @param {int} subjectid - The respective subject's id
+		 */
+		loadOne: function(subjectid){
+			requestUrl = './src/api/database/'+system.user.me.auth+'/read/subject/id='+subjectid;
+			$.getJSON(requestUrl, function(json){
+				if(json.status != 4)  system.form.output("SubjectEdit", "error", "Konnte Kalenderkategorie nicht laden.");
 				
-				system.addListener.ajaxLink();
-				
+				$('#formSubjectEditInputName').val(json.data[0]['name']);
+			});
+		},
+	
+		/**
+		 * @name subjectAdd
+		 * @desc Add a new subject
+		 * @param {string} subjectname - Name of the new subject
+		 */
+		add: function(subjectname){
+			if(!empty(subjectname)){
+			
+				requestUrl = './src/api/database/'+system.user.me.auth+'/write/subject/1/insert/`name`="'+subjectname+'", `deleted`="0"';
+					
+				$.getJSON(requestUrl, function(json){
+					if(json.status == 4){
+						system.page.reload();
+					} else {
+						$('#errorUserAdd').text("Konnte Kategorie nicht hinzufügen.");
+					}
+				});
+			
 			} else {
-				$('#subjectContent').html("Keine Kategorien gefunden.");
+				system.form.output("SubjectAdd", "error", "Sie müssen einen Namen für diese Kalenderkategorie definieren.");
 			}
-		});
+		},
+		
+		/**
+		 * @name subjectEdit
+		 * @desc Edit a subject in the database based on the values in the popup that triggered this
+		 * @param {string} subjectname - The subjectname's name
+		 */
+		edit: function(subjectname){
+			if(!empty(subjectname)){
+			
+				requestUrl = './src/api/database/'+system.user.me.auth+'/write/subject/id='+system.data+'/update/`name`="'+subjectname+'"';
+				
+				$.getJSON(requestUrl, function(json){
+					if(json.status == 4) system.page.reload();
+					else system.form.output("UserEdit", "error", "Konnte Benutzer nicht bearbeiten.");
+				});
+			
+			} else {
+				system.form.output("SubjectEdit", "error", "Sie müssen einen Namen für diese Kalenderkategorie definieren.");
+			}
+		},
+		
+		/**
+		 * @name subjectDodelete
+		 * @desc Delete a subject from the database
+		 * @param {int} subjectid - The id of the respective subject
+		 */
+		dodelete: function(subjectid){
+			requestUrl = './src/api/database/'+system.user.me.auth+'/write/subject/id='+subjectid+'/update/`deleted`="1"';
+			$.getJSON(requestUrl, function(json){
+				if(json.status == 4) system.page.reload();
+				else system.form.output("SubjectDelete", "error", "Bei der Löschung der Kalenderkategorie ist ein Fehler aufgetreten.");
+			});
+		}
 	},
 	
 	user: {

@@ -20,12 +20,18 @@
 	</div>
 	<div class="doublepart">
 		<select id="formScheduleEditInputCategory" name="schedulecategory" size="1">
-			<option value="1">Aufgabe</option>
-			<option value="2">Prüfung</option>
 		</select>
 	</div>
 	<div class="break"></div>
 </div>
+<script type="text/javascript">
+	/* Fill category selector with values */
+	$.each(system.subject, function(i, s){
+		var newHtml = "<option value=\""+s.id+"\">"+s.name+"</option>";
+		
+		$("#formScheduleEditInputCategory").append(newHtml);
+	});
+</script>
 <div class="double">
 	<div class="doublepart">
 		<label for="scheduletitle"><i class="icon-pencil"></i> Titel</label>

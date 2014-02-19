@@ -26,6 +26,7 @@ var system = {
 	 * @param {string} message - The error mesage the system will output
 	 */
 	handleError: function(message){
+		system.loader("hide");
 		$('#errormsg').text(message);
 		$('#errors').fadeIn();
 	},
@@ -436,7 +437,7 @@ var system = {
 			
 			subjectAmount = json.data.length;
 			while(subjectAmount--){
-				system.subject[json.data[subjectAmount]['id']] = json.data[subjectAmount]['name'];
+				system.subject.push(json.data[subjectAmount]);
 			}
 			
 			system.user.request(true);
@@ -455,14 +456,11 @@ var system = {
 $(document).ready(function(){
 
 	/* Check if user has an existing session cookie */
-	if($.cookie("cat_user") == "null" || $.cookie("cat_user") == undefined){
-		
+	if($.cookie("cat_user") == "null" || $.cookie("cat_user") == undefined){	
 		system.loader('show');
 		system.popup.show('login', true);
-		system.loader('hide');
-		
+		system.loader('hide');	
 	} else {
-	
 		usercookie = $.cookie("cat_user");
 		userparts  = usercookie.split("-");
 		
@@ -471,11 +469,10 @@ $(document).ready(function(){
 		system.user.me.auth  = usercookie;
 		
 		system.initialize();
-		
 	}
 	
 	/* Event listener: Handle AJAX events */
-	$(document).ajaxStart(function(){ system.loader("show"); });
+	$(document).ajaxSend(function(){ system.loader("show"); });
 	$(document).ajaxStop(function() { system.loader("hide"); });
 	$(document).ajaxError(function(){ system.handleError("Anfrageziel konnte nicht gefunden werden."); });
 	

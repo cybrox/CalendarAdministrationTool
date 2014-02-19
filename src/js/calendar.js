@@ -84,8 +84,8 @@ var calendar = {
 							.unbind()
 							.click(function(){
 								var thisDay   = $(this).children().first().text();
-								var dayNumber = (parseInt(dayNumber) < 10) ? "0"+thisDay : thisDay;
-									
+								var dayNumber = (parseInt(thisDay) < 10) ? ('0'+thisDay) : thisDay;
+								
 								system.addListener.handleLink("popup_scheduleview_"+calendar.ui.datescache+dayNumber);
 							});
 					}
@@ -192,7 +192,29 @@ var calendar = {
 			$('#formSemesterEditInputDate').val(json.data[0]['targetdate']);
 		});
 	},
-		
+	
+	/**
+	 * @name scheduleAdd
+	 * @desc Add an event to the database
+	 * @param {int} type - The type of the new schedule (task / exam)
+	 * @param {int} category - The id of the assigned category
+	 * @param {string} title - The new schedule's title
+	 * @param {string} desc - The new schedule's description
+	 * @param {date} date - The new schedule's target date
+	 */
+	add: function(type, category, title, desc, date){
+		if(!empty(type) && !empty(category) && !empty(title) && !empty(desc) && !empty(date)){
+			requestUrl = './src/api/database/'+system.user.me.auth+'/write/schedule/1/insert/`userid`="'+system.user.me.id+'", `subjectid`="'+category+'", `scheduletype`="'+type+'", `title`="'+title+'", `description` = "'+desc+'", `targetdate` = "'+date+'", deleted = "0"';
+			
+			$.getJSON(requestUrl, function(json){
+				if(json.status == 4) system.page.reload();
+				else system.form.output("ScheduleAdd", "error", "Beim hinzufügen des Termins ist ein Fehler aufgetreten");
+			});
+		} else {
+			system.form.output("ScheduleAdd", "error", "Bitte füllen sie alle Felder mit einem gültigen Wert aus.");
+		}
+	},
+	
 	/**
 	 * @name scheduleDodelete
 	 * @desc Delete an event from the database
