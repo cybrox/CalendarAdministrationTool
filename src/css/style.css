@@ -321,6 +321,7 @@ input[type="password"]:focus {
 .block        { text-align: justify; }
 .centerbutton { text-align:center;   }
 
+.flexWidth { width: auto !important; }
 .full    { width: 100% !important; }
 
 .options { float: right; }
