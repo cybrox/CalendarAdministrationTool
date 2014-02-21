@@ -1,36 +1,36 @@
-<script type="text/javascript">admin.subject.loadOne(system.data)</script>
-<h3 id="headline"><i class="icon-wrench"></i> Kalenderkategorie bearbeiten</h3>
-
-<div class="double">
-	<div class="doublepart">
-		<label for="catgname"><i class="icon-tag"></i> Kategoriename</label>
-	</div>
-	<div class="doublepart">
-		<input id="formSubjectEditInputName" type="text" name="catgname"></label>
-	</div>
-	<div class="break"></div>
-</div>
-<div class="double">
-	<div class="doublepart">
-		<span class="error" id="errorSubjectEdit">&nbsp;</span>
-	</div>
-	<div class="doublepart">
-		<a href="#" onClick="formSubjectEdit.submit()" class="button popupsubmit"><i class="icon-ok"></i> Änderungen Speichern</a>
-	</div>
-	<div class="break"></div>
-</div>
-
-
-<script type="text/javascript">
-	
-	var formSubjectEdit = {
-		submit: function(){
-		
-			var subjectname  = $('#formSubjectEditInputName').val();
-			
-			admin.subject.edit(subjectname);
-			
-		}
-	}
-	
+<script type="text/javascript">admin.subject.loadOne(system.data)</script>
+<h3 id="headline"><i class="icon-wrench"></i> Kalenderkategorie bearbeiten</h3>
+
+<div class="double">
+	<div class="doublepart">
+		<label for="catgname"><i class="icon-tag"></i> Kategoriename</label>
+	</div>
+	<div class="doublepart">
+		<input id="formSubjectEditInputName" type="text" name="catgname"></label>
+	</div>
+	<div class="break"></div>
+</div>
+<div class="double">
+	<div class="doublepart">
+		<span class="error" id="errorSubjectEdit">&nbsp;</span>
+	</div>
+	<div class="doublepart">
+		<a href="#" onClick="formSubjectEdit.submit()" class="button popupsubmit"><i class="icon-ok"></i> Änderungen Speichern</a>
+	</div>
+	<div class="break"></div>
+</div>
+
+
+<script type="text/javascript">
+	
+	var formSubjectEdit = {
+		submit: function(){
+		
+			var subjectname  = $('#formSubjectEditInputName').val();
+			
+			admin.subject.edit(subjectname);
+			
+		}
+	}
+	
 </script>
