@@ -1,705 +1,705 @@
-/* CAT - Calendar Administration Tool
-** Cascading style sheet, main style
-**
-** Author: Sven Gehring
-**
-** Default copyright laws apply on this code.
-** You may not copy, share, edit nor create
-** any derivated work from this or any other
-** file in this project.
-*/
-
-
-/*
-** Custom Chrome Scrollbars
-** This will apply custom scrollbars in the Google Chrome web browser
-** to create a very simple and elegant layout
-*/
-::-webkit-scrollbar             { width:        10px; background-color: #FFFFFF; }
-::-webkit-scrollbar-track       { border-radius: 0px;                            }
-::-webkit-scrollbar-thumb       { border-radius: 0px; background-color: #DDDDDD; }
-::-webkit-scrollbar-thumb:hover { border-radius: 0px; background-color: #1C86EE; }
-
-
-/*
-** Font definitions
-** Load the used custom fonts (Ubuntu Fonts) and define the basic font style
-** for every elemen and the link appearance.
-*/
-@font-face {font-family: 'Ubuntu-Regular'; src: url('../font/ubuntu-regular-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
-@font-face {font-family: 'Ubuntu-Medium'; src: url('../font/ubuntu-medium-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
-@font-face {font-family: 'Ubuntu-Bold'; src: url('../font/ubuntu-bold-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
-
-* { font-family: Ubuntu-Regular, Arial; }
-
-a:hover { color: #104E8B; }
-a {
-	text-decoration: none;
-	color: #1C86EE;
-}
-
-a,
-a:hover {
-	cursor: pointer !important;
-	transition: color 0.3s ease-in-out;
-	-moz-transition: color 0.3s ease-in-out;
-	-webkit-transition: color 0.3s ease-in-out;
-}
-
-
-/*
-** Page style
-** Append an overflow to prevent page jumping and reset the body's spacing
-** This also contains the basic style definitions for the content container
-*/
-html {  overflow-y: scroll; }
-body {
-	margin: 0;
-	padding: 0;
-}
-
-#content {
-	width: 85%;
-	height: 100%;
-	margin: 0 0 0 15%;
-	transition: all 0.5s ease-in-out;
-	-moz-transition: all 0.5s ease-in-out;
-	-webkit-transition: all 0.5s ease-in-out;
-}
-
-#contentInner {
-	padding: 20px;
-}
-
-
-/*
-** Error message and popups
-** The style for the error message overlay and the popup boxes
-*/
-#errors h4 { margin-top: 100px; }
-#errors {
-	position: fixed;
-	z-index: 500;
-	height: 100%;
-	width: 100%;
-	left: 0;
-	top: 0;
-	background: rgba(0,0,0,0.8);
-	text-align: center;
-	color: #ececec;
-	display: none;
-}
-
-#popups {
-	position: fixed;
-	z-index: 200;
-	top: 30%;
-	left: 30%;
-	width: 40%;
-	height: auto;
-	max-height: 60%;
-	min-height: 100px;
-	overflow: auto;
-	margin: 0;
-	background: #fff;
-	display: none;
-	box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee, 0 0 500px #999;
-	-moz-box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee, 0 0 500px #999;
-	-webkit-box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee, 0 0 500px #999;
-}
-
-#popupclose {
-	position: absolute;
-	right: 10px;
-	top: 10px;
-	color: #CD2626;
-}
-
-#popupclose:hover { cursor: pointer; }
-#popupcontent { padding: 35px 20px 20px 20px; }
-
-#staticpopup {
-	display: none;
-	margin: 40px 0 0 0;
-	padding: 10px;
-	color: #aaa;
-	text-align: center;
-	border-top: 1px solid #dedede;
-	border-bottom: 1px solid #dedede;
-}
-
-.isstatic {
-	box-shadow: none !important;
-	-moz-box-shadow: none !important;
-	-webkit-box-shadow: none !important;
-}
-
-.isstatic #popupclose  { display: none;  }
-.isstatic #staticpopup { display: block; }
-
-
-/*
-** Navigation and Userpanel
-** The style for the navigation sidebar, the menu items and the dropdown user panel
-*/
-nav {
-	position: fixed;
-	left: -15%;
-	top: 0;
-	width: 15%;
-	height: 100%;
-	background: #fafafa;
-	box-shadow: -1px 0 0 #ddd inset;
-	-moz-box-shadow: -1px 0 0 #ddd inset;
-	-webkit-box-shadow: -1px 0 0 #ddd inset;
-	transition: all 0.5s ease-in-out;
-	-moz-transition: all 0.5s ease-in-out;
-	-webkit-transition: all 0.5s ease-in-out;
-}
-
-#userpanel {
-	height: 150px;
-	padding: 20px;
-}
-
-#userfield {
-	background: #efefef;
-	border-radius: 3px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	box-shadow: 1px 1px 2px #ddd;
-	-moz-box-shadow: 1px 1px 2px #ddd;
-	-webkit-box-shadow: 1px 1px 2px #ddd;
-}
-
-#userfield span {
-	display: block;
-	width: 100%;
-}
-
-#userfieldIcon {
-	display: inline-block;
-	padding: 0 5px;
-	float: right;
-	text-align:center;
-}
-
-.userfieldIconRotate {
-	transform: rotate(180deg);
-	-moz-transform: rotate(180deg);
-	-webkit-transform: rotate(180deg);
-}
-
-#userfieldVisible { padding: 13px 10px; }
-#userfieldVisible:hover { cursor:pointer; }
-
-#userfieldHidden {
-	margin: 0;
-	padding: 0 10px;
-	display: none;
-}
-
-#userfieldHidden li {
-	list-style-type: none;
-	padding: 4px 0;
-}
-
-#userfieldHidden li i,
-#userfieldVisible i {
-	display: inline-block;
-	width: 20px;
-	color: #999;
-}
-
-#username { display: inline !important; }
-
-#usersites ul { margin: 0; }
-#usersites li {
-	list-style-type: none;
-	margin: 0 0 10px 0;
-	border-radius: 4px 0 0 4px;
-	-moz-border-radius: 4px 0 0 4px;
-	-webkit-border-radius: 4px 0 0 4px;
-}
-
-#usersites li:hover {
-	box-shadow: -3px 0 0 #ddd inset;
-	-moz-box-shadow: -3px 0 0 #ddd inset;
-	-webkit-box-shadow: -3px 0 0 #ddd inset;
-}
-
-#usersites li:nth-of-type(2) { margin: 0 0 30px 0; }
-#usersites li.active { background: #fff; }
-
-#usersites li.active,
-#usersites li.active:hover {
-	box-shadow: 0 1px 0 #ddd, inset 1px 1px 0 #f4f4f4;
-	-moz-box-shadow: 0 1px 0 #ddd, inset 1px 1px 0 #f4f4f4;
-	-webkit-box-shadow: 0 1px 0 #ddd, inset 1px 1px 0 #f4f4f4;
-}
-
-#usersites a {
-	display: block;
-	padding: 15px 20px;
-}
-
-#usersites a i {
-	display: inline-block;
-	padding: 0 10px 0 0;
-	color: #999;
-	float: right;
-}
-
-#copyright {
-	position: absolute;
-	left: 10px;
-	bottom: 10px;
-	color: #999;
-	font-size: 11px;
-}
-
-
-/*
-** Form elements
-** The style for all select and input boxes as well as text area boxes
-*/
-select,
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="select"] {
-	width: 97%;
-	padding: 5px 1% 5px 2%;
-	background: #fafafa;
-	border: 0px solid #fff;
-	box-shadow: inset 1px 1px 2px #ddd;
-	-moz-box-shadow: inset 1px 1px 2px #ddd;
-	-webkit-box-shadow: inset 1px 1px 2px #ddd;
-}
-
-textarea:focus,
-input[type="text"]:focus,
-input[type="password"]:focus {
-	color: #1C86EE;
-	outline: 0px !important;
-}
-
-
-/*
-** Framework element
-** This contains style defintions for elements that may occur in multiple page
-** templates, it defines the basic appearance of all CAT sites.
-*/
-#headline {
-	margin-top: 0;
-	padding-bottom: 1px;
-	border-bottom: 1px solid #ddd;
-}
-
-#popupcontent #headline { margin-top: -20px; }
-
-.headbutton { float: right; }
-.underh3 { margin-top: -45px; }
-
-.hline {
-	width: 100%;
-	margin: 15px 0;
-	height: 1px;
-	border-top: 1px dotted #dedede;
-}
-
-.small {
-	font-size: 11px;
-	color: #555;
-}
-
-.listp {
-	margin: 0;
-	padding: 0;
-}
-
-.block        { text-align: justify; }
-.centerbutton { text-align:center;   }
-
-.flexWidth { width: auto !important; }
-.full    { width: 100% !important; }
-
-.optionsi { float: right; display: inline-block; }
-.options  { float: right; }
-.break    { clear: both;  }
-
-.gray     { color: #555555; }
-.error    { color: #CD2626; }
-.success  { color: #698B22; }
-
-.doublepart i {
-	display: inline-block;
-	min-width: 20px;
-	color: #999;
-}
-
-a.button {
-	display: inline-block;
-	padding: 3px 5px;
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-top: 1px solid #fff;
-	border-left: 1px solid #fff;
-	border-bottom: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-}
-
-a.button i { color: #555; }
-
-a.button:hover {
-	border: 1px solid #ddd;
-	background: #ddd;
-}
-
-.double,
-.tripple {
-	display: block;
-	width: 100%;
-}
-.smalldouble {width: 70%;}
-
-.hoverable { padding: 10px; }
-.hoverable:hover {
-	background: rgba(0,0,0,0.05);
-	cursor: pointer;
-}
-
-.tripplepart {
-	width: 31%;
-	margin: 0 1% 10px 0;
-	float: left;
-}
-
-.doublepart {
-	width: 48%;
-	margin: 0 2% 10px 0;
-	float: left;
-}
-
-.doubleDescription { width: 85%; }
-
-.help {
-	display: none;
-	margin: 5px 0 0 0;
-	text-align: justify;
-	font-size: 0.8em;
-	color: #555;
-}
-
-
-/*
-** Loadingspinner
-** The style definitions fot the loading spinner that appears while the system
-** is loading a new page template or a popup into the DOM
-*/
-#loader {
-	display: none;
-	width: 75px;
-	height: 75px;
-	position: absolute; 
-	left: 50%;
-	top: 50%;
-	margin: -37px 0 0 -37px;
-	
-}
-
-#loader div {
-	width: 15px;
-	height: 15px;
-	margin: 5px;
-	float: left;
-	background: rgba(0,0,0,0);
-}
-
-#loader div:not(:nth-of-type(5)){
-	animation: loaderBlink 2.5s linear infinite;
-	-webkit-animation: loaderBlink 2.5s linear infinite;
-}
-
-#loader div:nth-of-type(5) {
-	background: #1C86EE;
-	animation: loaderSpin 2.5s linear infinite;
-	-webkit-animation: loaderSpin 2.5s linear infinite;
-}
-
-
-/*
-** Tooltipps
-** The style definitions for the tooltips that describe the button function
-*/
-.tooltip {
-	position: relative;
-	display: inline-block;
-	text-decoration: none;
-	outline: none;
-}
-
-.tooltip span {
-	visibility: hidden;
-	position: absolute;
-	text-align: center;
-	font-size: 13px;
-	bottom: 60px;
-	left: 50%;
-	z-index: 999;
-	width: 100px;
-	margin-left: -60px;
-	padding: 10px;
-	opacity: 0;
-	background-color: #ececec;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
-}
-
-.tooltip:hover { border: 0; }
-
-.tooltip:hover span {
-	visibility: visible;
-	bottom: 40px;
-	opacity: .9;
-}
-
-.tooltip span:before,
-.tooltip span:after {
-	content: "";
-	position: absolute;
-	z-index: 1000;
-	bottom: -7px;
-	left: 50%;
-	margin-left: -8px;
-	border-top: 8px solid #ddd;
-	border-left: 8px solid transparent;
-	border-right: 8px solid transparent; 
-	border-bottom: 0;
-}
-
-.tooltip span:before {
-	border-top-color: #ccc; 
-	bottom: -8px;
-}
-
-
-
-
-/*
-** PAGE: Calendar
-** All style definitions used on the calendar page, calendar and schedule layout
-*/
-.ui-datepicker,
-.ui-datepicker table,
-.ui-datepicker tr,
-.ui-datepicker td,
-.ui-datepicker th {
-    margin: 0;
-    padding: 0;
-    border: none;
-    border-spacing: 0;
-}
-
-.ui-datepicker,
-.ui-datepicker-calendar {
-	border: 2px solid #ddd;
-    width: 100%;
-}
-
-.ui-datepicker {
-    display: none;
-    cursor: default;
-    text-transform: uppercase;
-}
-
-.ui-datepicker-header,
-.ui-datepicker-calendar th {
-	background: #ddd;
-}
-
-.ui-datepicker-header {
-    position: relative;
-	padding-top: 15px;
-	font-size: 2em;
-}
- 
-.ui-datepicker-title { text-align: center; }
-.ui-datepicker-month { color: #565656; }
-.ui-datepicker-year  { color: #a8a8a8; }
-
-.ui-datepicker-prev,
-.ui-datepicker-next {
-    position: absolute;
-	font-size: 1.7em;
-	color: #999;
-    top: -0.3em;
-	margin-top: 15px;
-    cursor: pointer;
-}
- 
-.ui-datepicker-prev { left:  20px; padding-left:  0; }
-.ui-datepicker-next { right: 20px; padding-right: 0; }
-
-.ui-datepicker-calendar th {
-    padding: 15px 0 10px 0;
-    text-align: center;
-    color: #bbb;
-}
-
-.ui-datepicker-calendar td {
-	vertical-align: top;
-	width: 14.287% !important;
-    height: 150px;
-	word-wrap: break-word;
-	border-right:  1px solid #ddd;
-	border-bottom: 1px solid #ddd;
-}
-
-.ui-datepicker-calendar td:hover {
-	background: #f4f4f4;
-	cursor: pointer;
-}
-
-.ui-datepicker-calendar .ui-state-default {
-    display: block;
-	padding: 10px 0 0 10px;
-    color: #555;
-	word-wrap: break-word;
-}
-
-.ui-datepicker-other-month .ui-state-default { color: #d2d2d2; }
-.ui-datepicker-today,
-.ui-datepicker-today:hover {
-	background: #BCD2EE !important;
-}
-
-.ui-datepicker-unselectable:hover,
-.ui-datepicker-other-month:hover {
-	background: none !important;
-	cursor: default !important;
-}
-
-.schedule {
-	display: block;
-	width: 90%;
-	margin: 3px 3%;
-	padding: 4px 2%;
-	font-size: 0.7em;
-	-webkit-border-radius: 2px;
-	   -moz-border-radius: 2px;
-	        border-radius: 2px;
-}
-
-.scheduletype1 { background: #B2DFEE; }
-.scheduletype2 { background: #FF6347; }
-
-.calendarEntry i { color: #666; }
-
-
-/**
-** PAGE: Semster
-** All style definitions used on the semester page
-*/
-#semsterContainer {
-	padding: 25px 0;
-}
-
-.popupsubmit {
-	float: right;
-	margin-top: 15px;
-}
-
-input:nth-of-type(2){
-	margin-top: 15px !important;
-}
-
-
-/*
-** Animations and Transition
-** Smooth animations and page transitions to give the UI a smoother look
-** on modern (CSS3 compatible) browsers.
-*/
-a.button,
-a.button:hover {
-	-webkit-transition: all 0.3s ease-in-out;
-	   -moz-transition: all 0.3s ease-in-out;
-	        transition: all 0.3s ease-in-out;
-}
-
-.tooltip span,
-.tooltip:hover span  {
-	-webkit-transition: bottom 0.2s ease-in-out, opacity 0.4s ease-in-out;
-	   -moz-transition: bottom 0.2s ease-in-out, opacity 0.4s ease-in-out;
-	        transition: bottom 0.2s ease-in-out, opacity 0.5s ease-in-out;
-}
-
-.ui-datepicker-calendar td,
-.ui-datepicker-calendar td:hover {
-	-webkit-transition: background 0.5s ease-in-out;
-	   -moz-transition: background 0.5s ease-in-out;
-	        transition: background 0.5s ease-in-out;
-}
-
-textarea,
-textarea:focus, 
-input[type="text"],
-input[type="password"],
-input[type="text"]:focus,
-input[type="password"]:focus {
-	-webkit-transition: color 0.2s ease-in-out;
-	   -moz-transition: color 0.2s ease-in-out;
-	        transition: color 0.2s ease-in-out;
-}
-
-#usersites li,
-#usersites li:hover {
-	-webkit-transition: box-shadow 0.2s ease-in-out;
-	   -moz-transition: box-shadow 0.2s ease-in-out;
-	        transition: box-shadow 0.2s ease-in-out;
-}
-
-
-@keyframes loaderBlink {
-	0%   {background: rgba(0,0,0,0.1);}
-	45%  {background: rgba(0,0,0,0);  }
-	100% {background: rgba(0,0,0,0.1);}
-}
-@-webkit-keyframes loaderBlink {
-	0%   {background: rgba(0,0,0,0.1);}
-	45%  {background: rgba(0,0,0,0);  }
-	100% {background: rgba(0,0,0,0.1);}
-}
-
-@keyframes loaderSpin {
-	0%   {-webkit-border-radius: 0px; -webkit-transform: rotate(0deg);  }
-	45%  {-webkit-border-radius: 6px;                                   }
-	100% {-webkit-border-radius: 0px; -webkit-transform: rotate(360deg);}
-}
-@-webkit-keyframes loaderSpin {
-	0%   {-webkit-border-radius: 0px; -webkit-transform: rotate(0deg);  }
-	45%  {-webkit-border-radius: 6px;                                   }
-	100% {-webkit-border-radius: 0px; -webkit-transform: rotate(360deg);}
-}
-
-
-/*
-** Media queries for smaller screens
-*/
-@media (max-width: 1350px){
-	nav {
-		width: 20%;
-		left: -20%;
-	}
-	
-	#content {
-		width: 80%;
-		margin: 0 0 0 20%;
-	}
+/* CAT - Calendar Administration Tool
+** Cascading style sheet, main style
+**
+** Author: Sven Gehring
+**
+** Default copyright laws apply on this code.
+** You may not copy, share, edit nor create
+** any derivated work from this or any other
+** file in this project.
+*/
+
+
+/*
+** Custom Chrome Scrollbars
+** This will apply custom scrollbars in the Google Chrome web browser
+** to create a very simple and elegant layout
+*/
+::-webkit-scrollbar             { width:        10px; background-color: #FFFFFF; }
+::-webkit-scrollbar-track       { border-radius: 0px;                            }
+::-webkit-scrollbar-thumb       { border-radius: 0px; background-color: #DDDDDD; }
+::-webkit-scrollbar-thumb:hover { border-radius: 0px; background-color: #1C86EE; }
+
+
+/*
+** Font definitions
+** Load the used custom fonts (Ubuntu Fonts) and define the basic font style
+** for every elemen and the link appearance.
+*/
+@font-face {font-family: 'Ubuntu-Regular'; src: url('../font/ubuntu-regular-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
+@font-face {font-family: 'Ubuntu-Medium'; src: url('../font/ubuntu-medium-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
+@font-face {font-family: 'Ubuntu-Bold'; src: url('../font/ubuntu-bold-webfont.woff') format('woff'); font-weight: normal; font-style: normal;}
+
+* { font-family: Ubuntu-Regular, Arial; }
+
+a:hover { color: #104E8B; }
+a {
+	text-decoration: none;
+	color: #1C86EE;
+}
+
+a,
+a:hover {
+	cursor: pointer !important;
+	transition: color 0.3s ease-in-out;
+	-moz-transition: color 0.3s ease-in-out;
+	-webkit-transition: color 0.3s ease-in-out;
+}
+
+
+/*
+** Page style
+** Append an overflow to prevent page jumping and reset the body's spacing
+** This also contains the basic style definitions for the content container
+*/
+html {  overflow-y: scroll; }
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#content {
+	width: 85%;
+	height: 100%;
+	margin: 0 0 0 15%;
+	transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+}
+
+#contentInner {
+	padding: 20px;
+}
+
+
+/*
+** Error message and popups
+** The style for the error message overlay and the popup boxes
+*/
+#errors h4 { margin-top: 100px; }
+#errors {
+	position: fixed;
+	z-index: 500;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	top: 0;
+	background: rgba(0,0,0,0.8);
+	text-align: center;
+	color: #ececec;
+	display: none;
+}
+
+#popups {
+	position: fixed;
+	z-index: 200;
+	top: 30%;
+	left: 30%;
+	width: 40%;
+	height: auto;
+	max-height: 60%;
+	min-height: 100px;
+	overflow: auto;
+	margin: 0;
+	background: #fff;
+	display: none;
+	box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee, 0 0 500px #999;
+	-moz-box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee, 0 0 500px #999;
+	-webkit-box-shadow: 1px 1px 2px #ddd, -1px -1px 1px #eee, 0 0 500px #999;
+}
+
+#popupclose {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	color: #CD2626;
+}
+
+#popupclose:hover { cursor: pointer; }
+#popupcontent { padding: 35px 20px 20px 20px; }
+
+#staticpopup {
+	display: none;
+	margin: 40px 0 0 0;
+	padding: 10px;
+	color: #aaa;
+	text-align: center;
+	border-top: 1px solid #dedede;
+	border-bottom: 1px solid #dedede;
+}
+
+.isstatic {
+	box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+}
+
+.isstatic #popupclose  { display: none;  }
+.isstatic #staticpopup { display: block; }
+
+
+/*
+** Navigation and Userpanel
+** The style for the navigation sidebar, the menu items and the dropdown user panel
+*/
+nav {
+	position: fixed;
+	left: -15%;
+	top: 0;
+	width: 15%;
+	height: 100%;
+	background: #fafafa;
+	box-shadow: -1px 0 0 #ddd inset;
+	-moz-box-shadow: -1px 0 0 #ddd inset;
+	-webkit-box-shadow: -1px 0 0 #ddd inset;
+	transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+}
+
+#userpanel {
+	height: 150px;
+	padding: 20px;
+}
+
+#userfield {
+	background: #efefef;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	box-shadow: 1px 1px 2px #ddd;
+	-moz-box-shadow: 1px 1px 2px #ddd;
+	-webkit-box-shadow: 1px 1px 2px #ddd;
+}
+
+#userfield span {
+	display: block;
+	width: 100%;
+}
+
+#userfieldIcon {
+	display: inline-block;
+	padding: 0 5px;
+	float: right;
+	text-align:center;
+}
+
+.userfieldIconRotate {
+	transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+}
+
+#userfieldVisible { padding: 13px 10px; }
+#userfieldVisible:hover { cursor:pointer; }
+
+#userfieldHidden {
+	margin: 0;
+	padding: 0 10px;
+	display: none;
+}
+
+#userfieldHidden li {
+	list-style-type: none;
+	padding: 4px 0;
+}
+
+#userfieldHidden li i,
+#userfieldVisible i {
+	display: inline-block;
+	width: 20px;
+	color: #999;
+}
+
+#username { display: inline !important; }
+
+#usersites ul { margin: 0; }
+#usersites li {
+	list-style-type: none;
+	margin: 0 0 10px 0;
+	border-radius: 4px 0 0 4px;
+	-moz-border-radius: 4px 0 0 4px;
+	-webkit-border-radius: 4px 0 0 4px;
+}
+
+#usersites li:hover {
+	box-shadow: -3px 0 0 #ddd inset;
+	-moz-box-shadow: -3px 0 0 #ddd inset;
+	-webkit-box-shadow: -3px 0 0 #ddd inset;
+}
+
+#usersites li:nth-of-type(2) { margin: 0 0 30px 0; }
+#usersites li.active { background: #fff; }
+
+#usersites li.active,
+#usersites li.active:hover {
+	box-shadow: 0 1px 0 #ddd, inset 1px 1px 0 #f4f4f4;
+	-moz-box-shadow: 0 1px 0 #ddd, inset 1px 1px 0 #f4f4f4;
+	-webkit-box-shadow: 0 1px 0 #ddd, inset 1px 1px 0 #f4f4f4;
+}
+
+#usersites a {
+	display: block;
+	padding: 15px 20px;
+}
+
+#usersites a i {
+	display: inline-block;
+	padding: 0 10px 0 0;
+	color: #999;
+	float: right;
+}
+
+#copyright {
+	position: absolute;
+	left: 10px;
+	bottom: 10px;
+	color: #999;
+	font-size: 11px;
+}
+
+
+/*
+** Form elements
+** The style for all select and input boxes as well as text area boxes
+*/
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="select"] {
+	width: 97%;
+	padding: 5px 1% 5px 2%;
+	background: #fafafa;
+	border: 0px solid #fff;
+	box-shadow: inset 1px 1px 2px #ddd;
+	-moz-box-shadow: inset 1px 1px 2px #ddd;
+	-webkit-box-shadow: inset 1px 1px 2px #ddd;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus {
+	color: #1C86EE;
+	outline: 0px !important;
+}
+
+
+/*
+** Framework element
+** This contains style defintions for elements that may occur in multiple page
+** templates, it defines the basic appearance of all CAT sites.
+*/
+#headline {
+	margin-top: 0;
+	padding-bottom: 1px;
+	border-bottom: 1px solid #ddd;
+}
+
+#popupcontent #headline { margin-top: -20px; }
+
+.headbutton { float: right; }
+.underh3 { margin-top: -45px; }
+
+.hline {
+	width: 100%;
+	margin: 15px 0;
+	height: 1px;
+	border-top: 1px dotted #dedede;
+}
+
+.small {
+	font-size: 11px;
+	color: #555;
+}
+
+.listp {
+	margin: 0;
+	padding: 0;
+}
+
+.block        { text-align: justify; }
+.centerbutton { text-align:center;   }
+
+.flexWidth { width: auto !important; }
+.full    { width: 100% !important; }
+
+.optionsi { float: right; display: inline-block; }
+.options  { float: right; }
+.break    { clear: both;  }
+
+.gray     { color: #555555; }
+.error    { color: #CD2626; }
+.success  { color: #698B22; }
+
+.doublepart i {
+	display: inline-block;
+	min-width: 20px;
+	color: #999;
+}
+
+a.button {
+	display: inline-block;
+	padding: 3px 5px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-top: 1px solid #fff;
+	border-left: 1px solid #fff;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+a.button i { color: #555; }
+
+a.button:hover {
+	border: 1px solid #ddd;
+	background: #ddd;
+}
+
+.double,
+.tripple {
+	display: block;
+	width: 100%;
+}
+.smalldouble {width: 70%;}
+
+.hoverable { padding: 10px; }
+.hoverable:hover {
+	background: rgba(0,0,0,0.05);
+	cursor: pointer;
+}
+
+.tripplepart {
+	width: 31%;
+	margin: 0 1% 10px 0;
+	float: left;
+}
+
+.doublepart {
+	width: 48%;
+	margin: 0 2% 10px 0;
+	float: left;
+}
+
+.doubleDescription { width: 85%; }
+
+.help {
+	display: none;
+	margin: 5px 0 0 0;
+	text-align: justify;
+	font-size: 0.8em;
+	color: #555;
+}
+
+
+/*
+** Loadingspinner
+** The style definitions fot the loading spinner that appears while the system
+** is loading a new page template or a popup into the DOM
+*/
+#loader {
+	display: none;
+	width: 75px;
+	height: 75px;
+	position: absolute; 
+	left: 50%;
+	top: 50%;
+	margin: -37px 0 0 -37px;
+	
+}
+
+#loader div {
+	width: 15px;
+	height: 15px;
+	margin: 5px;
+	float: left;
+	background: rgba(0,0,0,0);
+}
+
+#loader div:not(:nth-of-type(5)){
+	animation: loaderBlink 2.5s linear infinite;
+	-webkit-animation: loaderBlink 2.5s linear infinite;
+}
+
+#loader div:nth-of-type(5) {
+	background: #1C86EE;
+	animation: loaderSpin 2.5s linear infinite;
+	-webkit-animation: loaderSpin 2.5s linear infinite;
+}
+
+
+/*
+** Tooltipps
+** The style definitions for the tooltips that describe the button function
+*/
+.tooltip {
+	position: relative;
+	display: inline-block;
+	text-decoration: none;
+	outline: none;
+}
+
+.tooltip span {
+	visibility: hidden;
+	position: absolute;
+	text-align: center;
+	font-size: 13px;
+	bottom: 60px;
+	left: 50%;
+	z-index: 999;
+	width: 100px;
+	margin-left: -60px;
+	padding: 10px;
+	opacity: 0;
+	background-color: #ececec;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
+}
+
+.tooltip:hover { border: 0; }
+
+.tooltip:hover span {
+	visibility: visible;
+	bottom: 40px;
+	opacity: .9;
+}
+
+.tooltip span:before,
+.tooltip span:after {
+	content: "";
+	position: absolute;
+	z-index: 1000;
+	bottom: -7px;
+	left: 50%;
+	margin-left: -8px;
+	border-top: 8px solid #ddd;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent; 
+	border-bottom: 0;
+}
+
+.tooltip span:before {
+	border-top-color: #ccc; 
+	bottom: -8px;
+}
+
+
+
+
+/*
+** PAGE: Calendar
+** All style definitions used on the calendar page, calendar and schedule layout
+*/
+.ui-datepicker,
+.ui-datepicker table,
+.ui-datepicker tr,
+.ui-datepicker td,
+.ui-datepicker th {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-spacing: 0;
+}
+
+.ui-datepicker,
+.ui-datepicker-calendar {
+	border: 2px solid #ddd;
+    width: 100%;
+}
+
+.ui-datepicker {
+    display: none;
+    cursor: default;
+    text-transform: uppercase;
+}
+
+.ui-datepicker-header,
+.ui-datepicker-calendar th {
+	background: #ddd;
+}
+
+.ui-datepicker-header {
+    position: relative;
+	padding-top: 15px;
+	font-size: 2em;
+}
+ 
+.ui-datepicker-title { text-align: center; }
+.ui-datepicker-month { color: #565656; }
+.ui-datepicker-year  { color: #a8a8a8; }
+
+.ui-datepicker-prev,
+.ui-datepicker-next {
+    position: absolute;
+	font-size: 1.7em;
+	color: #999;
+    top: -0.3em;
+	margin-top: 15px;
+    cursor: pointer;
+}
+ 
+.ui-datepicker-prev { left:  20px; padding-left:  0; }
+.ui-datepicker-next { right: 20px; padding-right: 0; }
+
+.ui-datepicker-calendar th {
+    padding: 15px 0 10px 0;
+    text-align: center;
+    color: #bbb;
+}
+
+.ui-datepicker-calendar td {
+	vertical-align: top;
+	width: 14.287% !important;
+    height: 150px;
+	word-wrap: break-word;
+	border-right:  1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+
+.ui-datepicker-calendar td:hover {
+	background: #f4f4f4;
+	cursor: pointer;
+}
+
+.ui-datepicker-calendar .ui-state-default {
+    display: block;
+	padding: 10px 0 0 10px;
+    color: #555;
+	word-wrap: break-word;
+}
+
+.ui-datepicker-other-month .ui-state-default { color: #d2d2d2; }
+.ui-datepicker-today,
+.ui-datepicker-today:hover {
+	background: #BCD2EE !important;
+}
+
+.ui-datepicker-unselectable:hover,
+.ui-datepicker-other-month:hover {
+	background: none !important;
+	cursor: default !important;
+}
+
+.schedule {
+	display: block;
+	width: 90%;
+	margin: 3px 3%;
+	padding: 4px 2%;
+	font-size: 0.7em;
+	-webkit-border-radius: 2px;
+	   -moz-border-radius: 2px;
+	        border-radius: 2px;
+}
+
+.scheduletype1 { background: #B2DFEE; }
+.scheduletype2 { background: #FF6347; }
+
+.calendarEntry i { color: #666; }
+
+
+/**
+** PAGE: Semster
+** All style definitions used on the semester page
+*/
+#semsterContainer {
+	padding: 25px 0;
+}
+
+.popupsubmit {
+	float: right;
+	margin-top: 15px;
+}
+
+input:nth-of-type(2){
+	margin-top: 15px !important;
+}
+
+
+/*
+** Animations and Transition
+** Smooth animations and page transitions to give the UI a smoother look
+** on modern (CSS3 compatible) browsers.
+*/
+a.button,
+a.button:hover {
+	-webkit-transition: all 0.3s ease-in-out;
+	   -moz-transition: all 0.3s ease-in-out;
+	        transition: all 0.3s ease-in-out;
+}
+
+.tooltip span,
+.tooltip:hover span  {
+	-webkit-transition: bottom 0.2s ease-in-out, opacity 0.4s ease-in-out;
+	   -moz-transition: bottom 0.2s ease-in-out, opacity 0.4s ease-in-out;
+	        transition: bottom 0.2s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.ui-datepicker-calendar td,
+.ui-datepicker-calendar td:hover {
+	-webkit-transition: background 0.5s ease-in-out;
+	   -moz-transition: background 0.5s ease-in-out;
+	        transition: background 0.5s ease-in-out;
+}
+
+textarea,
+textarea:focus, 
+input[type="text"],
+input[type="password"],
+input[type="text"]:focus,
+input[type="password"]:focus {
+	-webkit-transition: color 0.2s ease-in-out;
+	   -moz-transition: color 0.2s ease-in-out;
+	        transition: color 0.2s ease-in-out;
+}
+
+#usersites li,
+#usersites li:hover {
+	-webkit-transition: box-shadow 0.2s ease-in-out;
+	   -moz-transition: box-shadow 0.2s ease-in-out;
+	        transition: box-shadow 0.2s ease-in-out;
+}
+
+
+@keyframes loaderBlink {
+	0%   {background: rgba(0,0,0,0.1);}
+	45%  {background: rgba(0,0,0,0);  }
+	100% {background: rgba(0,0,0,0.1);}
+}
+@-webkit-keyframes loaderBlink {
+	0%   {background: rgba(0,0,0,0.1);}
+	45%  {background: rgba(0,0,0,0);  }
+	100% {background: rgba(0,0,0,0.1);}
+}
+
+@keyframes loaderSpin {
+	0%   {-webkit-border-radius: 0px; -webkit-transform: rotate(0deg);  }
+	45%  {-webkit-border-radius: 6px;                                   }
+	100% {-webkit-border-radius: 0px; -webkit-transform: rotate(360deg);}
+}
+@-webkit-keyframes loaderSpin {
+	0%   {-webkit-border-radius: 0px; -webkit-transform: rotate(0deg);  }
+	45%  {-webkit-border-radius: 6px;                                   }
+	100% {-webkit-border-radius: 0px; -webkit-transform: rotate(360deg);}
+}
+
+
+/*
+** Media queries for smaller screens
+*/
+@media (max-width: 1350px){
+	nav {
+		width: 20%;
+		left: -20%;
+	}
+	
+	#content {
+		width: 80%;
+		margin: 0 0 0 20%;
+	}
 }
