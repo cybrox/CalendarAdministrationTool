@@ -197,7 +197,7 @@
 		 * @desc Output a result message and the current API status
 		 */
 		protected function handleOutput($data){
-			die('{"status": "4", "error": "", "data": '.json_encode($data).'}');
+			die('{"status": "4", "error": "", "data": '.json_encode($data, JSON_PRETTY_PRINT).'}');
 		}
 	}
 

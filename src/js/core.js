@@ -16,13 +16,13 @@
  * @desc Contains all methos of the page system and everything needed to handle login actions
  */
 var system = {
-	'data': "",
-	'subject': [],
+	'data':    "",	// Temporary storage for data parameter on button clicks
+	'subject': [],	// List of arrays with all calendar subjects
 	
 	
 	/**
 	 * @name handleError
-	 * @desc Handly any error that may occur
+	 * @desc Handle any error that may occur
 	 * @param {string} message - The error mesage the system will output
 	 */
 	handleError: function(message){
@@ -60,8 +60,9 @@ var system = {
 			system.page.current  = target;
 			system.popup.hide();
 			
+			/* Additional security check for administrator page */
 			if(target == "admin"){
-				requestUrl = './src/api/database/'+system.user.me.auth+'/read/user/id='+system.user.me.id+'/';
+				requestUrl = "./src/api/database/"+system.user.me.auth+"/read/user/id="+system.user.me.id+"/";
 				$.getJSON(requestUrl, function(json){
 					if(json.data[0]['level'] == 2){
 						system.page.loadContent(target);
@@ -81,12 +82,10 @@ var system = {
 		 * @param {string} target - the page to load
 		 */
 		loadContent: function(target){
-			$.get('./src/page/'+target+'.html', function(data){
+			$.get("./src/page/"+target+".html", function(data){
 			
 				$('#mm_'+target).addClass("active");
-				$('#contentInner').hide();
-				$('#contentInner').empty();
-				$('#contentInner').html(data);
+				$('#contentInner').hide().empty().html(data);
 				
 				if(system.user.me.help == "1") $(".help").css("display", "block");
 				
@@ -115,8 +114,7 @@ var system = {
 		parse: function(target, content){
 			output = $("#"+target);
 			output.animate({"opacity": "0"}, 150, function(){
-				output.html(content);
-				output.animate({"opacity": "1"}, 150);
+				output.html(content).animate({"opacity": "1"}, 150);
 			});
 		},
 		
@@ -173,9 +171,7 @@ var system = {
 					system.initialize();
 					
 				} else {
-				
-					system.form.output("login", "error", "Ungültige Zugangsdaten!");
-					
+					system.form.output("login", "error", "Ungültige Zugangsdaten!");			
 				}
 			});
 		},
@@ -189,12 +185,10 @@ var system = {
 			requestUrl  = './src/api/logout/';
 			requestUrl += (system.user.me.id == 0) ? system.user.me.admauth : system.user.me.auth;
 			
-			$.getJSON(requestUrl, function(json){
-			
+			$.getJSON(requestUrl, function(json){	
 				window.location.hash = "";
 				$.cookie("cat_user", null);
-				location.reload();
-					
+				location.reload();				
 			});
 		},
 		
@@ -249,11 +243,9 @@ var system = {
 			
 			if(userpass !== ""){
 				if(userpass !== userpas2){
-					system.form.output("edit", "error", "Die eingegebenen Passwörter stimmen nicht überein.");
-					
+					system.form.output("edit", "error", "Die eingegebenen Passwörter stimmen nicht überein.");			
 					uservalid = false;
-				}
-				
+				}		
 				hashpass = $().crypt({method: "md5", source: userpass});
 				requestUrl += ', `password` = "'+hashpass+'"';
 			}
@@ -275,10 +267,8 @@ var system = {
 	 * @param {string} action - Loader will show if this is set to 'show', other values will hide it
 	 */
 	loader: function(action){
-	
 		if(action == "show") $('#loader').fadeIn('fast');
-		else                 $('#loader').fadeOut('fast');
-		
+		else                 $('#loader').fadeOut('fast');	
 	},
 	
 	popup: {
@@ -296,7 +286,6 @@ var system = {
 				$('#popups').fadeIn('slow');
 				
 				system.addListener.enterSubmit();
-//				system.addListener.ajaxLink(); // devnote: why is this even here?
 				
 				if(isstatic){
 					$('#popups').addClass('isstatic');
@@ -334,9 +323,8 @@ var system = {
 			var output = $("#form"+ucfirst(form)+ucfirst(type));
 			
 			output.animate({"opacity": "0"}, 150, function(){
+				output.text(message).animate({"opacity": "1"}, 150);
 				notput.empty();
-				output.text(message);
-				output.animate({"opacity": "1"}, 150);
 			});
 		}
 	},
@@ -362,8 +350,10 @@ var system = {
 		 */
 		ajaxLink: function(){
 		
-			$('a').unbind('click');
-			$('a').click(function(e){
+			var links = $('a').not(".ui-datepicker-prev").not(".ui-datepicker-next");
+		
+			links.unbind('click')
+			.click(function(e){
 				var validLink = system.addListener.handleLink($(this).attr('href'));
 				if(validLink) e.preventDefault();
 			});
@@ -493,7 +483,13 @@ $(document).ready(function(){
  * @return {string} The name of the requested category
  */
 function getSubjectById(id){
-	return system.subject[id];
+	var subjectamount = system.subject.length;
+	while(subjectamount--){
+		if(system.subject[subjectamount]['id'] == id){
+			return system.subject[subjectamount]['name'];
+		}		
+	}
+	return "Allgemeines";	// Default value for unknown category
 }
 
 /**

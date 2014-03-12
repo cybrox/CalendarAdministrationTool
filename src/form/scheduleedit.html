@@ -76,6 +76,13 @@
 	var formScheduleEdit = {
 		submit: function(){
 			
+			var scheduletype = $('#formScheduleEditInputType').val();
+			var schedulecatg = $('#formScheduleEditInputCategory').val();
+			var scheduletitl = $('#formSemesterEditInputTitle').val();
+			var scheduledesc = $('#formSemesterEditInputDesc').val();
+			var scheduledate = $('#formSemesterEditInputDate').val();
+		
+			calendar.edit(scheduletype, schedulecatg, scheduletitl, scheduledesc, scheduledate);
 			
 		}
 	}
