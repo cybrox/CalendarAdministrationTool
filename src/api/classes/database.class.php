@@ -43,11 +43,11 @@
 			$this->database = parent::databaseConnect();
 			$this->userlvl  = $accessLevel;
 			
-			$this->requestedAction = $requestParameters[2];
-			$this->requestedTables = $requestParameters[3];
-			$this->requestedFilter = $requestParameters[4];
-			$this->requestedReType = $requestParameters[5];
-			$this->requestedInputs = $requestParameters[6];
+			$this->requestedAction = (!empty($requestParameters[2])) ? $requestParameters[2] : '' ;
+			$this->requestedTables = (!empty($requestParameters[3])) ? $requestParameters[3] : '' ;
+			$this->requestedFilter = (!empty($requestParameters[4])) ? $requestParameters[4] : '' ;
+			$this->requestedReType = (!empty($requestParameters[5])) ? $requestParameters[5] : '' ;
+			$this->requestedInputs = (!empty($requestParameters[6])) ? $requestParameters[6] : '' ;
 			
 			$thisisuserid = explode('-', $requestParameters[1]);
 			$this->userid = $thisisuserid[1];
