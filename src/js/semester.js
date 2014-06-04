@@ -56,7 +56,7 @@ var semester = {
 					if(editable){
 						optionsstring = '<a class="button tooltip" href="popup_semesteredit_'+val['id']+'"><i class="icon-wrench"></i> <span class="help">Bearbeiten</span></a> <a class="button tooltip" href="popup_semesterdelete_'+val['id']+'"><i class="icon-remove"></i> <span class="help">Löschen</span></a>';
 					} else {
-						optionsstring = '<a class="button tooltip" href="action_ratesemester_'+val['id']+'"><i class="icon-play"></i> <span>Auswerten</span></a>';
+						optionsstring = '<a class="button tooltip" href="popup_ratesemester_'+val['id']+'"><i class="icon-play"></i> <span>Auswerten</span></a>';
 					}
 					
 					$('#semesterContainer').append('<div class="smalldouble"><div class="doublepart"><i class="icon-ticket"></i> '+val['name']+'</div><div class="doublepart"><i class="icon-calendar"></i>'+chdate(val['startdate'])+' <span class="gray">bis</span> '+chdate(val['enddate'])+'<div class="options">'+optionsstring+'</div></div><div class="break"></div></div>');
