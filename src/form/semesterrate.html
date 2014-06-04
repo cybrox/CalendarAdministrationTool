@@ -15,7 +15,9 @@
   $('#smid').text(semsname);
 
   requestUrl  = "./src/api/database/"+system.user.me.auth+"/read/schedule/";
-  requestUrl += encodeURIComponent("`userid` = '"+system.user.me.id+"' AND `scheduletype` = '2' AND `deleted` = '0' AND `targetdate` BETWEEN '"+semsdate+"' AND LAST_DAY('"+semedate+"')/ORDER BY `targetdate` DESC");
+  requestUrl += encodeURIComponent("`userid` = '"+system.user.me.id+"' AND `scheduletype` = '2' AND `deleted` = '0' ");
+  requestUrl += encodeURIComponent("AND `targetdate` BETWEEN '"+semsdate+"' AND LAST_DAY('"+semedate+"')");
+  requestUrl += "/ORDER BY `targetdate` DESC";
     
   $.getJSON(requestUrl, function(json){
     if(json.error == ""){
