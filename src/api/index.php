@@ -21,7 +21,8 @@
 	$apiRequestParams  = str_replace(str_replace("index.php", "", $_SERVER['PHP_SELF']) ,"", $apiRequestAddress);
 	$apiRequestParam   = explode('/', $apiRequestParams);
 	
-	
+	foreach($apiRequestParam as $p) $p = urldecode($p);
+
 	/* Start new API request */
 	$api = new CatInterface($apiRequestParam);
 	

@@ -156,7 +156,8 @@ var calendar = {
 	},
 	
 	loadOneDay: function(scheduledate){
-		requestUrl = "./src/api/database/"+system.user.me.auth+"/read/schedule/targetdate='"+scheduledate+"' AND `deleted` != '1' AND userid='"+system.user.me.id+"'";
+		requestUrl = "./src/api/database/"+system.user.me.auth+"/read/schedule/`targetdate`='"+scheduledate+"' AND ";
+		requestUrl += "`deleted` != '1' AND `userid`='"+system.user.me.id+"'";
 		$.getJSON(requestUrl, function(json){
 			$("#tdte").text($.datepicker.formatDate( "DD, d. MM yy", new Date(scheduledate.replace("-", ","))));
 			
@@ -184,7 +185,7 @@ var calendar = {
 	},
 	
 	loadOne: function(scheduleid){
-		requestUrl = "./src/api/database/"+system.user.me.auth+"/read/schedule/id='"+scheduleid+"'";
+		requestUrl = "./src/api/database/"+system.user.me.auth+"/read/schedule/`id`='"+scheduleid+"'";
 		$.getJSON(requestUrl, function(json){
 			if(json.status != 4){
 				system.form.output("ScheduleEdit", "error", "Konnte Termin nicht laden.");
@@ -211,7 +212,10 @@ var calendar = {
 	 */
 	add: function(type, category, title, desc, date){
 		if(!empty(type) && !empty(category) && !empty(title) && !empty(desc) && !empty(date)){
-			requestUrl = './src/api/database/'+system.user.me.auth+'/write/schedule/1/insert/`userid`="'+system.user.me.id+'", `subjectid`="'+category+'", `scheduletype`="'+type+'", `title`="'+title+'", `description` = "'+desc+'", `targetdate` = "'+date+'", deleted = "0"';
+			requestUrl = "./src/api/database/"+system.user.me.auth+"/write/schedule/1/insert/";
+			requestUrl += encodeURIComponent("`userid`='"+system.user.me.id+"', `subjectid`='"+category+"', ");
+			requestUrl += encodeURIComponent("`scheduletype`='"+type+"', `title`='"+title+"', `description` = '"+desc+"', ");
+			requestUrl += encodeURIComponent("`targetdate` = '"+date+"', `deleted` = '0'");
 			
 			$.getJSON(requestUrl, function(json){
 				if(json.status == 4) system.page.reload();
@@ -233,7 +237,10 @@ var calendar = {
 	 */
 	edit: function(type, category, title, desc, date, mark){
 		if(!empty(type) && !empty(category) && !empty(title) && !empty(desc) && !empty(date) && !empty(mark)){
-			requestUrl = './src/api/database/'+system.user.me.auth+'/write/schedule/id='+system.data+'/update/`userid`="'+system.user.me.id+'", `mark`="'+parseFloat(mark)+'", `subjectid`="'+category+'", `scheduletype`="'+type+'", `title`="'+title+'", `description` = "'+desc+'", `targetdate` = "'+date+'", deleted = "0"';
+			requestUrl = "./src/api/database/"+system.user.me.auth+"/write/schedule/`id`='"+system.data+"'/update/";
+			requestUrl += encodeURIComponent("`userid`='"+system.user.me.id+"', `mark`='"+parseFloat(mark)+"', ");
+			requestUrl += encodeURIComponent("`subjectid`='"+category+"', `scheduletype`='"+type+"', `title`='"+title+"', ");
+			requestUrl += encodeURIComponent("`description` = '"+desc+"', `targetdate` = '"+date+"', deleted = '0'");
 			
 			$.getJSON(requestUrl, function(json){
 				if(json.status == 4) system.page.reload();
@@ -250,7 +257,7 @@ var calendar = {
 	 * @param {int} scheduleid - The id of the respective event
 	 */
 	dodelete: function(scheduleid){
-		requestUrl = "./src/api/database/"+system.user.me.auth+"/write/schedule/id="+scheduleid+"/update/`deleted`='1'";
+		requestUrl = "./src/api/database/"+system.user.me.auth+"/write/schedule/`id`='"+scheduleid+"'/update/`deleted`='1'";
 		$.getJSON(requestUrl, function(json){
 			if(json.status == 4) system.page.reload();
 			else system.form.output("userdelete", "error", "Bei der Löschung des Termins ist ein Fehler aufgetreten.");

@@ -62,7 +62,7 @@ var system = {
 			
 			/* Additional security check for administrator page */
 			if(target == "admin"){
-				requestUrl = "./src/api/database/"+system.user.me.auth+"/read/user/name='"+system.user.me.name+"'/";
+				requestUrl = "./src/api/database/"+system.user.me.auth+"/read/user/`name`='"+system.user.me.name+"'/";
 				$.getJSON(requestUrl, function(json){
 					if(json.data[0]['level'] == 2){
 						system.page.loadContent(target);
@@ -156,7 +156,7 @@ var system = {
 			}
 			
 			hashpass   = $().crypt({method: "md5", source: userpass});
-			requestUrl = './src/api/login/'+username+'/'+hashpass+'/';
+			requestUrl = "./src/api/login/"+username+"/"+hashpass+"/";
 			$.getJSON(requestUrl, function(json){
 				if(json.error == ""){
 				
@@ -182,7 +182,7 @@ var system = {
 		 */
 		logout: function(){
 			
-			requestUrl  = './src/api/logout/';
+			requestUrl  = "./src/api/logout/";
 			requestUrl += (system.user.me.id == 0) ? system.user.me.admauth : system.user.me.auth;
 			
 			$.getJSON(requestUrl, function(json){	
@@ -200,7 +200,7 @@ var system = {
 		request: function(redirect){
 		
 			if(system.user.me.name !== system.user.me.view) return;
-			requestUrl = './src/api/database/'+system.user.me.auth+'/read/user/id='+system.user.me.id+'/';
+			requestUrl = "./src/api/database/"+system.user.me.auth+"/read/user/`id`='"+system.user.me.id+"'/";
 			
 			$.getJSON(requestUrl, function(json){
 				if(json.error == ""){
@@ -241,7 +241,8 @@ var system = {
 			uservalid = true;
 			userhelp  = (userhelp == true) ? "1" : "0";
 			
-			requestUrl = './src/api/database/'+system.user.me.auth+'/write/user/id='+system.user.me.id+'/update/`email` = "'+usermail+'", `help` = "'+userhelp+'"';
+			requestUrl = "./src/api/database/"+system.user.me.auth+"/write/user/`id`='"+system.user.me.id+"'/update/";
+			requestUrl += encodeURIComponent("`email` = '"+usermail+"', `help` = '"+userhelp+"'");
 			
 			if(userpass !== ""){
 				if(userpass !== userpas2){
@@ -249,7 +250,7 @@ var system = {
 					uservalid = false;
 				}		
 				hashpass = $().crypt({method: "md5", source: userpass});
-				requestUrl += ', `password` = "'+hashpass+'"';
+				requestUrl += encodeURIComponent(", `password` = '"+hashpass+"'");
 			}
 			
 			if(uservalid){

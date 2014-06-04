@@ -24,7 +24,7 @@ var semester = {
 	 */
 	loadAll: function(editable){
 		
-		requestUrl = './src/api/database/'+system.user.me.auth+'/read/semester/deleted="0" AND userid='+system.user.me.id;
+		requestUrl = "./src/api/database/"+system.user.me.auth+"/read/semester/`deleted`='0' AND `userid`='"+system.user.me.id+"'";
 		
 		$.getJSON(requestUrl, function(json){
 			if(json.error == ""){
@@ -57,7 +57,7 @@ var semester = {
 	 * @desc Request a single semester from the database for the edit form
 	 */
 	loadOne: function(semesterid){
-		requestUrl = './src/api/database/'+system.user.me.auth+'/read/semester/id='+semesterid;
+		requestUrl = "./src/api/database/"+system.user.me.auth+"/read/semester/`id`='"+semesterid+"'";
 		$.getJSON(requestUrl, function(json){
 			if(json.status != 4)  system.form.output("SemesterEdit", "error", "Konnte Semester nicht laden.");
 
@@ -78,7 +78,9 @@ var semester = {
 	
 		if(!semester.validate("SemesterAdd", semesterName, semesterDateStart, semesterDateEnd)) return;
 		
-		requestUrl = './src/api/database/'+system.user.me.auth+'/write/semester/1/insert/`userid`="'+system.user.me.id+'", `name`="'+semesterName+'", `startdate`="'+semesterDateStart+'", `enddate`="'+semesterDateEnd+'"';
+		requestUrl = "./src/api/database/"+system.user.me.auth+"/write/semester/1/insert/";
+		requestUrl += encodeURIComponent("`userid`='"+system.user.me.id+"', `name`='"+semesterName+"', ");
+		requestUrl += encodeURIComponent("`startdate`='"+semesterDateStart+"', `enddate`='"+semesterDateEnd+"'");
 		
 		$.getJSON(requestUrl, function(json){
 			if(json.status == 4) system.page.reload();
@@ -97,7 +99,9 @@ var semester = {
 	
 		if(!semester.validate("SemesterEdit", semesterName, semesterDateStart, semesterDateEnd)) return;
 		
-		requestUrl = './src/api/database/'+system.user.me.auth+'/write/semester/id='+system.data+'/update/`name`="'+semesterName+'", `startdate`="'+semesterDateStart+'", `enddate`="'+semesterDateEnd+'"';
+		requestUrl = "./src/api/database/"+system.user.me.auth+"/write/semester/id='"+system.data+"'/update/";
+		requestUrl += encodeURIComponent("`name`='"+semesterName+"', `startdate`='"+semesterDateStart+"', ");
+		requestUrl += encodeURIComponent("`enddate`='"+semesterDateEnd+"'");
 		
 		$.getJSON(requestUrl, function(json){
 			if(json.status == 4) system.page.reload();
@@ -134,7 +138,7 @@ var semester = {
 	 */
 	dodelete: function(semesterid){
 	
-		requestUrl = './src/api/database/'+system.user.me.auth+'/write/semester/id='+semesterid+'/update/`deleted`="1"';
+		requestUrl = "./src/api/database/"+system.user.me.auth+"/write/semester/id='"+semesterid+"'/update/`deleted`='1'";
 		
 		$.getJSON(requestUrl, function(json){
 			if(json.status == 4) system.page.reload();
