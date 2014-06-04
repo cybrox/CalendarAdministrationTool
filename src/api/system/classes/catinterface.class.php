@@ -42,9 +42,9 @@
 			$this->databaseConnect();
 			
 			$this->requestParms = $requestParameter;
-			$this->requestClass = $requestParameter[0];
-			$this->requestToken = $requestParameter[1];
-			$this->requestThird = $requestParameter[2];
+			$this->requestClass = (!empty($requestParameter[0])) ? $requestParameter[0] : '';
+			$this->requestToken = (!empty($requestParameter[1])) ? $requestParameter[1] : '';
+			$this->requestThird = (!empty($requestParameter[2])) ? $requestParameter[2] : '';
 			
 			$this->status = 1;
 			
