@@ -98,7 +98,7 @@
 			$tokenStringy = "";
 			
 			for($i = 0; $i < 20; $i++){
-				$tokenStringy .= $tokenCharset[rand(0, strlen($tokenCharset))];
+				$tokenStringy .= $tokenCharset[rand(0, strlen($tokenCharset)-1)];
 			}
 			
 			return $tokenStringy;
