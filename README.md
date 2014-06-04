@@ -1,7 +1,7 @@
 Calendar Administration Tool - Fachübergreifende Projekte HST/INF Technische Berufsschule Zürich, 5. Semester
 
 **Important Note:** *This software is using its own core to handle links, data-shifts and ... well, pretty much everything. I'd use Ember.js if I'd be allowed to but since that obviously isn't the case, the tools is based on a selfwritten, minimalized core. Basically...*
-#####It's shit and I'm actually pretty ashamed of its source.
+#####You should never ever even think about downloading and/or using this software!
 
 Preamble
 ===
