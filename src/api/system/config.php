@@ -6,10 +6,10 @@
 	** unless you want to move the software's database to another host or change
 	** its structure, however you should know how to handle SQL databases if you
 	** plan to cange anything here. */
-	define("MYSQL_HOST", "localhost");			// MySQL host address
-	define("MYSQL_USER", "ni31524_5sql16");		// MySQL user name
-	define("MYSQL_PASS", "028cdbe5");			// MySQL user password
-	define("MYSQL_NAME", "ni31524_5sql16");		// MySQL database name
+	define("MYSQL_HOST", "");			// MySQL host address
+	define("MYSQL_USER", "");			// MySQL user name
+	define("MYSQL_PASS", "");			// MySQL user password
+	define("MYSQL_NAME", "");			// MySQL database name
 	
 	
 	/* The database prefix will be set when you first install the software, it is
