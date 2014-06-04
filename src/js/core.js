@@ -318,10 +318,10 @@ var system = {
 		 * @param {string} message - The message to display
 		 */
 		output: function(form, type, message){
-			var outtyp = (type == "success") ? "Success" : "Error";
+			var outtyp = (type.toLowerCase() == "success") ? "Error" : "Success";
 			var notput = $("#form"+ucfirst(form)+ucfirst(outtyp));
 			var output = $("#form"+ucfirst(form)+ucfirst(type));
-			
+
 			output.animate({"opacity": "0"}, 150, function(){
 				output.text(message).animate({"opacity": "1"}, 150);
 				notput.empty();
