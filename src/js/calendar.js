@@ -156,7 +156,7 @@ var calendar = {
 	},
 	
 	loadOneDay: function(scheduledate){
-		requestUrl = "./src/api/database/"+system.user.me.auth+"/read/schedule/targetdate='"+scheduledate+"' AND `deleted` != '1'";
+		requestUrl = "./src/api/database/"+system.user.me.auth+"/read/schedule/targetdate='"+scheduledate+"' AND `deleted` != '1' AND userid='"+system.user.me.id+"'";
 		$.getJSON(requestUrl, function(json){
 			$("#tdte").text($.datepicker.formatDate( "DD, d. MM yy", new Date(scheduledate.replace("-", ","))));
 			
