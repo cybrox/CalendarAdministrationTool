@@ -131,7 +131,6 @@ var system = {
 	user: {
 		me: {
 			'id':     0,
-			'id2':    0,
 			'level':  0,
 			'help':   0,
 			'active': 0,
@@ -200,6 +199,7 @@ var system = {
 		 */
 		request: function(redirect){
 		
+			if(system.user.me.name !== system.user.me.view) return;
 			requestUrl = './src/api/database/'+system.user.me.auth+'/read/user/id='+system.user.me.id+'/';
 			
 			$.getJSON(requestUrl, function(json){
@@ -566,7 +566,7 @@ function pageinit_edit(){
 	var userHelp = (system.user.me.help !== "0") ? true : false;
 	
 	$('#editDataUserId').text("#"+system.user.me.id);
-	$('#editDataUsername').text(system.user.me.name);
+	$('#editDataUsername').text(system.user.me.view);
 	$('#editDataUsertype').text(userType);
 	
 	$('#editDataUsermail').val(system.user.me.email);

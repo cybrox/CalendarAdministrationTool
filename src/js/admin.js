@@ -31,6 +31,7 @@ function action_adminchoose(){
 	selected = $('#formAdminChooseUser').val().split("::");
 	system.user.me.id   = selected[0];
 	system.user.me.view = selected[1];
+	system.user.me.email = selected[2];
 	$('#viewUserName').text(selected[1]);
 	if(system.user.me.name !== system.user.me.view){
 		$('#username').text("(@"+selected[1]+")");
@@ -164,7 +165,7 @@ var admin = {
 					while(usercount--){
 						val = json.data[usercount];
 						
-						$("#formAdminChooseUser").append("<option value=\""+val.id+"::"+val.name+"\">"+val.name+"</option>");
+						$("#formAdminChooseUser").append("<option value=\""+val.id+"::"+val.name+"::"+val.email+"\">"+val.name+"</option>");
 						
 						htmlString  = '<div class="listp"><i class="icon-user"></i> <span>'+val['name']+'</span><div class="options">';
 						htmlString += '<a class="button tooltip" href="popup_useredit_'+val['id']+'"><i class="icon-wrench"></i> <span class="help">Bearbeiten</span></a>';
