@@ -59,6 +59,15 @@
 	</div>
 	<div class="break"></div>
 </div>
+<div class="double" id="scmrk" style="display:none;">
+	<div class="doublepart">
+		<label for="schedulemark"><i class="icon-star"></i> Note</label>
+	</div>
+	<div class="doublepart">
+		<input id="formSemesterEditInputMark" type="text" name="schedulemark"></label>
+	</div>
+	<div class="break"></div>
+</div>
 <div class="double">
 	<div class="doublepart">
 		<span class="error" id="formScheduleEditError">&nbsp;</span>
@@ -73,6 +82,8 @@
 
 <script type="text/javascript">
 
+	if($('#formScheduleEditInputType').val() == 1) $('#scmrk').show();
+
 	var formScheduleEdit = {
 		submit: function(){
 			
@@ -81,8 +92,9 @@
 			var scheduletitl = $('#formSemesterEditInputTitle').val();
 			var scheduledesc = $('#formSemesterEditInputDesc').val();
 			var scheduledate = $('#formSemesterEditInputDate').val();
+			var schedulemark = $('#formSemesterEditInputMark').val();
 		
-			calendar.edit(scheduletype, schedulecatg, scheduletitl, scheduledesc, scheduledate);
+			calendar.edit(scheduletype, schedulecatg, scheduletitl, scheduledesc, scheduledate, schedulemark);
 			
 		}
 	}

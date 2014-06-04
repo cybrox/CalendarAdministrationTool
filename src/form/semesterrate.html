@@ -1,0 +1,78 @@
+<h3 id="headline"><i class="icon-cubes"></i> Semesterauswertung: <span id="smid"></span></h3>
+<div id="graphContainer">
+  <canvas id="semesterOverview"></canvas>
+</div>
+<div id="subjectsListing"></div>
+<div class="hline"></div>
+<div id="semesterListing"></div>
+
+<script type="text/javascript">
+
+  semester = system.data.split("::");
+  semsname = semester[0];
+  semsdate = semester[1];
+  semedate = semester[2];
+
+  $('#smid').text(semsname);
+
+  requestUrl  = "./src/api/database/"+system.user.me.auth+"/read/schedule/";
+  requestUrl += "`userid` = '"+system.user.me.id+"' AND `scheduletype` = '2' AND `deleted` = '0' AND `targetdate` BETWEEN '"+semsdate+"' AND LAST_DAY('"+semedate+"')/ORDER BY `targetdate` DESC";
+    
+  $.getJSON(requestUrl, function(json){
+    if(json.error == ""){
+    
+      mlist = {}
+      marks = json.data;
+      markn = marks.length
+      while(markn--){
+        if(mlist[marks[markn]['subjectid']] == undefined){
+          mlist[marks[markn]['subjectid']] = [];
+        }
+        mlist[marks[markn]['subjectid']].push(marks[markn]['mark']);
+
+        htmlString  = '<div class="double"><div class="doublepart">'+marks[markn]['title'];
+        htmlString += '</div><div class="doublepart>'+marks[markn]['mark']+'</div></div>';
+        $('#semesterListing').append(htmlString);
+      }
+
+      graphOptions = {
+        pointDotRadius : 2,
+        pointDotStrokeWidth : 1,
+        datasetStrokeWidth : 1,
+        datasetFill : false
+      }  
+      graphData = {
+        labels : [],
+        datasets : []
+      }
+
+      biggest = 0;
+      $.each(mlist, function(i, subject) {
+        r = Math.floor(Math.random()*256)+1;
+        g = Math.floor(Math.random()*256)+1;
+        b = Math.floor(Math.random()*256)+1;
+        if(subject.length > biggest) biggest = subject.length;
+        $('#subjectsListing').append('<span class="glabel" style="background:rgb('+r+','+g+','+b+')">&nbsp;</span>'+getSubjectById(i)+', ');
+        graphData.datasets.push({
+          fillColor : "rgba("+r+", "+g+", "+b+",0.5)",
+          strokeColor : "rgba("+r+", "+g+", "+b+",1)",
+          pointColor : "rgba("+r+", "+g+", "+b+",1)",
+          pointStrokeColor : "#000",
+          data : subject
+        });
+      });
+
+      for(i=0;i<biggest;i++) graphData.labels.push(i);
+
+      canvas  = document.getElementById("semesterOverview");
+      context = canvas.getContext("2d");
+      canvas.width = $(canvas).parent().width();
+      canvas.height = $(canvas).parent().height();
+      smchart = new Chart(context).Line(graphData, graphOptions);
+      
+    } else {
+      $('#semesterListing').html("Keine Prüfungen in diesem Semester gefunden.");
+    }
+  });
+
+</script>

@@ -165,8 +165,9 @@ var calendar = {
 				$.each(json.data, function(key, value){
 					htmlString += "<div class=\"calendarEntry\"><p class=\"scheduleDesc\"><span class=\"gray\"><i class=\"icon-bell\"></i> ";
 					htmlString += (value.scheduletype == "2") ? "Prüfung" : "Aufgabe";
-					htmlString += " <i class=\"icon-ticket\"></i> "+getSubjectById(value.subjectid)+"</span><span class=\"optionsi\">";
-					htmlString += '<a class="button" href="popup_scheduleedit_'+value.id+'"><i class="icon-wrench"></i> <span>Bearbeiten</span></a>';
+					htmlString += " <i class=\"icon-ticket\"></i> "+getSubjectById(value.subjectid)+"</span>";
+					if(value.scheduletype == "2") htmlString += ' (<i class="icon-star"></i> '+value.mark+')';
+					htmlString += '<span class=\"optionsi\"><a class="button" href="popup_scheduleedit_'+value.id+'"><i class="icon-wrench"></i> <span>Bearbeiten</span></a>';
 					htmlString += '<a class="button" href="popup_scheduledelete_'+value.id+'"><i class="icon-remove"></i> <span>Löschen</span></a>';
 					htmlString += "</span><br /><br />"+value.title+" <span class=\"small\">"+value.description+"</span></p>";
 					htmlString += "<div class=\"hline\"></div></div>"
@@ -195,6 +196,7 @@ var calendar = {
 			$('#formSemesterEditInputTitle').val(json.data[0]['title']);
 			$('#formSemesterEditInputDesc').text(json.data[0]['description']);
 			$('#formSemesterEditInputDate').val(json.data[0]['targetdate']);
+			$('#formSemesterEditInputMark').val(json.data[0]['mark']);
 		});
 	},
 	
@@ -229,9 +231,9 @@ var calendar = {
 	 * @param {string} desc - The new schedule's description
 	 * @param {date} date - The new schedule's target date
 	 */
-	edit: function(type, category, title, desc, date){
-		if(!empty(type) && !empty(category) && !empty(title) && !empty(desc) && !empty(date)){
-			requestUrl = './src/api/database/'+system.user.me.auth+'/write/schedule/id='+system.data+'/update/`userid`="'+system.user.me.id+'", `subjectid`="'+category+'", `scheduletype`="'+type+'", `title`="'+title+'", `description` = "'+desc+'", `targetdate` = "'+date+'", deleted = "0"';
+	edit: function(type, category, title, desc, date, mark){
+		if(!empty(type) && !empty(category) && !empty(title) && !empty(desc) && !empty(date) && !empty(mark)){
+			requestUrl = './src/api/database/'+system.user.me.auth+'/write/schedule/id='+system.data+'/update/`userid`="'+system.user.me.id+'", `mark`="'+parseFloat(mark)+'", `subjectid`="'+category+'", `scheduletype`="'+type+'", `title`="'+title+'", `description` = "'+desc+'", `targetdate` = "'+date+'", deleted = "0"';
 			
 			$.getJSON(requestUrl, function(json){
 				if(json.status == 4) system.page.reload();
