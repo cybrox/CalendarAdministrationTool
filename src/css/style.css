@@ -622,10 +622,12 @@ input:nth-of-type(2){
 
 .glabel {
 	display: inline-block;
-	width: 15px;
-	height: 15px;
-	opacity: 0.8;
+	min-width: 15px;
+	font-size: 0.8em;
+	padding: 1px 4px;
 	margin-right: 5px;
+	color: #fff;
+	text-shadow: 1px 1px 1px #000;
 	-webkit-border-radius: 3px;
 	   -moz-border-radius: 3px;
 	        border-radius: 3px;

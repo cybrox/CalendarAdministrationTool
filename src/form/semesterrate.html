@@ -46,11 +46,14 @@
 
       biggest = 0;
       $.each(mlist, function(i, subject) {
+        d = 0;
         r = Math.floor(Math.random()*256)+1;
         g = Math.floor(Math.random()*256)+1;
         b = Math.floor(Math.random()*256)+1;
         if(subject.length > biggest) biggest = subject.length;
-        htmlString  = '<div><span class="glabel" style="background:rgb('+r+','+g+','+b+')">&nbsp;</span><strong>'+getSubjectById(i)+': </strong>';
+        for(j=0;j<subject.length;j++) d += parseInt(subject[j]);
+        htmlString  = '<div><span class="glabel" style="background:rgb('+r+','+g+','+b+')">';
+        htmlString += ((d/subject.length).toFixed(1))+'</span><strong>'+getSubjectById(i)+': </strong>';
         htmlString += '<span id="lbc'+i+'"></span></div>'
         $('#subjectsListing').append(htmlString);
         graphData.datasets.push({
@@ -63,7 +66,9 @@
       });
 
       markn = marks.length;
-      while(markn--) $('#lbc'+marks[markn]['subjectid']).append(marks[markn]['title']+' ('+marks[markn]['mark']+'), ');
+      while(markn--){
+        $('#lbc'+marks[markn]['subjectid']).append(marks[markn]['title']+' <span class="small">('+marks[markn]['mark']+'), </span>');
+      }
       for(i=0;i<biggest;i++) graphData.labels.push((i+1));
 
       canvas  = document.getElementById("semesterOverview");
