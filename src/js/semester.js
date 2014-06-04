@@ -11,25 +11,6 @@
 
 
 /**
- * @name pageinitSemester
- * @desc Load all semester and display them in a list
- */
-function pageinit_semester(){
-	semester.loadAll(true);
-	system.page.append();
-}
-
-/**
- * @name pageinitRating
- * @desc Load all semester and display them in a list
- */
-function pageinit_rating(){
-	semester.loadAll(false);
-	system.page.append();
-}
-
-
-/**
  * @namespace Semester
  * @name Semester
  * @desc Semester and mark evaluation methods
@@ -160,4 +141,23 @@ var semester = {
 			else $('#errorSemester').text("Beim speichern des Semesters ist ein Fehler aufgetreten.");	
 		});
 	}
+}
+
+
+/**
+ * @name pageinitSemester
+ * @desc Load all semester and display them in a list
+ */
+function pageinit_semester(){
+	semester.loadAll(true);
+	system.page.append();
+}
+
+/**
+ * @name pageinitRating
+ * @desc Load all semester and display them in a list
+ */
+function pageinit_rating(){
+	semester.loadAll(false);
+	system.page.append();
 }

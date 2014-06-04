@@ -623,6 +623,8 @@ input:nth-of-type(2){
 .glabel {
 	display: inline-block;
 	width: 15px;
+	height: 15px;
+	opacity: 0.8;
 	margin-right: 5px;
 	-webkit-border-radius: 3px;
 	   -moz-border-radius: 3px;

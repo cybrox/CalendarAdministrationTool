@@ -2,9 +2,8 @@
 <div id="graphContainer">
   <canvas id="semesterOverview"></canvas>
 </div>
-<div id="subjectsListing"></div>
 <div class="hline"></div>
-<div id="semesterListing"></div>
+<div id="subjectsListing"><strong>Lade...</strong></div>
 
 <script type="text/javascript">
 
@@ -21,18 +20,17 @@
   $.getJSON(requestUrl, function(json){
     if(json.error == ""){
     
+      $('#subjectsListing').empty();
+
       mlist = {}
       marks = json.data;
-      markn = marks.length
+      markn = marks.length;
       while(markn--){
         if(mlist[marks[markn]['subjectid']] == undefined){
           mlist[marks[markn]['subjectid']] = [];
         }
         mlist[marks[markn]['subjectid']].push(marks[markn]['mark']);
-
-        htmlString  = '<div class="double"><div class="doublepart">'+marks[markn]['title'];
-        htmlString += '</div><div class="doublepart>'+marks[markn]['mark']+'</div></div>';
-        $('#semesterListing').append(htmlString);
+        $('#semesterListing').append('<span>, '+marks[markn]['title']+' ('+marks[markn]['mark']+')</span>');
       }
 
       graphOptions = {
@@ -52,16 +50,20 @@
         g = Math.floor(Math.random()*256)+1;
         b = Math.floor(Math.random()*256)+1;
         if(subject.length > biggest) biggest = subject.length;
-        $('#subjectsListing').append('<span class="glabel" style="background:rgb('+r+','+g+','+b+')">&nbsp;</span>'+getSubjectById(i)+', ');
+        htmlString  = '<div><span class="glabel" style="background:rgb('+r+','+g+','+b+')">&nbsp;</span><strong>'+getSubjectById(i)+': </strong>';
+        htmlString += '<span id="lbc'+i+'"></span></div>'
+        $('#subjectsListing').append(htmlString);
         graphData.datasets.push({
           fillColor : "rgba("+r+", "+g+", "+b+",0.5)",
           strokeColor : "rgba("+r+", "+g+", "+b+",1)",
           pointColor : "rgba("+r+", "+g+", "+b+",1)",
-          pointStrokeColor : "#000",
+          pointStrokeColor : "rgba("+r+", "+g+", "+b+",1)",
           data : subject
         });
       });
 
+      markn = marks.length;
+      while(markn--) $('#lbc'+marks[markn]['subjectid']).append(marks[markn]['title']+' ('+marks[markn]['mark']+'), ');
       for(i=0;i<biggest;i++) graphData.labels.push((i+1));
 
       canvas  = document.getElementById("semesterOverview");
