@@ -62,7 +62,7 @@ var system = {
 			
 			/* Additional security check for administrator page */
 			if(target == "admin"){
-				requestUrl = "./src/api/database/"+system.user.me.auth+"/read/user/id="+system.user.me.id+"/";
+				requestUrl = "./src/api/database/"+system.user.me.auth+"/read/user/name='"+system.user.me.name+"'/";
 				$.getJSON(requestUrl, function(json){
 					if(json.data[0]['level'] == 2){
 						system.page.loadContent(target);
@@ -136,6 +136,7 @@ var system = {
 			'help':   0,
 			'active': 0,
 			'name':   "",
+			'view':   "",
 			'email':  "",
 			'token':  "",
 			'auth':   ""
@@ -207,6 +208,7 @@ var system = {
 					system.user.me.level = json.data[0]['level'];
 					system.user.me.email = json.data[0]['email'];
 					system.user.me.name  = json.data[0]['name'];
+					system.user.me.view  = json.data[0]['name'];
 					system.user.me.help  = json.data[0]['help'];
 					
 					$('#username').text(system.user.me.name);
