@@ -32,6 +32,11 @@ function action_adminchoose(){
 	system.user.me.id   = selected[0];
 	system.user.me.view = selected[1];
 	$('#viewUserName').text(selected[1]);
+	if(system.user.me.name !== system.user.me.view){
+		$('#username').text("(@"+selected[1]+")");
+	} else {
+		$('#username').text(selected[1]);
+	}
 }
 
 /**
